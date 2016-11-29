@@ -11,6 +11,7 @@ namespace Underwater_Boat
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Texture2D _level;
 
         public Game1()
         {
@@ -39,9 +40,10 @@ namespace Underwater_Boat
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             // TODO: use this.Content to load your game content here
-            
+            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 400, 400);
+
         }
 
         /// <summary>
@@ -75,11 +77,12 @@ namespace Underwater_Boat
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
             // TODO: Add your drawing code here
 
+
             spriteBatch.Begin();
-            spriteBatch.Draw(LevelGenerator.GenerateLevel(GraphicsDevice, 256, 256), new Vector2(50, 50));
+            spriteBatch.Draw(_level, new Vector2(50, 50));
             spriteBatch.End();
 
             base.Draw(gameTime);
