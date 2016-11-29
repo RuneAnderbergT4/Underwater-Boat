@@ -54,11 +54,12 @@ namespace Underwater_Boat
                     HP = 200;
                     dmgMultiplyer = 0.5f;
                     armor = 50;
+                    maxspeed = 3;
                     break;
                     
             }
-            fuel = 300;
-            position = new Vector2( Game1.r.Next(192)+400,Game1.r.Next(1080)+400);
+            fuel = 300888;
+            position = new Vector2(500,500);
             
         }
 
@@ -83,29 +84,33 @@ namespace Underwater_Boat
        
 
         
-        public new void Update(KeyboardState ks)
+        public  void Update(KeyboardState ks)
         {
             float temp = fuel;
             
 
-            if (ks.IsKeyDown(Keys.W)/*&& ks.IsKeyUp(Keys.S) */&& fuel >0)
+            if (ks.IsKeyDown(Keys.W)&& ks.IsKeyUp(Keys.S) && fuel >0)
             {
-                velocity.Y -= 0.2f * maxspeed;
+                if(velocity.Length() < maxspeed/2)
+                velocity.Y -= 0.1f * maxspeed;
                 fuel -= 0.1f;
             }
             if (ks.IsKeyUp(Keys.W) && ks.IsKeyDown(Keys.S) && fuel > 0)
             {
-                velocity.Y += 0.2f * maxspeed;
+                if (velocity.Length() < maxspeed/2)
+                    velocity.Y += 0.1f * maxspeed;
                 fuel -= 0.1f;
             }
             if (ks.IsKeyUp(Keys.A) && ks.IsKeyDown(Keys.D) && fuel > 0)
             {
-                velocity.X -= 0.05f * maxspeed;
+                if (velocity.Length() < maxspeed)
+                    velocity.X += 0.02f * maxspeed;
                 fuel -= 0.1f;
             }
             if (ks.IsKeyUp(Keys.D) && ks.IsKeyDown(Keys.A)&& fuel > 0)
             {
-                velocity.X+= 0.05f * maxspeed;
+                if (velocity.Length() < maxspeed)
+                    velocity.X-= 0.02f * maxspeed;
                 fuel -= 0.1f;
             }
             if (temp == fuel)
@@ -114,7 +119,11 @@ namespace Underwater_Boat
                 if(temp2 != new Vector2(0,0))
                 temp2.Normalize();
                 velocity.X -= temp2.X * 0.05f;
-                velocity.Y -= temp2.Y * 0.2f;
+                velocity.Y -= temp2.Y * 0.04f;
+                if(velocity.Length()< 0.1f)
+                {
+                    velocity = new Vector2(0,0);
+                }
             }
             position += velocity;
         }

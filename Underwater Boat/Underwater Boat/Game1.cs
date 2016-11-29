@@ -22,7 +22,7 @@ namespace Underwater_Boat
     {
         GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
-        public static Random r;
+        public static Random r = new Random();
         Sub sub;
         public Game1()
         {
@@ -42,6 +42,7 @@ namespace Underwater_Boat
         {
             // TODO: Add your initialization logic here
              sub = new Sub(new Team("Team"),SubType.Heavy,false);
+            sub.Initialize();
             base.Initialize();
         }
 
