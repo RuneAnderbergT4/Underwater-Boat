@@ -1,21 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Underwater_Boat
 {
+    enum SubType
+    {
+        Heavy,
+        Highdmg,
+        Light
+    }
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
+        public static SpriteBatch spriteBatch;
+        public static Random r;
+        Sub sub;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
         }
 
         /// <summary>
@@ -27,7 +41,7 @@ namespace Underwater_Boat
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+             sub = new Sub(new Team("Team"),SubType.Heavy,false);
             base.Initialize();
         }
 
@@ -39,7 +53,7 @@ namespace Underwater_Boat
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            sub.LoadContent(this);
             // TODO: use this.Content to load your game content here
         }
 
@@ -63,7 +77,8 @@ namespace Underwater_Boat
                 Exit();
 
             // TODO: Add your update logic here
-
+            KeyboardState ks = Keyboard.GetState();
+            sub.Update(ks);
             base.Update(gameTime);
         }
 
@@ -75,7 +90,7 @@ namespace Underwater_Boat
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            sub.Draw();
 
             base.Draw(gameTime);
         }
