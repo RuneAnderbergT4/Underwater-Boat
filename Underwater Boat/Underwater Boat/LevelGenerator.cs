@@ -25,7 +25,6 @@ namespace Underwater_Boat
             List<List<Point>> polygons = new List<List<Point>>
             {
                 GeneratePolygon(new Point(200, 200), 0)
-                //new List<Point> {new Point(100, 150), new Point(200, 100), new Point(200, 250), new Point(100, 200)}
             };
 
             for (int w = 0; w < width; w++)
@@ -64,10 +63,10 @@ namespace Underwater_Boat
             Random rand = new Random();
 
             // Generate 4 starting points
-            points.Add(new Point(center.X + rand.Next(-10, 10), center.Y + rand.Next(80, 100)));
-            points.Add(new Point(center.X + rand.Next(80, 100), center.Y + rand.Next(-10, 10)));
-            points.Add(new Point(center.X + rand.Next(-10, 10), center.Y - rand.Next(80, 100)));
-            points.Add(new Point(center.X + rand.Next(-100, -80), center.Y + rand.Next(-10, 10)));
+            points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(-120, -60)));
+            points.Add(new Point(center.X + rand.Next(60, 120), center.Y + rand.Next(-20, 20)));
+            points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(60, 120)));
+            points.Add(new Point(center.X + rand.Next(-120, -60), center.Y + rand.Next(-20, 20)));
 
             for (int i = 0; i < iterations; i++)
             {
