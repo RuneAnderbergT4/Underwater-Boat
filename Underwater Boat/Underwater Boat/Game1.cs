@@ -4,78 +4,113 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Underwater_Boat
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public enum GameState
+        {
+            Start,
+            Playing,
+            Pause,
+            GameOver
+        }
+        public static GameState GS;
+        public static GraphicsDeviceManager Graphics;
+        MenuComponent mc;
         SpriteBatch spriteBatch;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-        }
+            Graphics.PreferredBackBufferWidth = 1920;
+            Graphics.PreferredBackBufferHeight = 1080;
+            Graphics.IsFullScreen = false;
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
+        }
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            mc = new MenuComponent(this);
+            Components.Add(mc);
+            GS = GameState.Start;
             base.Initialize();
         }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
+        public void Restart()
+        {
+            
+        }
+        public void Grafitti()
+        {
+            if (MenuComponent.GR == MenuComponent.Graphics.set1)
+            {
+                Graphics.PreferredBackBufferWidth = 1920;
+                Graphics.PreferredBackBufferHeight = 1080;
+                Graphics.ApplyChanges();
+            }
+            if (MenuComponent.GR == MenuComponent.Graphics.set2)
+            {
+                Graphics.PreferredBackBufferWidth = 1024;
+                Graphics.PreferredBackBufferHeight = 700;
+                Graphics.ApplyChanges();
+            }
+            if (MenuComponent.GR == MenuComponent.Graphics.set3)
+            {
+                Graphics.PreferredBackBufferWidth = 1366;
+                Graphics.PreferredBackBufferHeight = 768;
+                Graphics.ApplyChanges();
+            }
+            if (MenuComponent.GR == MenuComponent.Graphics.set4)
+            {
+                Graphics.PreferredBackBufferWidth = 1440;
+                Graphics.PreferredBackBufferHeight = 900;
+                Graphics.ApplyChanges();
+            }
+            if (MenuComponent.GR == MenuComponent.Graphics.set5)
+            {
+                Graphics.PreferredBackBufferWidth = 1600;
+                Graphics.PreferredBackBufferHeight = 900;
+                Graphics.ApplyChanges();
+            }
+        }
+        public void LoadMap(MenuComponent.SelMap selectedMap)
+        {
+            switch (selectedMap)
+            {
+            }
+        }
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-        }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
+        }
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
+            
         }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-
-            // TODO: Add your update logic here
+            switch (GS)
+            {
+                case GameState.Start:
+                    break;
+                
+            }
 
             base.Update(gameTime);
         }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
+            switch (GS)
+            {
+                case GameState.Start:
+                    mc.Draw(gameTime);
+                    break;
+            }
 
             base.Draw(gameTime);
         }
