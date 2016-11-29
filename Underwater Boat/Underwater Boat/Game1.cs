@@ -16,6 +16,7 @@ namespace Underwater_Boat
         public static GameState GS;
         public static GraphicsDeviceManager Graphics;
         MenuComponent mc;
+        MouseState ms;
         SpriteBatch spriteBatch;
 
         public Game1()
@@ -97,9 +98,7 @@ namespace Underwater_Boat
             {
                 case GameState.Start:
                     break;
-                
             }
-
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -109,6 +108,7 @@ namespace Underwater_Boat
             {
                 case GameState.Start:
                     mc.Draw(gameTime);
+                    IsMouseVisible = true;
                     break;
             }
 

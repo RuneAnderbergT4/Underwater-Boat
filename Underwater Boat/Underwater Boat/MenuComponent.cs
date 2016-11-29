@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +22,9 @@ namespace Underwater_Boat
         MouseState _previousMouseState;
         Menu _menu;
         Menu _activeMenu;
+        Texture2D background;
+
+        #region GameStates
 
         public enum GameState
         {
@@ -81,9 +85,14 @@ namespace Underwater_Boat
 
         public static Graphics GR;
 
+
+        #endregion
+
         public MenuComponent(Game game)
             : base(game)
         {
+            #region Meny Hantering
+
             _menu = new Menu();
             _activeMenu = _menu;
             var MapMenu = new Menu();
@@ -97,8 +106,8 @@ namespace Underwater_Boat
             _menu.Items = new List<MenuChoice>
             {
                 new MenuChoice(null) { Text = "Game1", IsEnabled = false},
-                new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = MapMenu, IsVisible = () => Game1.GS != Game1.GameState.Pause },
-                new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == Game1.GameState.Pause, IsEnabled = false },
+                new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = MapMenu, IsVisible = () => Game1.GS != Game1.GameState.Pause},
+                new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == Game1.GameState.Pause, IsEnabled = false},
                 new MenuChoice(null) { Text = "OPTIONS", ClickAction = MoveClick, SubMenu = optionsMenu},
                 new MenuChoice(null) { Text = "EXIT TO MENU", ClickAction = MoveClick, SubMenu = returnToMenu, IsVisible = () => Game1.GS == Game1.GameState.Pause},
                 new MenuChoice(null) { Text = "QUIT", ClickAction = MoveClick, SubMenu = exitMenu}
@@ -163,6 +172,8 @@ namespace Underwater_Boat
                 new MenuChoice(_menu) { Text = "No", Selected = true, ClickAction = MoveUpClick},
                 new MenuChoice(_menu) { Text = "Yes", ClickAction = PausMenuQuitClicked}
             };
+
+            #endregion
         }
         public override void Initialize()
         {
@@ -180,6 +191,7 @@ namespace Underwater_Boat
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _normalFont = Game.Content.Load<SpriteFont>("menuFontNormal");
             _selectedFont = Game.Content.Load<SpriteFont>("menuFontSelected");
+            background = Game.Content.Load<Texture2D>("Submarine");
             _previousMouseState = Mouse.GetState();
             base.LoadContent();
         }
@@ -236,13 +248,21 @@ namespace Underwater_Boat
                         Vector2 size = _normalFont.MeasureString(choice.Text);
                         choice.Y = startY;
                         choice.X = GraphicsDevice.Viewport.Width / 2.0f - size.X / 2;
-                        choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y - 15);
-                        startY += 70;
+                        choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y - 30, (int)size.X, (int)size.Y - 15);
+                        if (choice.IsEnabled == false)
+                        {
+                            startY += 100;
+                        }
+                        else
+                        {
+                            startY += 70;
+                        }
+                        
                     }
                     break;
                 case GameState.Playing:
                     break;
-            }
+            } 
             base.Update(gameTime);
         }
         private void PreviousMenuChoice()
@@ -280,15 +300,23 @@ namespace Underwater_Boat
         public void Draw(GameTime gameTime)
         {
             _spriteBatch.Begin();
+            _spriteBatch.Draw(background, new Rectangle(0, 0, Game1.Graphics.PreferredBackBufferWidth, Game1.Graphics.PreferredBackBufferHeight), Color.White);
             foreach (var choice in _activeMenu.Items)
             {
+                
                 if (!choice.IsVisible())
                     continue;
                 _spriteBatch.DrawString(choice.Selected ? _selectedFont : _normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.White);
+                if (choice.IsEnabled == false)
+                {
+                    _spriteBatch.DrawString(_normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.Crimson);
+                }
+                
             }
+            
             _spriteBatch.End();
         }
-        #region Menu Clickers
+        #region Meny Val
         private void MenuStartClicked()
         {
             Game1.GS = Game1.GameState.Playing;
