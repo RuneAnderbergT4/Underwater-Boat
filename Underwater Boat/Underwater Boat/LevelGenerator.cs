@@ -24,7 +24,7 @@ namespace Underwater_Boat
 
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(200, 200), 0)
+                GeneratePolygon(new Point(200, 200), 1)
             };
 
             for (int w = 0; w < width; w++)
@@ -70,11 +70,7 @@ namespace Underwater_Boat
 
             for (int i = 0; i < iterations; i++)
             {
-                for (int j = 0; j < points.Count - 1; j += 2)
-                {
-                    Rectangle rect = new Rectangle(points[j], points[j + 1]);
-                    points.Insert(j, new Point(rect.Center.X + rand.Next(-20, 20), rect.Center.Y + rand.Next(-20, 20)));
-                }
+                // Insert new points inbetween the others
             }
 
             return points;
