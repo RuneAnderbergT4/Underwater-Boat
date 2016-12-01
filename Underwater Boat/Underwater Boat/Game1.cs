@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Net.Mime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -23,10 +24,8 @@ namespace Underwater_Boat
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Graphics.PreferredBackBufferWidth = 1920;
-            Graphics.PreferredBackBufferHeight = 1080;
-            Graphics.IsFullScreen = false;
-
+            Grafitti();
+            FullScreen();
         }
         protected override void Initialize()
         {
@@ -41,31 +40,31 @@ namespace Underwater_Boat
         }
         public void Grafitti()
         {
-            if (MenuComponent.GR == MenuComponent.Graphics.set1)
+            if (Settings.Default.Grafik == "1920 * 1080")
             {
                 Graphics.PreferredBackBufferWidth = 1920;
                 Graphics.PreferredBackBufferHeight = 1080;
                 Graphics.ApplyChanges();
             }
-            if (MenuComponent.GR == MenuComponent.Graphics.set2)
+            if (Settings.Default.Grafik == "1024 * 700")
             {
                 Graphics.PreferredBackBufferWidth = 1024;
                 Graphics.PreferredBackBufferHeight = 700;
                 Graphics.ApplyChanges();
             }
-            if (MenuComponent.GR == MenuComponent.Graphics.set3)
+            if (Settings.Default.Grafik == "1366 * 768")
             {
                 Graphics.PreferredBackBufferWidth = 1366;
                 Graphics.PreferredBackBufferHeight = 768;
                 Graphics.ApplyChanges();
             }
-            if (MenuComponent.GR == MenuComponent.Graphics.set4)
+            if (Settings.Default.Grafik == "1440 * 900")
             {
                 Graphics.PreferredBackBufferWidth = 1440;
                 Graphics.PreferredBackBufferHeight = 900;
                 Graphics.ApplyChanges();
             }
-            if (MenuComponent.GR == MenuComponent.Graphics.set5)
+            if (Settings.Default.Grafik == "1600 * 900")
             {
                 Graphics.PreferredBackBufferWidth = 1600;
                 Graphics.PreferredBackBufferHeight = 900;
@@ -76,6 +75,23 @@ namespace Underwater_Boat
         {
             switch (selectedMap)
             {
+                
+            }
+        }
+        public void FullScreen()
+        {
+            if (Settings.Default.IsFullScreen)
+            {
+                Graphics.IsFullScreen = true;
+                Graphics.ApplyChanges();
+                Settings.Default.Grafik = "1920 * 1080";
+                Settings.Default.Save();
+                Grafitti();
+            }
+            else if (Settings.Default.IsFullScreen == false)
+            {
+                Graphics.IsFullScreen = false;
+                Graphics.ApplyChanges();
             }
         }
         protected override void LoadContent()
@@ -108,7 +124,6 @@ namespace Underwater_Boat
             {
                 case GameState.Start:
                     mc.Draw(gameTime);
-                    IsMouseVisible = true;
                     break;
             }
 

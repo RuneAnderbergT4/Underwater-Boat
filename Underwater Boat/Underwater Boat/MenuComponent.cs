@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Security.Policy;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -22,15 +23,17 @@ namespace Underwater_Boat
         MouseState _previousMouseState;
         Menu _menu;
         Menu _activeMenu;
-        Texture2D background;
+        Song _song;
+        Texture2D _background;
+        Texture2D _overlay;
+        Texture2D _mouse;
 
         #region GameStates
 
         public enum GameState
         {
             MainMenu,
-            Playing,
-            OptionsMenu
+            Playing
         }
 
         public static GameState gs;
@@ -88,8 +91,7 @@ namespace Underwater_Boat
 
         #endregion
 
-        public MenuComponent(Game game)
-            : base(game)
+        public MenuComponent(Game game) : base(game)
         {
             #region Meny Hantering
 
@@ -105,7 +107,7 @@ namespace Underwater_Boat
             var exitMenu = new Menu();
             _menu.Items = new List<MenuChoice>
             {
-                new MenuChoice(null) { Text = "Game1", IsEnabled = false},
+                new MenuChoice(null) { Text = "Submarine Battle of DOOOOM", IsEnabled = false},
                 new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = MapMenu, IsVisible = () => Game1.GS != Game1.GameState.Pause},
                 new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == Game1.GameState.Pause, IsEnabled = false},
                 new MenuChoice(null) { Text = "OPTIONS", ClickAction = MoveClick, SubMenu = optionsMenu},
@@ -115,8 +117,8 @@ namespace Underwater_Boat
             TwoPlayers.Items = new List<MenuChoice>
             {
                 new MenuChoice(MapMenu) { Text = "Start game", Selected = true, ClickAction = MenuStartClicked},
-                new MenuChoice(MapMenu) { Text = "Twoplayer off", IsVisible = () => TP == TwoPlayer.One, ClickAction = PlayerNum },
-                new MenuChoice(MapMenu) { Text = "Twoplayer on", IsVisible = () => TP == TwoPlayer.Two, ClickAction = PlayerNum },
+                new MenuChoice(MapMenu) { Text = "Twoplayer off", IsVisible = () => Settings.Default.TwoPlayer == true, ClickAction = PlayerNum },
+                new MenuChoice(MapMenu) { Text = "Twoplayer on", IsVisible = () => Settings.Default.TwoPlayer == false, ClickAction = PlayerNum },
                 new MenuChoice(MapMenu) { Text = "Back", ClickAction = MoveUpClick}
             };
             MapMenu.Items = new List<MenuChoice>
@@ -137,27 +139,27 @@ namespace Underwater_Boat
             graphicsMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(optionsMenu) { Text = "Graphics Menu", IsEnabled = false},
-                new MenuChoice(optionsMenu) { Text = "Fullscreen On", Selected = true, IsVisible = () => FL == Full.on, ClickAction = FullMenu },
-                new MenuChoice(optionsMenu) { Text = "Fullscreen Off", IsVisible = () => FL == Full.off, ClickAction = FullMenu },
-                new MenuChoice(optionsMenu) { Text = "1920 x 1080", IsVisible = () => GR == Graphics.set1, ClickAction = Grafik},
-                new MenuChoice(optionsMenu) { Text = "1024 x 700", IsVisible = () => GR == Graphics.set2, ClickAction = Grafik},
-                new MenuChoice(optionsMenu) { Text = "1366 x 768", IsVisible = () => GR == Graphics.set3, ClickAction = Grafik},
-                new MenuChoice(optionsMenu) { Text = "1440 x 900", IsVisible = () => GR == Graphics.set4, ClickAction = Grafik},
-                new MenuChoice(optionsMenu) { Text = "1600 x 900", IsVisible = () => GR == Graphics.set5, ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "Fullscreen On", Selected = true, IsVisible = () => Settings.Default.IsFullScreen == true, ClickAction = FullMenu },
+                new MenuChoice(optionsMenu) { Text = "Fullscreen Off", IsVisible = () => Settings.Default.IsFullScreen == false, ClickAction = FullMenu },
+                new MenuChoice(optionsMenu) { Text = "1920 x 1080", IsVisible = () => Settings.Default.Grafik == "1920 * 1080" && Settings.Default.IsFullScreen == false, ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "1024 x 700", IsVisible = () => Settings.Default.Grafik == "1024 * 700", ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "1366 x 768", IsVisible = () => Settings.Default.Grafik == "1366 * 768", ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "1440 x 900", IsVisible = () => Settings.Default.Grafik == "1440 * 900", ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "1600 x 900", IsVisible = () => Settings.Default.Grafik == "1600 * 900", ClickAction = Grafik},
                 new MenuChoice(optionsMenu) { Text = "Back to Options", ClickAction = MoveUpClick}
             };
             soundMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(optionsMenu) { Text = "Sound Menu", IsEnabled = false},
-                new MenuChoice(optionsMenu) { Text = "Sound On", Selected = true, IsVisible = () => SD == Sound.On,ClickAction = SoundMenu },
-                new MenuChoice(optionsMenu) { Text = "Sound Off", IsVisible = () => SD == Sound.Off, ClickAction = SoundMenu },
+                new MenuChoice(optionsMenu) { Text = "Sound On", Selected = true, IsVisible = () => Settings.Default.Sound, ClickAction = SoundMenu },
+                new MenuChoice(optionsMenu) { Text = "Sound Off", IsVisible = () => Settings.Default.Sound == false, ClickAction = SoundMenu },
                 new MenuChoice(optionsMenu) { Text = "Back to Options", ClickAction = MoveUpClick}
             };
             controllMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(optionsMenu) { Text = "Controll Menu", IsEnabled = false},
-                new MenuChoice(optionsMenu) { Text = "Keyboard Active", Selected = true, IsVisible = () => CL == Controll.Key, ClickAction = ControlMenu },
-                new MenuChoice(optionsMenu) { Text = "Controll Active", IsVisible = () => CL == Controll.Cont, ClickAction = ControlMenu },
+                new MenuChoice(optionsMenu) { Text = "Keyboard Active", Selected = true, IsVisible = () => Settings.Default.Keyboard == true, ClickAction = ControlMenu },
+                new MenuChoice(optionsMenu) { Text = "Controll Active", IsVisible = () => Settings.Default.Keyboard == false, ClickAction = ControlMenu },
                 new MenuChoice(optionsMenu) { Text = "Back to Options", ClickAction = MoveUpClick}
             };
             exitMenu.Items = new List<MenuChoice>
@@ -177,13 +179,60 @@ namespace Underwater_Boat
         }
         public override void Initialize()
         {
-            CL = Controll.Key;
-            gs = GameState.MainMenu;
-            SD = Sound.On;
-            FL = Full.off;
-            TP = TwoPlayer.One;
+            if (Settings.Default.Keyboard == true)
+            {
+                CL = Controll.Key;
+            }
+            else
+            {
+                CL = Controll.Cont;
+            }
+            if (Settings.Default.Sound == true)
+            {
+                SD = Sound.On;
+            }
+            else
+            {
+                SD = Sound.Off;
+            }
+            if (Settings.Default.IsFullScreen == true)
+            {
+                FL = Full.off;
+            }
+            else
+            {
+                FL = Full.on;
+            }
+            if (Settings.Default.TwoPlayer == true)
+            {
+                TP = TwoPlayer.Two;
+            }
+            else
+            {
+                TP = TwoPlayer.One;
+            }
+            if (Settings.Default.Grafik == "1920 * 1080")
+            {
+                GR = Graphics.set1;
+            }
+            else if (Settings.Default.Grafik == "1024 * 700")
+            {
+                GR = Graphics.set2;
+            }
+            else if (Settings.Default.Grafik == "1366 * 768")
+            {
+                GR = Graphics.set3;
+            }
+            else if (Settings.Default.Grafik == "1440 * 900")
+            {
+                GR = Graphics.set4;
+            }
+            else if (Settings.Default.Grafik == "1600 * 900")
+            {
+                GR = Graphics.set5;
+            }
             SP = SelMap.Forrest;
-            GR = Graphics.set1;
+            gs = GameState.MainMenu;
             base.Initialize();
         }
         protected override void LoadContent()
@@ -191,7 +240,13 @@ namespace Underwater_Boat
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _normalFont = Game.Content.Load<SpriteFont>("menuFontNormal");
             _selectedFont = Game.Content.Load<SpriteFont>("menuFontSelected");
-            background = Game.Content.Load<Texture2D>("Submarine");
+            _background = Game.Content.Load<Texture2D>("Submarine");
+            _overlay = Game.Content.Load<Texture2D>("temp");
+            _mouse = Game.Content.Load<Texture2D>("mouse");
+            _song = Game.Content.Load<Song>("MenuMusic");
+            if (gs == GameState.MainMenu)
+            MediaPlayer.Play(_song);
+            else 
             _previousMouseState = Mouse.GetState();
             base.LoadContent();
         }
@@ -218,7 +273,6 @@ namespace Underwater_Boat
                     {
                         var selectedChoice = _activeMenu.Items.First(c => c.Selected);
                         selectedChoice.ClickAction.Invoke();
-
                         if (selectedChoice.SubMenu != null)
                             _activeMenu = selectedChoice.SubMenu;
                     }
@@ -248,7 +302,14 @@ namespace Underwater_Boat
                         Vector2 size = _normalFont.MeasureString(choice.Text);
                         choice.Y = startY;
                         choice.X = GraphicsDevice.Viewport.Width / 2.0f - size.X / 2;
-                        choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y - 30, (int)size.X, (int)size.Y - 15);
+                        if (FL == Full.off)
+                        {
+                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, (int) size.X, (int) size.Y - 10);
+                        }
+                        else if (FL == Full.on)
+                        {
+                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y, (int) size.X, (int) size.Y);
+                        }
                         if (choice.IsEnabled == false)
                         {
                             startY += 100;
@@ -257,7 +318,6 @@ namespace Underwater_Boat
                         {
                             startY += 70;
                         }
-                        
                     }
                     break;
                 case GameState.Playing:
@@ -300,12 +360,14 @@ namespace Underwater_Boat
         public void Draw(GameTime gameTime)
         {
             _spriteBatch.Begin();
-            _spriteBatch.Draw(background, new Rectangle(0, 0, Game1.Graphics.PreferredBackBufferWidth, Game1.Graphics.PreferredBackBufferHeight), Color.White);
+            _spriteBatch.Draw(_background, new Rectangle(0, 0, Game1.Graphics.PreferredBackBufferWidth, Game1.Graphics.PreferredBackBufferHeight), Color.White);
             foreach (var choice in _activeMenu.Items)
             {
                 
                 if (!choice.IsVisible())
                     continue;
+                // HitBox Koll
+                //_spriteBatch.Draw(_overlay, choice.HitBox, Color.Blue);
                 _spriteBatch.DrawString(choice.Selected ? _selectedFont : _normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.White);
                 if (choice.IsEnabled == false)
                 {
@@ -313,7 +375,9 @@ namespace Underwater_Boat
                 }
                 
             }
-            
+
+            var mp = Mouse.GetState().Position;
+            _spriteBatch.Draw(_mouse, new Vector2(mp.X, mp.Y), Color.White);
             _spriteBatch.End();
         }
         #region Meny Val
@@ -348,49 +412,94 @@ namespace Underwater_Boat
         private void SoundMenu()
         {
             SD = (SD == Sound.On) ? Sound.Off : Sound.On;
+            if (SD == Sound.On)
+            {
+                Settings.Default.Sound = true;
+                Settings.Default.Save();
+            }
+            else
+            {
+                Settings.Default.Sound = false;
+                Settings.Default.Save();
+            }
         }
         private void ControlMenu()
         {
             CL = (CL == Controll.Cont) ? Controll.Key : Controll.Cont;
+            if (CL == Controll.Cont)
+            {
+                Settings.Default.Keyboard = false;
+                Settings.Default.Save();
+            }
+            else
+            {
+                Settings.Default.Keyboard = true;
+                Settings.Default.Save();
+            }
         }
         private void PlayerNum()
         {
             TP = (TP == TwoPlayer.One) ? TwoPlayer.Two : TwoPlayer.One;
+            if (TP == TwoPlayer.Two)
+            {
+                Settings.Default.TwoPlayer = true;
+                Settings.Default.Save();
+            }
+            else
+            {
+                Settings.Default.TwoPlayer = false;
+                Settings.Default.Save();
+            }
         }
         private void FullMenu()
         {
             FL = (FL == Full.off) ? Full.on : Full.off;
-            var Game1 = (Game1)Game;
             if (FL == Full.on)
             {
                 GR = Graphics.set1;
-                Game1.Graphics.PreferredBackBufferWidth = 1920;
-                Game1.Graphics.PreferredBackBufferHeight = 1080;
+                Settings.Default.Grafik = "1920 * 1080";
+                Settings.Default.Save();
+                Settings.Default.IsFullScreen = true;
+                Settings.Default.Save();
             }
-            Game1.Graphics.IsFullScreen = FL == Full.on;
-            Game1.Graphics.ApplyChanges();
+            else
+            {
+                Settings.Default.IsFullScreen = false;
+                Settings.Default.Save();
+            }
+            (Game as Game1).FullScreen();
         }
         private void Grafik()
         {
             if (GR == Graphics.set1)
             {
                 GR = Graphics.set2;
+                Settings.Default.Grafik = "1024 * 700";
+                Settings.Default.Save();
             }
             else if (GR == Graphics.set2)
             {
                 GR = Graphics.set3;
+                Settings.Default.Grafik = "1366 * 768";
+                Settings.Default.Save();
             }
             else if (GR == Graphics.set3)
             {
                 GR = Graphics.set4;
+                Settings.Default.Grafik = "1440 * 900";
+                Settings.Default.Save();
             }
             else if (GR == Graphics.set4)
             {
                 GR = Graphics.set5;
+                Settings.Default.Grafik = "1600 * 900";
+                Settings.Default.Save();
             }
             else if (GR == Graphics.set5)
             {
                 GR = Graphics.set1;
+                Settings.Default.Grafik = "1920 * 1080";
+                Settings.Default.Save();
             }
             (Game as Game1).Grafitti();
         }
