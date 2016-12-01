@@ -240,7 +240,7 @@ namespace Underwater_Boat
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _normalFont = Game.Content.Load<SpriteFont>("menuFontNormal");
             _selectedFont = Game.Content.Load<SpriteFont>("menuFontSelected");
-            _background = Game.Content.Load<Texture2D>("Submarine");
+            _background = Game.Content.Load<Texture2D>("Sjöodjur");
             _overlay = Game.Content.Load<Texture2D>("temp");
             _mouse = Game.Content.Load<Texture2D>("mouse");
             _song = Game.Content.Load<Song>("MenuMusic");
