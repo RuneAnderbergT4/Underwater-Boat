@@ -29,6 +29,14 @@ namespace Underwater_Boat
         Megalodon,
         YellowSubmarine,
     }
+    public enum ShipType
+    {
+        Tradional,
+        Pansar,
+        Camoflage,
+        Carrier,
+        Vintage
+    }
     class Submarine
     {
         public static PlayerStat Sub(SubmarineType type)
@@ -95,7 +103,7 @@ namespace Underwater_Boat
                     yellowSubmarine.Resistance = 5;
                     yellowSubmarine.ExplosionResistence = 0;
                     yellowSubmarine.Damage = 10;
-                    yellowSubmarine.Speed = 0,5;
+                    yellowSubmarine.Speed = 0.5f;
                     yellowSubmarine.Size = 1;
                     yellowSubmarine.Fuel = 60;
                     return yellowSubmarine;
@@ -104,8 +112,79 @@ namespace Underwater_Boat
             return null;
         }
     }
-
-
-
-
+    class Ship
+    {
+        public static PlayerStat ship(ShipType type)
+        {
+            PlayerStat tradional = new PlayerStat();
+            PlayerStat pansar = new PlayerStat();
+            PlayerStat camoflage = new PlayerStat();
+            PlayerStat carrier = new PlayerStat();
+            PlayerStat vintage = new PlayerStat();
+            switch(type)
+            {
+                case ShipType.Tradional:
+                    tradional.PlayerId = 1;
+                    tradional.Name = "Tradional";
+                    tradional.Health = 50;
+                    tradional.Resistance = 10;
+                    tradional.ExplosionResistence = 10;
+                    tradional.Damage = 10;
+                    tradional.Speed = 1;
+                    tradional.Size = 1;
+                    tradional.Fuel = 50;
+                    return tradional;
+                    break;
+                case ShipType.Pansar:
+                    pansar.PlayerId = 2;
+                    pansar.Name = "Pansar";
+                    pansar.Health = 35;
+                    pansar.Resistance = 25;
+                    pansar.ExplosionResistence = 20;
+                    pansar.Damage = 10;
+                    pansar.Speed = 1;
+                    pansar.Size = 1;
+                    pansar.Fuel = 50;
+                    return pansar;
+                    break;
+                case ShipType.Camoflage:
+                    camoflage.PlayerId = 3;
+                    camoflage.Name = "Camoflage";
+                    camoflage.Health = 50;
+                    camoflage.Resistance = 10;
+                    camoflage.ExplosionResistence = 10;
+                    camoflage.Damage = 6;
+                    camoflage.Speed = 2;
+                    camoflage.Size = 1;
+                    camoflage.Fuel = 80;
+                    return camoflage;
+                    break;
+                case ShipType.Carrier:
+                    carrier.PlayerId = 4;
+                    carrier.Name = "Carrier";
+                    carrier.Health = 75;
+                    carrier.Resistance = 10;
+                    carrier.ExplosionResistence = 10;
+                    carrier.Damage = 10;
+                    carrier.Speed = 0.5f;
+                    carrier.Size = 2;
+                    carrier.Fuel = 50;
+                    return carrier;
+                    break;
+                case ShipType.Vintage:
+                    vintage.PlayerId = 5;
+                    vintage.Name = "Vintage";
+                    vintage.Health = 50;
+                    vintage.Resistance = 0;
+                    vintage.ExplosionResistence = 0;
+                    vintage.Damage = 20;
+                    vintage.Speed = 1.5f;
+                    vintage.Size = 1;
+                    vintage.Fuel = 50;
+                    return vintage;
+                    break;
+            }
+            return null;
+        }
+    }
 }
