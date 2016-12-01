@@ -27,7 +27,7 @@ namespace Underwater_Boat
         WaterColumn[] columns = new WaterColumn[201];
         static Random rand = new Random();
 
-        public float Tension = 0.025f;
+        public float Tension = 0.024f;
         public float Dampening = 0.025f;
         public float Spread = 0.25f;
 
@@ -71,8 +71,8 @@ namespace Underwater_Boat
             {
                 columns[i] = new WaterColumn()
                 {
-                    Height = 240,
-                    TargetHeight = 240,
+                    Height = 370,
+                    TargetHeight = 370,
                     Speed = 0
                 };
             }
@@ -81,15 +81,15 @@ namespace Underwater_Boat
         // Returns the height of the water at a given x coordinate.
         public float GetHeight(float x)
         {
-            if (x < 0 || x > 800)
-                return 240;
+            if (x < 0 || x > 1920)
+                return 440;
 
             return columns[(int)(x / Scale)].Height;
         }
 
         void UpdateParticle(Particle particle)
         {
-            const float Gravity = 0.3f;
+            const float Gravity = 0.2f;
             particle.Velocity.Y += Gravity;
             particle.Position += particle.Velocity;
             particle.Orientation = GetAngle(particle.Velocity);
@@ -181,7 +181,7 @@ namespace Underwater_Boat
             foreach (var particle in particles)
                 UpdateParticle(particle);
 
-            particles = particles.Where(x => x.Position.X >= 0 && x.Position.X <= 800 && x.Position.Y - 5 <= GetHeight(x.Position.X)).ToList();
+            particles = particles.Where(x => x.Position.X >= 0 && x.Position.X <= 1920 && x.Position.Y - 5 <= GetHeight(x.Position.X)).ToList();
         }
 
         public void DrawToRenderTargets()

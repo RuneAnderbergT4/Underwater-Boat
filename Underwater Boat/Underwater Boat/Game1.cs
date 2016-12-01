@@ -7,7 +7,7 @@ namespace Underwater_Boat
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Game
+    public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -16,6 +16,7 @@ namespace Underwater_Boat
         MouseState mouseState, lastMouseState;
         SpriteFont font;
         Texture2D particleImage, backgroundImage, rockImage;
+
         Rock rock;
 
         public Game1()
@@ -24,6 +25,9 @@ namespace Underwater_Boat
             Content.RootDirectory = "Content";
             graphics.PreferMultiSampling = true;
             IsMouseVisible = true;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.IsFullScreen = true;
         }
 
         protected override void Initialize()
@@ -34,17 +38,16 @@ namespace Underwater_Boat
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             particleImage = Content.Load<Texture2D>("metaparticle");
-            backgroundImage = Content.Load<Texture2D>("sky");
+            
             rockImage = Content.Load<Texture2D>("rock");
             water = new Water(GraphicsDevice, particleImage);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
 
             lastKeyState = keyState;
             keyState = Keyboard.GetState();
@@ -53,26 +56,23 @@ namespace Underwater_Boat
 
             water.Update();
 
-            // Allow user to adjust the water's properties:
-            // Q and W change the Tension
-            // A and S change the Dampering
-            // Z and X change the Spred
-            const float factor = 63f / 64f;
-            if (keyState.IsKeyDown(Keys.Q))
-                water.Tension *= factor;
-            if (keyState.IsKeyDown(Keys.W))
-                water.Tension /= factor;
-            if (keyState.IsKeyDown(Keys.A))
-                water.Dampening *= factor;
-            if (keyState.IsKeyDown(Keys.S))
-                water.Dampening /= factor;
-            if (keyState.IsKeyDown(Keys.Z))
-                water.Spread *= factor;
-            if (keyState.IsKeyDown(Keys.X))
-                water.Spread /= factor;
+            
+            //const float factor = 63f / 64f;
+            //if (keyState.IsKeyDown(Keys.Q))
+            //    water.Tension *= factor;
+            //if (keyState.IsKeyDown(Keys.W))
+            //    water.Tension /= factor;
+            //if (keyState.IsKeyDown(Keys.A))
+            //    water.Dampening *= factor;
+            //if (keyState.IsKeyDown(Keys.S))
+            //    water.Dampening /= factor;
+            //if (keyState.IsKeyDown(Keys.Z))
+            //    water.Spread *= factor;
+            //if (keyState.IsKeyDown(Keys.X))
+            //    water.Spread /= factor;
 
             Vector2 mousePos = new Vector2(mouseState.X, mouseState.Y);
-
+            
             if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
             {
                 rock = new Rock
@@ -82,10 +82,10 @@ namespace Underwater_Boat
                 };
             }
 
-
+            
             if (rock != null)
             {
-                if (rock.Position.Y < 240 && rock.Position.Y + rock.Velocity.Y >= 240)
+                if (rock.Position.Y < 370 && rock.Position.Y + rock.Velocity.Y >= 370)
                     water.Splash(rock.Position.X, rock.Velocity.Y * rock.Velocity.Y * 5);
 
                 rock.Update(water);
@@ -104,17 +104,20 @@ namespace Underwater_Boat
 
         protected override void Draw(GameTime gameTime)
         {
-
+            
             water.DrawToRenderTargets();
 
             spriteBatch.Begin();
-            spriteBatch.Draw(backgroundImage, Vector2.Zero, Color.White);
+            
 
             if (rock != null)
                 rock.Draw(spriteBatch, rockImage);
 
             spriteBatch.End();
+
             water.Draw();
+
+            
 
             base.Draw(gameTime);
         }
