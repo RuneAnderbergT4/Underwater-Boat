@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Game1.cs" />
     <Compile Include="GamePadComponent.cs" />
+    <Compile Include="PlayerStat.cs" />
     <Compile Include="KeyboardComponent.cs" />
     <Compile Include="MenuComponent.cs" />
     <Compile Include="MenuChoice.cs" />
