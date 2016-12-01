@@ -68,9 +68,32 @@ namespace Underwater_Boat
             points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(60, 120)));
             points.Add(new Point(center.X + rand.Next(-120, -60), center.Y + rand.Next(-20, 20)));
 
-            for (int i = 0; i < iterations; i++)
+            for (int i = 0; i < 1; i++)
             {
-                // Insert new points inbetween the others
+                // Insert new points inbetween the others with super fancy math
+                var angle = Math.Atan((double)(points[i + 1].X - points[i].X) / (points[i + 1].Y - points[i].Y));
+                var newPoint = new Point
+                {
+                    X = points[i].X + (points[i + 1].X - points[i].X) / 2,
+                    Y = points[i].Y + (points[i + 1].Y - points[i].Y) / 2
+                };
+
+                //var hypotenuse = rand.Next(-5, 5);
+                var hypotenuse = 50;
+                
+                var angle2 = Math.PI/2 - angle;
+
+                var opposite = hypotenuse * Math.Sin(angle2);
+                var adjacent = hypotenuse * Math.Cos(angle2);
+
+                var randPoint = new Point
+                {
+                    X = (int) (newPoint.X + opposite),
+                    Y = (int) (newPoint.Y + adjacent)
+                };
+
+                points.Insert(1, randPoint);
+
             }
 
             return points;
