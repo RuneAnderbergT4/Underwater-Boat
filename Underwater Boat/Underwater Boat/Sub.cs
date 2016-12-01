@@ -23,7 +23,7 @@ namespace Underwater_Boat
         Vector2 speed;
         Vector2 velocity = new Vector2(0,0);
         bool movingrignt;
-        public bool gamepad= true;
+        public bool gamepad;//= true;
         private bool movingUp;
 
         public Vector2 position { get; private set; }
@@ -157,31 +157,33 @@ namespace Underwater_Boat
                     fuel -= 0.1f;
                 }
             }
-            if(velocity!= new Vector2(0,0))
-            if (temp == fuel)
-            {
-               
-                velocity.X -=  0.05f *Math.Sign(velocity.X);
-                velocity.Y -=  0.04f * Math.Sign(velocity.Y); 
-                if (velocity.Length() < 0.1f)
-                    velocity = new Vector2(0, 0);
-                
-            }
-            else if (!movingrignt)
-            {
-                velocity.X -= 0.05f * Math.Sign(velocity.X);
-                if (Math.Abs(velocity.X) < 0.1f)
-                    velocity.X = 0;
-                
-            }
-            else if (!movingUp)
+            if (velocity != new Vector2(0, 0))
+                if (temp == fuel)
                 {
+
+                    velocity.X -= 0.05f * Math.Sign(velocity.X);
                     velocity.Y -= 0.04f * Math.Sign(velocity.Y);
-                    velocity.Y -= 0.04f;
-                if (Math.Abs(velocity.Y) < 0.1f)
-                    velocity.Y = 0;
-                
-            }
+                    if (velocity.Length() < 0.1f)
+                        velocity = new Vector2(0, 0);
+
+                }
+                else
+                {
+                    if (!movingrignt)
+                    {
+                        velocity.X -= 0.05f * Math.Sign(velocity.X);
+                        if (Math.Abs(velocity.X) < 0.1f)
+                            velocity.X = 0;
+
+                    }
+                    if (!movingUp)
+                    {
+                        velocity.Y -= 0.04f * Math.Sign(velocity.Y);
+                        if (Math.Abs(velocity.Y) < 0.1f)
+                            velocity.Y = 0;
+
+                    }
+                }
 
             position += velocity;
             movingrignt = false;

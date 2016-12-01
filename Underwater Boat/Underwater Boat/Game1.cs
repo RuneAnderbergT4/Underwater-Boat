@@ -41,7 +41,7 @@ namespace Underwater_Boat
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-             sub = new Sub(new Team("Team"),SubType.Highdmg,false);
+             sub = new Sub(new Team("Team"),SubType.Heavy,false);
             sub.Initialize();
             base.Initialize();
         }
