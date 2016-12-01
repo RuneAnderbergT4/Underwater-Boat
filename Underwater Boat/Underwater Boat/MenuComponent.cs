@@ -30,13 +30,13 @@ namespace Underwater_Boat
 
         #region GameStates
 
-        public enum GameState
+        public enum MenyState
         {
             MainMenu,
             Playing
         }
 
-        public static GameState gs;
+        public static MenyState gs;
 
         public enum Sound
         {
@@ -108,10 +108,10 @@ namespace Underwater_Boat
             _menu.Items = new List<MenuChoice>
             {
                 new MenuChoice(null) { Text = "Submarine Battle of DOOOOM", IsEnabled = false},
-                new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = MapMenu, IsVisible = () => Game1.GS != Game1.GameState.Pause},
-                new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == Game1.GameState.Pause, IsEnabled = false},
+                new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = MapMenu, IsVisible = () => Game1.GS != GameState.Pause},
+                new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == GameState.Pause, IsEnabled = false},
                 new MenuChoice(null) { Text = "OPTIONS", ClickAction = MoveClick, SubMenu = optionsMenu},
-                new MenuChoice(null) { Text = "EXIT TO MENU", ClickAction = MoveClick, SubMenu = returnToMenu, IsVisible = () => Game1.GS == Game1.GameState.Pause},
+                new MenuChoice(null) { Text = "EXIT TO MENU", ClickAction = MoveClick, SubMenu = returnToMenu, IsVisible = () => Game1.GS == GameState.Pause},
                 new MenuChoice(null) { Text = "QUIT", ClickAction = MoveClick, SubMenu = exitMenu}
             };
             TwoPlayers.Items = new List<MenuChoice>
@@ -232,7 +232,7 @@ namespace Underwater_Boat
                 GR = Graphics.set5;
             }
             SP = SelMap.Forrest;
-            gs = GameState.MainMenu;
+            gs = MenyState.MainMenu;
             base.Initialize();
         }
         protected override void LoadContent()
@@ -244,7 +244,7 @@ namespace Underwater_Boat
             _overlay = Game.Content.Load<Texture2D>("temp");
             _mouse = Game.Content.Load<Texture2D>("mouse");
             _song = Game.Content.Load<Song>("MenuMusic");
-            if (gs == GameState.MainMenu)
+            if (gs == MenyState.MainMenu)
             MediaPlayer.Play(_song);
             else 
             _previousMouseState = Mouse.GetState();
@@ -254,7 +254,7 @@ namespace Underwater_Boat
         {
             switch (gs)
             {
-                case GameState.MainMenu:
+                case MenyState.MainMenu:
                     if (KeyboardComponent.KeyPressed(Keys.Escape))
                     {
                         var selectedChoice = _activeMenu.Items.First(c => c.Selected);
@@ -320,7 +320,7 @@ namespace Underwater_Boat
                         }
                     }
                     break;
-                case GameState.Playing:
+                case MenyState.Playing:
                     break;
             } 
             base.Update(gameTime);
@@ -360,7 +360,7 @@ namespace Underwater_Boat
         public void Draw(GameTime gameTime)
         {
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_background, new Rectangle(0, 0, Game1.Graphics.PreferredBackBufferWidth, Game1.Graphics.PreferredBackBufferHeight), Color.White);
+            _spriteBatch.Draw(_background, new Rectangle(0, 0, Game1.graphics.PreferredBackBufferWidth, Game1.graphics.PreferredBackBufferHeight), Color.White);
             foreach (var choice in _activeMenu.Items)
             {
                 
@@ -383,8 +383,8 @@ namespace Underwater_Boat
         #region Meny Val
         private void MenuStartClicked()
         {
-            Game1.GS = Game1.GameState.Playing;
-            gs = GameState.Playing;
+            Game1.GS = GameState.Playing;
+            gs = MenyState.Playing;
             _activeMenu = _menu;
         }
         private void ForrestMap()
@@ -505,8 +505,8 @@ namespace Underwater_Boat
         }
         private void PausMenuQuitClicked()
         {
-            Game1.GS = Game1.GameState.Start;
-            gs = GameState.MainMenu;
+            Game1.GS =  GameState.Start;
+            gs = MenyState.MainMenu;
             (Game as Game1).Restart();
             var selectedChoice = _activeMenu.Items.First(c => c.Selected);
             if (selectedChoice.ParentMenu != null)
