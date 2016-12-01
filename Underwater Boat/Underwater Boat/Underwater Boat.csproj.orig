@@ -39,22 +39,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
+<<<<<<< HEAD
     <Compile Include="GamePadComponent.cs" />
     <Compile Include="KeyboardComponent.cs" />
     <Compile Include="MenuComponent.cs" />
     <Compile Include="MenuChoice.cs" />
+=======
+    <Compile Include="PlayerStat.cs" />
+>>>>>>> origin/Player
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
     <Compile Include="Sub.cs" />
     <Compile Include="Team.cs" />
-=======
     <Compile Include="Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
->>>>>>> origin/feature-Menu
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
