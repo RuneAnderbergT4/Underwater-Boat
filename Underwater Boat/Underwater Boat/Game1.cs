@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
 namespace Underwater_Boat
 {
     public class Game1 : Game
@@ -19,7 +18,6 @@ namespace Underwater_Boat
         MenuComponent mc;
         MouseState ms;
         SpriteBatch spriteBatch;
-
         public Game1()
         {
             Graphics = new GraphicsDeviceManager(this);
@@ -36,7 +34,6 @@ namespace Underwater_Boat
         }
         public void Restart()
         {
-            
         }
         public void Grafitti()
         {
@@ -75,12 +72,11 @@ namespace Underwater_Boat
         {
             switch (selectedMap)
             {
-                
             }
         }
         public void FullScreen()
         {
-            if (Settings.Default.IsFullScreen)
+            if (Settings.Default.IsFullScreen == true)
             {
                 Graphics.IsFullScreen = true;
                 Graphics.ApplyChanges();
@@ -96,15 +92,10 @@ namespace Underwater_Boat
         }
         protected override void LoadContent()
         {
-            
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
         }
         protected override void UnloadContent()
         {
-            
-            
         }
         protected override void Update(GameTime gameTime)
         {

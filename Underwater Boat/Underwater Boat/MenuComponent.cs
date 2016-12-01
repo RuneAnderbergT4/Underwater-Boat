@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using UnderWater_Boat;
-
 namespace Underwater_Boat
 {
     public class MenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
@@ -27,7 +26,6 @@ namespace Underwater_Boat
         Texture2D _background;
         Texture2D _overlay;
         Texture2D _mouse;
-
         #region GameStates
 
         public enum GameState
@@ -90,7 +88,6 @@ namespace Underwater_Boat
 
 
         #endregion
-
         public MenuComponent(Game game) : base(game)
         {
             #region Meny Hantering
@@ -298,7 +295,6 @@ namespace Underwater_Boat
                     {
                         if (!choice.IsVisible())
                             continue;
-
                         Vector2 size = _normalFont.MeasureString(choice.Text);
                         choice.Y = startY;
                         choice.X = GraphicsDevice.Viewport.Width / 2.0f - size.X / 2;
@@ -363,7 +359,6 @@ namespace Underwater_Boat
             _spriteBatch.Draw(_background, new Rectangle(0, 0, Game1.Graphics.PreferredBackBufferWidth, Game1.Graphics.PreferredBackBufferHeight), Color.White);
             foreach (var choice in _activeMenu.Items)
             {
-                
                 if (!choice.IsVisible())
                     continue;
                 // HitBox Koll
@@ -372,10 +367,7 @@ namespace Underwater_Boat
                 if (choice.IsEnabled == false)
                 {
                     _spriteBatch.DrawString(_normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.Crimson);
-                }
-                
-            }
-
+                }            }
             var mp = Mouse.GetState().Position;
             _spriteBatch.Draw(_mouse, new Vector2(mp.X, mp.Y), Color.White);
             _spriteBatch.End();
