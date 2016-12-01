@@ -244,9 +244,7 @@ namespace Underwater_Boat
             _overlay = Game.Content.Load<Texture2D>("temp");
             _mouse = Game.Content.Load<Texture2D>("mouse");
             _song = Game.Content.Load<Song>("MenuMusic");
-            if (gs == MenyState.MainMenu)
             MediaPlayer.Play(_song);
-            else 
             _previousMouseState = Mouse.GetState();
             base.LoadContent();
         }
@@ -321,6 +319,7 @@ namespace Underwater_Boat
                     }
                     break;
                 case MenyState.Playing:
+                    MediaPlayer.Stop();
                     break;
             } 
             base.Update(gameTime);
