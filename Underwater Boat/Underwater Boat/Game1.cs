@@ -17,6 +17,8 @@ namespace Underwater_Boat
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 900;
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace Underwater_Boat
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 500, 500);
+            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 1500, 800);
 
         }
 

@@ -22,7 +22,7 @@ namespace Underwater_Boat
             
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(150, 150), 2)
+                GeneratePolygon(new Point(250, 250), 3)
             };
 
             for (int w = 0; w < width; w++)
@@ -40,7 +40,17 @@ namespace Underwater_Boat
             {
                 foreach (var point in polygon)
                 {
-                    col2d[point.X + 200, point.Y] = Color.Red;
+                    // drawing points for testing purposes
+                    col2d[point.X + 500, point.Y] = Color.Red;
+
+                    col2d[point.X + 500 - 1, point.Y - 1] = Color.Red;
+                    col2d[point.X + 500, point.Y - 1] = Color.Red;
+                    col2d[point.X + 500 + 1, point.Y - 1] = Color.Red;
+                    col2d[point.X + 500 + 1, point.Y] = Color.Red;
+                    col2d[point.X + 500 + 1, point.Y + 1] = Color.Red;
+                    col2d[point.X + 500, point.Y + 1] = Color.Red;
+                    col2d[point.X + 500 - 1, point.Y + 1] = Color.Red;
+                    col2d[point.X + 500 - 1, point.Y] = Color.Red;
                 }
             }
 
@@ -48,9 +58,9 @@ namespace Underwater_Boat
 
             var p = 0;
 
-            for (int w = 0; w < width; w++)
+            for (int h = 0; h < height; h++)
             {
-                for (int h = 0; h < height; h++)
+                for (int w = 0; w < width; w++)
                 {
                     col[p] = col2d[w, h];
                     p++;
@@ -69,10 +79,10 @@ namespace Underwater_Boat
             Random rand = new Random();
 
             //Generate 4 starting points
-            points.Add(new Point(center.X + rand.Next(-30, 30), center.Y + rand.Next(-130, -50)));
-            points.Add(new Point(center.X + rand.Next(50, 130), center.Y + rand.Next(-30, 30)));
-            points.Add(new Point(center.X + rand.Next(-30, 30), center.Y + rand.Next(50, 130)));
-            points.Add(new Point(center.X + rand.Next(-130, -50), center.Y + rand.Next(-30, 30)));
+            points.Add(new Point(center.X + rand.Next(-40, 40), center.Y + rand.Next(-240, -80)));
+            points.Add(new Point(center.X + rand.Next(80, 240), center.Y + rand.Next(-40, 40)));
+            points.Add(new Point(center.X + rand.Next(-40, 40), center.Y + rand.Next(80, 240)));
+            points.Add(new Point(center.X + rand.Next(-240, -80), center.Y + rand.Next(-40, 40)));
 
             int length = 40;
 
