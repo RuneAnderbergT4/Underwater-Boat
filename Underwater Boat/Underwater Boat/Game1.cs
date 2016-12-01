@@ -41,7 +41,7 @@ namespace Underwater_Boat
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-             sub = new Sub(new Team("Team"),SubType.Heavy,false);
+             sub = new Sub(new Team("Team"),SubType.Highdmg,false);
             sub.Initialize();
             base.Initialize();
         }
@@ -79,7 +79,8 @@ namespace Underwater_Boat
 
             // TODO: Add your update logic here
             KeyboardState ks = Keyboard.GetState();
-            sub.Update(ks);
+            GamePadState gs = GamePad.GetState(0);
+            sub.Update(ks,gs);
             base.Update(gameTime);
         }
 

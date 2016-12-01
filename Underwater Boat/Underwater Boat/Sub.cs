@@ -22,6 +22,9 @@ namespace Underwater_Boat
         float fuel;
         Vector2 speed;
         Vector2 velocity = new Vector2(0,0);
+        bool movingrignt;
+        public bool gamepad= true;
+        private bool movingUp;
 
         public Vector2 position { get; private set; }
 
@@ -42,25 +45,25 @@ namespace Underwater_Boat
                     HP = 50;
                     dmgMultiplyer = 2.5f;
                     armor = 30;
-                    maxspeed = 5;
+                    maxspeed = 3;
                     break;
                 case SubType.Light:
                     HP = 100;
                     dmgMultiplyer = 1f;
                     armor = 20;
-                    maxspeed = 8;
+                    maxspeed = 5;
                     break;
                 case SubType.Heavy:
                     HP = 200;
                     dmgMultiplyer = 0.5f;
                     armor = 50;
-                    maxspeed = 3;
+                    maxspeed = 1;
                     break;
                     
             }
             fuel = 300888;
             position = new Vector2(500,500);
-            
+            velocity = new Vector2(0,0);
         }
 
         
@@ -84,48 +87,105 @@ namespace Underwater_Boat
        
 
         
-        public  void Update(KeyboardState ks)
+        public  void Update(KeyboardState ks,GamePadState gs)
         {
             float temp = fuel;
-            
 
-            if (ks.IsKeyDown(Keys.W)&& ks.IsKeyUp(Keys.S) && fuel >0)
+            if (gamepad)
             {
-                if(velocity.Length() < maxspeed)
-                velocity.Y -= 0.1f * maxspeed;
-                fuel -= 0.1f;
-            }
-            if (ks.IsKeyUp(Keys.W) && ks.IsKeyDown(Keys.S) && fuel > 0)
-            {
-                if (velocity.Length() < maxspeed)
-                    velocity.Y += 0.1f * maxspeed;
-                fuel -= 0.1f;
-            }
-            if (ks.IsKeyUp(Keys.A) && ks.IsKeyDown(Keys.D) && fuel > 0)
-            {
-                if (velocity.Length() < maxspeed)
-                    velocity.X += 0.02f * maxspeed;
-                fuel -= 0.1f;
-            }
-            if (ks.IsKeyUp(Keys.D) && ks.IsKeyDown(Keys.A)&& fuel > 0)
-            {
-                if (velocity.Length() < maxspeed)
-                    velocity.X-= 0.02f * maxspeed;
-                fuel -= 0.1f;
-            }
-            if (temp == fuel)
-            {
-                Vector2 temp2 = new Vector2(velocity.X, velocity.Y);
-                if(temp2 != new Vector2(0,0))
-                temp2.Normalize();
-                velocity.X -= temp2.X * 0.05f;
-                velocity.Y -= temp2.Y * 0.04f;
-                if(velocity.Length()< 0.1f)
+                if (gs.ThumbSticks.Left.Length() != 0)
                 {
-                    velocity = new Vector2(0,0);
+                    if (-gs.ThumbSticks.Left.Y < 0)
+                    {
+                        movingUp = true;
+                        if (velocity.Y > -maxspeed / 2)
+                            velocity.Y += 0.1f * maxspeed * -gs.ThumbSticks.Left.Y;
+                    }
+                    if (-gs.ThumbSticks.Left.Y > 0)
+
+                    {
+                        movingUp = true;
+                        if (velocity.Y < maxspeed / 2)
+                            velocity.Y += 0.1f * maxspeed * -gs.ThumbSticks.Left.Y;
+                    }
+                    if (gs.ThumbSticks.Left.X < 0)
+                    {
+                        movingrignt = true;
+                        if (velocity.X > -maxspeed)
+                            velocity.X += 0.02f * maxspeed * gs.ThumbSticks.Left.X;
+                    }
+                    if (gs.ThumbSticks.Left.X > 0)
+                    {
+                        movingrignt = true;
+                        if (velocity.X < maxspeed)
+                            velocity.X += 0.02f * maxspeed * gs.ThumbSticks.Left.X;
+                    }
+                    if (gs.ThumbSticks.Left.X !=0)
+                        fuel -= 0.1f;
+                    if (gs.ThumbSticks.Left.Y != 0)
+                        fuel -= 0.1f;
                 }
             }
+            else
+            {
+                if (ks.IsKeyDown(Keys.W) && ks.IsKeyUp(Keys.S) && fuel > 0)
+                {
+                    movingUp = true;
+                    if (velocity.Y > -maxspeed / 2)
+                        velocity.Y -= 0.1f * maxspeed;
+                    fuel -= 0.1f;
+                }
+                if (ks.IsKeyUp(Keys.W) && ks.IsKeyDown(Keys.S) && fuel > 0)
+                {
+                    movingUp = true;
+                    if (velocity.Y < maxspeed / 2)
+                        velocity.Y += 0.1f * maxspeed;
+                    fuel -= 0.1f;
+                }
+                if (ks.IsKeyUp(Keys.A) && ks.IsKeyDown(Keys.D) && fuel > 0)
+                {
+                    movingrignt = true;
+                    if (velocity.X < maxspeed)
+                        velocity.X += 0.02f * maxspeed;
+                    fuel -= 0.1f;
+                }
+                if (ks.IsKeyUp(Keys.D) && ks.IsKeyDown(Keys.A) && fuel > 0)
+                {
+                    movingrignt = true;
+                    if (velocity.X > -maxspeed)
+                        velocity.X -= 0.02f * maxspeed;
+                    fuel -= 0.1f;
+                }
+            }
+            if(velocity!= new Vector2(0,0))
+            if (temp == fuel)
+            {
+               
+                velocity.X -=  0.05f *Math.Sign(velocity.X);
+                velocity.Y -=  0.04f * Math.Sign(velocity.Y); 
+                if (velocity.Length() < 0.1f)
+                    velocity = new Vector2(0, 0);
+                
+            }
+            else if (!movingrignt)
+            {
+                velocity.X -= 0.05f * Math.Sign(velocity.X);
+                if (Math.Abs(velocity.X) < 0.1f)
+                    velocity.X = 0;
+                
+            }
+            else if (!movingUp)
+                {
+                    velocity.Y -= 0.04f * Math.Sign(velocity.Y);
+                    velocity.Y -= 0.04f;
+                if (Math.Abs(velocity.Y) < 0.1f)
+                    velocity.Y = 0;
+                
+            }
+
             position += velocity;
+            movingrignt = false;
+            movingUp = false;
         }
 
         
