@@ -28,6 +28,8 @@ namespace Underwater_Boat
          public static SpriteBatch spriteBatch;
         public static Random r = new Random();
         Sub sub;
+        Sub sub2;
+        Sub sub3;
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
         MenuComponent mc;
@@ -47,7 +49,11 @@ namespace Underwater_Boat
             Components.Add(mc);
             GS = GameState.Start;
              sub = new Sub(new Team("Team"),SubType.Light,false);
+            sub2 = new Sub(new Team("Team"), SubType.Heavy, false);
+            sub3 = new Sub(new Team("Team"), SubType.Highdmg, false);
             sub.Initialize();
+            sub2.Initialize();
+            sub3.Initialize();
             base.Initialize();
         }
         public void Restart()
@@ -115,6 +121,8 @@ namespace Underwater_Boat
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sub.LoadContent(this);
+            sub2.LoadContent(this);
+            sub3.LoadContent(this);
 
         }
         protected override void UnloadContent()
@@ -134,12 +142,16 @@ namespace Underwater_Boat
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
             sub.Update(ks,gs);
+            sub2.Update(ks, gs);
+            sub3.Update(ks, gs);
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             sub.Draw();
+            sub2.Draw();
+            sub3.Draw();
             switch (GS)
             
             {

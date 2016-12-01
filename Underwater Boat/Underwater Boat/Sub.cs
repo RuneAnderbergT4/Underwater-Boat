@@ -72,13 +72,13 @@ namespace Underwater_Boat
             switch (subtype)
             {
                 case SubType.Highdmg:
-                    Texture = Game1.Content.Load<Texture2D>("2");
+                    Texture = Game1.Content.Load<Texture2D>("submarine");
                     break;
                 case SubType.Light:
-                    Texture = Game1.Content.Load<Texture2D>("2");
+                    Texture = Game1.Content.Load<Texture2D>("submarine 2");
                     break;
                 case SubType.Heavy:
-                    Texture = Game1.Content.Load<Texture2D>("2");
+                    Texture = Game1.Content.Load<Texture2D>("submarine 3");
                     break;
             }
         }
