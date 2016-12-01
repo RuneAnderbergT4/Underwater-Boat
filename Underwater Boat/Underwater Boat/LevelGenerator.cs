@@ -11,18 +11,17 @@ namespace Underwater_Boat
     {
         public LevelGenerator()
         {
-            
         }
 
         public static Texture2D GenerateLevel(GraphicsDevice gD, int width, int height)
         {
             Texture2D level = new Texture2D(gD, width, height, false, SurfaceFormat.Color);
-            
+
             Color[,] col2d = new Color[width, height];
-            
+
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(250, 250), 3)
+                GeneratePolygon(new Point(250, 250), 4)
             };
 
             for (int w = 0; w < width; w++)
@@ -54,7 +53,7 @@ namespace Underwater_Boat
                 }
             }
 
-            Color[] col = new Color[width * height];
+            Color[] col = new Color[width*height];
 
             var p = 0;
 
@@ -66,9 +65,9 @@ namespace Underwater_Boat
                     p++;
                 }
             }
-            
+
             level.SetData(col);
-            
+
             return level;
         }
 
@@ -92,28 +91,36 @@ namespace Underwater_Boat
 
                 for (int j = 0; j < points.Count; j++)
                 {
-                    // Creates a point inbetween with super fancy math
-                    var angle = Math.Atan((double)(points[(j + 1) % points.Count].X - points[j].X) / (points[(j + 1) % points.Count].Y - points[j].Y));
-                    var newPoint = new Point
+                    // To stop it from creating points to close to eachother
+                    if (new Vector2(points[i].X - points[i + 1].X, points[i].Y - points[i + 1].Y).Length() > 10)
+                        //if (Math.Abs(points[i].X - points[i + 1].X) > 8 && Math.Abs(points[i].Y - points[i + 1].Y) > 8)
                     {
-                        X = (points[j].X + (points[(j + 1) % points.Count].X - points[j].X) / 2),
-                        Y = (points[j].Y + (points[(j + 1) % points.Count].Y - points[j].Y) / 2)
-                    };
+                        // Creates a point inbetween with super fancy math
+                        var angle =
+                            Math.Atan((double) (points[(j + 1)%points.Count].X - points[j].X)/
+                                      (points[(j + 1)%points.Count].Y - points[j].Y));
+                        var newPoint = new Point
+                        {
+                            X = (points[j].X + (points[(j + 1)%points.Count].X - points[j].X)/2),
+                            Y = (points[j].Y + (points[(j + 1)%points.Count].Y - points[j].Y)/2)
+                        };
 
-                    var hypotenuse = rand.Next(- length / (i + 1), length / (i + 1));
-                    
-                    var angle2 = Math.PI / 2 - angle;
+                        var hypotenuse = rand.Next(-(int) Math.Round(length/Math.Pow(2, i)),
+                            (int) Math.Round(length/Math.Pow(2, i)));
 
-                    var opposite = hypotenuse * Math.Sin(angle2);
-                    var adjacent = hypotenuse * Math.Cos(angle2);
+                        var angle2 = Math.PI/2 - angle;
 
-                    var randPoint = new Point
-                    {
-                        X = (int)(newPoint.X - opposite),
-                        Y = (int)(newPoint.Y + adjacent)
-                    };
+                        var opposite = hypotenuse*Math.Sin(angle2);
+                        var adjacent = hypotenuse*Math.Cos(angle2);
 
-                    tempList.Add(randPoint);
+                        var randPoint = new Point
+                        {
+                            X = (int) (newPoint.X - opposite),
+                            Y = (int) (newPoint.Y + adjacent)
+                        };
+
+                        tempList.Add(randPoint);
+                    }
                 }
 
                 var index = 1;
@@ -133,9 +140,9 @@ namespace Underwater_Boat
             for (int i = 0; i < points.Count; i++)
             {
                 var norm = point - points[i].ToVector2();
-                var line = points[(i + 1) % points.Count] - points[i];
+                var line = points[(i + 1)%points.Count] - points[i];
                 var normal = new Vector2(-line.Y, line.X);
-                if ((normal.X * norm.X + normal.Y * norm.Y) < 0)
+                if ((normal.X*norm.X + normal.Y*norm.Y) < 0)
                     return false;
             }
 
