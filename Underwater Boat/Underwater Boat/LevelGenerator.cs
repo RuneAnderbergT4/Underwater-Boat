@@ -24,20 +24,28 @@ namespace Underwater_Boat
 
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(200, 200), 1)
+                GeneratePolygon(new Point(250, 250), 1)
             };
 
-            for (int w = 0; w < width; w++)
+            //for (int w = 0; w < width; w++)
+            //{
+            //    for (int h = 0; h < height; h++)
+            //    {
+            //        if (IntersectsWithPoint(polygons[0], new Vector2(w, h)))
+            //        {
+            //            col2d[w, h] = Color.Red;
+            //        }
+            //    }
+            //}
+
+            foreach (var polygon in polygons)
             {
-                for (int h = 0; h < height; h++)
+                foreach (var point in polygon)
                 {
-                    if (IntersectsWithPoint(polygons[0], new Vector2(w, h)))
-                    {
-                        col2d[w, h] = Color.Red;
-                    }
+                    col2d[point.X, point.Y] = Color.Red;
                 }
             }
-            
+
             Color[] col = new Color[width * height];
 
             var p = 0;
@@ -63,37 +71,53 @@ namespace Underwater_Boat
             Random rand = new Random();
 
             // Generate 4 starting points
-            points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(-120, -60)));
-            points.Add(new Point(center.X + rand.Next(60, 120), center.Y + rand.Next(-20, 20)));
-            points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(60, 120)));
-            points.Add(new Point(center.X + rand.Next(-120, -60), center.Y + rand.Next(-20, 20)));
+            //points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(-120, -60)));
+            //points.Add(new Point(center.X + rand.Next(60, 120), center.Y + rand.Next(-20, 20)));
+            //points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(60, 120)));
+            //points.Add(new Point(center.X + rand.Next(-120, -60), center.Y + rand.Next(-20, 20)));
 
-            for (int i = 0; i < 1; i++)
+            points.Add(new Point(center.X, center.Y - 100));
+            points.Add(new Point(center.X + 100, center.Y));
+            points.Add(new Point(center.X, center.Y + 100));
+            points.Add(new Point(center.X - 100, center.Y));
+
+            for (int i = 0; i < iterations; i++)
             {
-                // Insert new points inbetween the others with super fancy math
-                var angle = Math.Atan((double)(points[i + 1].X - points[i].X) / (points[i + 1].Y - points[i].Y));
-                var newPoint = new Point
+                List<Point> tempList = new List<Point>();
+
+                for (int j = 0; j < points.Count; j++)
                 {
-                    X = points[i].X + (points[i + 1].X - points[i].X) / 2,
-                    Y = points[i].Y + (points[i + 1].Y - points[i].Y) / 2
-                };
+                    // Creates a point inbetween with super fancy math
+                    var angle = Math.Atan((double)(points[(j + 1) % points.Count].X - points[j].X) / (points[(j + 1) % points.Count].Y - points[j].Y));
+                    var newPoint = new Point
+                    {
+                        X = (points[j].X + (points[(j + 1) % points.Count].X - points[j].X) / 2),
+                        Y = (points[j].Y + (points[(j + 1) % points.Count].Y - points[j].Y) / 2)
+                    };
 
-                //var hypotenuse = rand.Next(-5, 5);
-                var hypotenuse = 50;
-                
-                var angle2 = Math.PI/2 - angle;
+                    var hypotenuse = rand.Next(-50, 50);
+                    
+                    var angle2 = Math.PI / 2 - angle;
 
-                var opposite = hypotenuse * Math.Sin(angle2);
-                var adjacent = hypotenuse * Math.Cos(angle2);
+                    var opposite = hypotenuse * Math.Sin(angle2);
+                    var adjacent = hypotenuse * Math.Cos(angle2);
 
-                var randPoint = new Point
+                    var randPoint = new Point
+                    {
+                        X = (int)(newPoint.X + opposite),
+                        Y = (int)(newPoint.Y + adjacent)
+                    };
+
+                    tempList.Add(randPoint);
+                }
+
+                var index = 1;
+
+                foreach (var point in tempList)
                 {
-                    X = (int) (newPoint.X + opposite),
-                    Y = (int) (newPoint.Y + adjacent)
-                };
-
-                points.Insert(1, randPoint);
-
+                    points.Insert(index, point);
+                    index += 2;
+                }
             }
 
             return points;

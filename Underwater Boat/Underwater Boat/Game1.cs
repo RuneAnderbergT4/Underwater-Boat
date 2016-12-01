@@ -42,7 +42,7 @@ namespace Underwater_Boat
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 400, 400);
+            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 500, 500);
 
         }
 
