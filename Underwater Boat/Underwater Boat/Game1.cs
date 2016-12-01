@@ -23,6 +23,7 @@ namespace Underwater_Boat
         Highdmg,
         Light
     }
+
     public class Game1 : Game
     {
          public static SpriteBatch spriteBatch;
@@ -30,6 +31,8 @@ namespace Underwater_Boat
         Sub sub;
         Sub sub2;
         Sub sub3;
+        Team t1;
+        Team t2;
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
         MenuComponent mc;
