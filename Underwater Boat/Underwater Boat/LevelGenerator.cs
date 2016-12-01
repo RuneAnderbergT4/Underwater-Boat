@@ -19,12 +19,10 @@ namespace Underwater_Boat
             Texture2D level = new Texture2D(gD, width, height, false, SurfaceFormat.Color);
             
             Color[,] col2d = new Color[width, height];
-
-            Random rand = new Random();
-
+            
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(250, 250), 1)
+                GeneratePolygon(new Point(150, 150), 2)
             };
 
             for (int w = 0; w < width; w++)
@@ -35,6 +33,14 @@ namespace Underwater_Boat
                     {
                         col2d[w, h] = Color.Red;
                     }
+                }
+            }
+
+            foreach (var polygon in polygons)
+            {
+                foreach (var point in polygon)
+                {
+                    col2d[point.X + 200, point.Y] = Color.Red;
                 }
             }
 
@@ -63,10 +69,12 @@ namespace Underwater_Boat
             Random rand = new Random();
 
             //Generate 4 starting points
-            points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(-120, -60)));
-            points.Add(new Point(center.X + rand.Next(60, 120), center.Y + rand.Next(-20, 20)));
-            points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(60, 120)));
-            points.Add(new Point(center.X + rand.Next(-120, -60), center.Y + rand.Next(-20, 20)));
+            points.Add(new Point(center.X + rand.Next(-30, 30), center.Y + rand.Next(-130, -50)));
+            points.Add(new Point(center.X + rand.Next(50, 130), center.Y + rand.Next(-30, 30)));
+            points.Add(new Point(center.X + rand.Next(-30, 30), center.Y + rand.Next(50, 130)));
+            points.Add(new Point(center.X + rand.Next(-130, -50), center.Y + rand.Next(-30, 30)));
+
+            int length = 40;
 
             for (int i = 0; i < iterations; i++)
             {
@@ -82,7 +90,7 @@ namespace Underwater_Boat
                         Y = (points[j].Y + (points[(j + 1) % points.Count].Y - points[j].Y) / 2)
                     };
 
-                    var hypotenuse = rand.Next(-50, 50);
+                    var hypotenuse = rand.Next(- length / (i + 1), length / (i + 1));
                     
                     var angle2 = Math.PI / 2 - angle;
 
