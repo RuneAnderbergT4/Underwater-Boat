@@ -27,22 +27,14 @@ namespace Underwater_Boat
                 GeneratePolygon(new Point(250, 250), 1)
             };
 
-            //for (int w = 0; w < width; w++)
-            //{
-            //    for (int h = 0; h < height; h++)
-            //    {
-            //        if (IntersectsWithPoint(polygons[0], new Vector2(w, h)))
-            //        {
-            //            col2d[w, h] = Color.Red;
-            //        }
-            //    }
-            //}
-
-            foreach (var polygon in polygons)
+            for (int w = 0; w < width; w++)
             {
-                foreach (var point in polygon)
+                for (int h = 0; h < height; h++)
                 {
-                    col2d[point.X, point.Y] = Color.Red;
+                    if (IntersectsWithPoint(polygons[0], new Vector2(w, h)))
+                    {
+                        col2d[w, h] = Color.Red;
+                    }
                 }
             }
 
@@ -70,16 +62,11 @@ namespace Underwater_Boat
 
             Random rand = new Random();
 
-            // Generate 4 starting points
-            //points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(-120, -60)));
-            //points.Add(new Point(center.X + rand.Next(60, 120), center.Y + rand.Next(-20, 20)));
-            //points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(60, 120)));
-            //points.Add(new Point(center.X + rand.Next(-120, -60), center.Y + rand.Next(-20, 20)));
-
-            points.Add(new Point(center.X, center.Y - 100));
-            points.Add(new Point(center.X + 100, center.Y));
-            points.Add(new Point(center.X, center.Y + 100));
-            points.Add(new Point(center.X - 100, center.Y));
+            //Generate 4 starting points
+            points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(-120, -60)));
+            points.Add(new Point(center.X + rand.Next(60, 120), center.Y + rand.Next(-20, 20)));
+            points.Add(new Point(center.X + rand.Next(-20, 20), center.Y + rand.Next(60, 120)));
+            points.Add(new Point(center.X + rand.Next(-120, -60), center.Y + rand.Next(-20, 20)));
 
             for (int i = 0; i < iterations; i++)
             {
@@ -104,7 +91,7 @@ namespace Underwater_Boat
 
                     var randPoint = new Point
                     {
-                        X = (int)(newPoint.X + opposite),
+                        X = (int)(newPoint.X - opposite),
                         Y = (int)(newPoint.Y + adjacent)
                     };
 
