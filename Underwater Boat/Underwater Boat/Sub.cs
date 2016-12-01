@@ -91,13 +91,13 @@ namespace Underwater_Boat
 
             if (ks.IsKeyDown(Keys.W)&& ks.IsKeyUp(Keys.S) && fuel >0)
             {
-                if(velocity.Length() < maxspeed/2)
+                if(velocity.Length() < maxspeed)
                 velocity.Y -= 0.1f * maxspeed;
                 fuel -= 0.1f;
             }
             if (ks.IsKeyUp(Keys.W) && ks.IsKeyDown(Keys.S) && fuel > 0)
             {
-                if (velocity.Length() < maxspeed/2)
+                if (velocity.Length() < maxspeed)
                     velocity.Y += 0.1f * maxspeed;
                 fuel -= 0.1f;
             }
