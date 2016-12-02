@@ -78,10 +78,10 @@ namespace Underwater_Boat
             }
         }
 
-        // Returns the height of the water at a given x coordinate.
+        
         public float GetHeight(float x)
         {
-            if (x < 0 || x > 1920)
+            if (x < 0 || x > 800)
                 return 440;
 
             return columns[(int)(x / Scale)].Height;
@@ -152,7 +152,7 @@ namespace Underwater_Boat
             float[] lDeltas = new float[columns.Length];
             float[] rDeltas = new float[columns.Length];
 
-            // do some passes where columns pull on their neighbours
+            
             for (int j = 0; j < 8; j++)
             {
                 for (int i = 0; i < columns.Length; i++)

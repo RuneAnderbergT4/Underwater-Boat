@@ -15,7 +15,7 @@ namespace Underwater_Boat
         public void Update(Water water)
         {
             if (Position.Y > water.GetHeight(Position.X))
-                Velocity *= 0.84f;
+                Velocity *= .9f;
 
             Position += Velocity;
             Velocity += Gravity;

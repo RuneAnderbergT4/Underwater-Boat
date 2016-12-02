@@ -56,7 +56,10 @@ namespace Underwater_Boat
 
             water.Update();
 
-            
+            // Allow user to adjust the water's properties:
+            // Q and W change the Tension
+            // A and S change the Dampering
+            // Z and X change the Spred
             //const float factor = 63f / 64f;
             //if (keyState.IsKeyDown(Keys.Q))
             //    water.Tension *= factor;
@@ -90,7 +93,7 @@ namespace Underwater_Boat
 
                 rock.Update(water);
 
-                if (rock.Position.Y > GraphicsDevice.Viewport.Height + rockImage.Height)
+                if (rock.Position.Y > GraphicsDevice.Viewport.Height + rockImage.Height + GraphicsDevice.Viewport.Width + rockImage.Width)
                     rock = null;
             }
 
