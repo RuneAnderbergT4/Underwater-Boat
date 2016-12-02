@@ -28,15 +28,12 @@ namespace Underwater_Boat
     {
          public static SpriteBatch spriteBatch;
         public static Random r = new Random();
-        Sub sub;
-        Sub sub2;
-        Sub sub3;
-        Team t1;
-        Team t2;
+        Turnbase tb;
+
+        
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
         MenuComponent mc;
-        MouseState ms;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,12 +48,14 @@ namespace Underwater_Boat
             mc = new MenuComponent(this);
             Components.Add(mc);
             GS = GameState.Start;
-             sub = new Sub(new Team("Team"),SubType.Light,false);
-            sub2 = new Sub(new Team("Team"), SubType.Heavy, false);
-            sub3 = new Sub(new Team("Team"), SubType.Highdmg, false);
-            sub.Initialize();
-            sub2.Initialize();
-            sub3.Initialize();
+            tb = new Turnbase("t1","t2");
+            tb.AddSub(SubmarineType.Aqua,false,"t1");
+            tb.AddSub(SubmarineType.Megalodon, false, "t1");
+            tb.AddSub(SubmarineType.Standard, false, "t1");
+            tb.AddSub(SubmarineType.X_1, false, "t2");
+            tb.AddSub(SubmarineType.YellowSubmarine, false, "t2");
+            tb.AddSub(SubmarineType.Standard, false, "t2");
+           
             base.Initialize();
         }
         public void Restart()
@@ -123,9 +122,7 @@ namespace Underwater_Boat
         {
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            sub.LoadContent(this);
-            sub2.LoadContent(this);
-            sub3.LoadContent(this);
+            tb.LoadContent(this);
 
         }
         protected override void UnloadContent()
@@ -144,17 +141,13 @@ namespace Underwater_Boat
             }
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
-            sub.Update(ks,gs);
-            sub2.Update(ks, gs);
-            sub3.Update(ks, gs);
+            tb.Update();
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            sub.Draw();
-            sub2.Draw();
-            sub3.Draw();
+            tb.Draw();
             switch (GS)
             
             {
