@@ -77,10 +77,10 @@ namespace Underwater_Boat
         {
             List<Point> points = new List<Point>
             {
-                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(-300, -100)),
-                new Point(center.X + iSB.Next(100, 300), center.Y + iSB.Next(-80, 80)),
-                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(100, 300)),
-                new Point(center.X + iSB.Next(-300, -100), center.Y + iSB.Next(-80, 80))
+                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(-400, -100)),
+                new Point(center.X + iSB.Next(100, 400), center.Y + iSB.Next(-80, 80)),
+                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(100, 400)),
+                new Point(center.X + iSB.Next(-400, -100), center.Y + iSB.Next(-80, 80))
             };
 
             //Generate 4 starting points
@@ -140,11 +140,11 @@ namespace Underwater_Boat
         {
             List<Point> points = new List<Point>
             {
-                new Point(0, iSB.Next(height - 200, height)),
-                new Point(width, iSB.Next(height - 200, height))
+                new Point(0, iSB.Next(height - 400, height - 100)),
+                new Point(width, iSB.Next(height - 400, height - 100))
             };
 
-            int length = 200;
+            int length = 400;
 
             for (int i = 0; i < iterations; i++)
             {

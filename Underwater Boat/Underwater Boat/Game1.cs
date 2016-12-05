@@ -12,7 +12,7 @@ namespace Underwater_Boat
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D _level;
-        private Rectangle _sourceRect;
+        private Rectangle _cameraRect;
 
         public Game1()
         {
@@ -20,7 +20,7 @@ namespace Underwater_Boat
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = 1600;
             graphics.PreferredBackBufferHeight = 900;
-            _sourceRect = new Rectangle(0, 0, 1400, 700);
+            _cameraRect = new Rectangle(0, 0, 1600, 900);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Underwater_Boat
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 1920, 1080, new ServiceBus());
+            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
 
         }
 
@@ -71,21 +71,21 @@ namespace Underwater_Boat
 
             // TODO: Add your update logic here
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && _sourceRect.Y > 0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && _cameraRect.Top > 0)
             {
-                _sourceRect.Y++;
+                _cameraRect.Y -= 20;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && _sourceRect.Y < 1000 )
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && _cameraRect.Bottom < _level.Height)
             {
-                _sourceRect.Y--;
+                _cameraRect.Y += 20;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && _sourceRect.X > 0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && _cameraRect.Left > 0)
             {
-                _sourceRect.X--;
+                _cameraRect.X -= 20;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && _sourceRect.X < 3000)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && _cameraRect.Right < _level.Width)
             {
-                _sourceRect.X++;
+                _cameraRect.X += 20;
             }
 
             base.Update(gameTime);
@@ -103,7 +103,7 @@ namespace Underwater_Boat
 
 
             spriteBatch.Begin();
-            spriteBatch.Draw(_level, Vector2.Zero, _sourceRect, Color.White);
+            spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
