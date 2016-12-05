@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,15 +11,16 @@ namespace Underwater_Boat
         public LevelGenerator()
         {
         }
-
-        public static Texture2D GenerateLevel(GraphicsDevice gD, int width, int height)
+        
+        public static Texture2D GenerateLevel(GraphicsDevice gD, int width, int height, IServiceBus iSB)
         {
             Texture2D level = new Texture2D(gD, width, height, false, SurfaceFormat.Color);
             
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(250, 250), 5),
-                GenerateBottom(width, height, 8)
+                GeneratePolygon(new Point(400, 300), 5, iSB),
+                GeneratePolygon(new Point(1000, 300), 5, iSB),
+                GenerateBottom(width, height, 10, iSB)
             };
 
             Color[,] col2D = new Color[level.Width, level.Height];
@@ -27,12 +29,9 @@ namespace Underwater_Boat
             {
                 for (int h = 0; h < height; h++)
                 {
-                    foreach (var polygon in polygons)
+                    if (polygons.Any(polygon => IsPointInPolygon(polygon, new Point(w, h))))
                     {
-                        if (IsPointInPolygon(polygon, new Point(w, h)))
-                        {
-                            col2D[w, h] = Color.SeaGreen;
-                        }
+                        col2D[w, h] = Color.SeaGreen;
                     }
                 }
             }
@@ -74,17 +73,17 @@ namespace Underwater_Boat
             return level;
         }
 
-        private static List<Point> GeneratePolygon(Point center, int iterations)
+        private static List<Point> GeneratePolygon(Point center, int iterations, IServiceBus iSB)
         {
-            List<Point> points = new List<Point>();
-
-            Random rand = new Random();
+            List<Point> points = new List<Point>
+            {
+                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(-300, -100)),
+                new Point(center.X + iSB.Next(100, 300), center.Y + iSB.Next(-80, 80)),
+                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(100, 300)),
+                new Point(center.X + iSB.Next(-300, -100), center.Y + iSB.Next(-80, 80))
+            };
 
             //Generate 4 starting points
-            points.Add(new Point(center.X + rand.Next(-80, 80), center.Y + rand.Next(-300, -100)));
-            points.Add(new Point(center.X + rand.Next(100, 300), center.Y + rand.Next(-80, 80)));
-            points.Add(new Point(center.X + rand.Next(-80, 80), center.Y + rand.Next(100, 300)));
-            points.Add(new Point(center.X + rand.Next(-300, -100), center.Y + rand.Next(-80, 80)));
 
             int length = 60;
 
@@ -107,7 +106,7 @@ namespace Underwater_Boat
                             Y = (points[j].Y + (points[(j + 1)%points.Count].Y - points[j].Y)/2)
                         };
 
-                        var hypotenuse = rand.Next(-(int) Math.Round(length/Math.Pow(2, i)),
+                        var hypotenuse = iSB.Next(-(int) Math.Round(length/Math.Pow(2, i)),
                             (int) Math.Round(length/Math.Pow(2, i)));
 
                         var angle2 = Math.PI/2 - angle;
@@ -137,14 +136,12 @@ namespace Underwater_Boat
             return points;
         }
 
-        private static List<Point> GenerateBottom(int width, int height, int iterations)
+        private static List<Point> GenerateBottom(int width, int height, int iterations, IServiceBus iSB)
         {
-            Random rand = new Random();
-
             List<Point> points = new List<Point>
             {
-                new Point(0, rand.Next(height - 200, height)),
-                new Point(width, rand.Next(height - 200, height))
+                new Point(0, iSB.Next(height - 200, height)),
+                new Point(width, iSB.Next(height - 200, height))
             };
 
             int length = 200;
@@ -158,13 +155,13 @@ namespace Underwater_Boat
                     // To stop it from creating points to close to eachother
                     if (new Vector2(points[j].X - points[j + 1].X, points[j].Y - points[j + 1].Y).Length() > 10)
                     {
-                        var randPoint = new Point
+                        var iSBPoint = new Point
                         {
                             X = points[j].X + (points[j + 1].X - points[j].X) / 2,
-                            Y = rand.Next((points[j].Y + (points[j + 1].Y - points[j].Y) / 2) - (int) Math.Round(length / Math.Pow(2, i)), (points[j].Y + (points[j + 1].Y - points[j].Y) / 2 + (int)Math.Round(length / Math.Pow(2, i))))
+                            Y = iSB.Next((points[j].Y + (points[j + 1].Y - points[j].Y) / 2) - (int) Math.Round(length / Math.Pow(2, i)), (points[j].Y + (points[j + 1].Y - points[j].Y) / 2 + (int)Math.Round(length / Math.Pow(2, i))))
                         };
 
-                        tempList.Add(randPoint);
+                        tempList.Add(iSBPoint);
                     }
                 }
 
