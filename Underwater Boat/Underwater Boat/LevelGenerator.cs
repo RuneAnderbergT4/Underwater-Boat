@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace Underwater_Boat
 {
@@ -19,24 +20,77 @@ namespace Underwater_Boat
             
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(width * 1/4 + iSB.Next(-100, 100), height * 1/3 + iSB.Next(-100, 100)), 5, iSB),
-                GeneratePolygon(new Point(width * 3/4 + iSB.Next(-100, 100), height * 1/3 + iSB.Next(-100, 100)), 5, iSB),
+                GeneratePolygon(new Point(width * 1/4 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 5, iSB),
+                GeneratePolygon(new Point(width * 3/4 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 5, iSB),
                 GenerateBottom(width, height, 8, iSB)
             };
             
             Color[,] col2D = new Color[level.Width, level.Height];
             
+            List<Rectangle> rectToCheck = new List<Rectangle>();
+
+            foreach (var polygon in polygons)
+            {
+                Rectangle rect = new Rectangle
+                {
+                    X = polygon[0].X,
+                    Y = polygon[0].Y,
+                    Width = Math.Abs(polygon[1].X - polygon[0].X),
+                    Height = Math.Abs(polygon[1].Y - polygon[0].Y)
+                };
+                
+                foreach (var point in polygon)
+                {
+                    if (!rect.Contains(point))
+                    {
+                        if (point.X < rect.X)
+                        {
+                            rect.X = point.X;
+                        }
+                        else if (point.X > rect.Right)
+                        {
+                            rect.Width += point.X - rect.Right;
+                        }
+
+                        if (point.Y < rect.Y)
+                        {
+                            rect.Y = point.Y;
+                        }
+                        else if (point.Y > rect.Bottom)
+                        {
+                            rect.Height += point.Y - rect.Bottom;
+                        }
+                    }
+                }
+
+                rectToCheck.Add(rect);
+            }
+
             for (int w = 0; w < width; w++)
             {
                 for (int h = 0; h < height; h++)
                 {
-                    if (polygons.Any(polygon => IsPointInPolygon(polygon, new Point(w, h))))
+                    //if (rectToCheck.Any(rect => rect.Contains(w, h)))
+                    //{
+                    //    if (polygons.Any(polygon => IsPointInPolygon(polygon, new Point(w, h))))
+                    //    {
+                    //        col2D[w, h] = Color.SeaGreen;
+                    //    }
+                    //}
+
+                    for (int i = 0; i < rectToCheck.Count; i++)
                     {
-                        col2D[w, h] = Color.SeaGreen;
+                        if (rectToCheck[i].Contains(w, h))
+                        {
+                            if (IsPointInPolygon(polygons[i], new Point(w, h)))
+                            {
+                                col2D[w, h] = Color.SeaGreen;
+                            }
+                        }
                     }
                 }
             }
-
+            
             // Testcode
             //foreach (var polygon in polygons)
             //{
@@ -78,13 +132,13 @@ namespace Underwater_Boat
         {
             List<Point> points = new List<Point>
             {
-                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(-400, -100)),
-                new Point(center.X + iSB.Next(100, 400), center.Y + iSB.Next(-80, 80)),
-                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(100, 400)),
-                new Point(center.X + iSB.Next(-400, -100), center.Y + iSB.Next(-80, 80))
+                new Point(center.X + iSB.Next(-100, 100), center.Y + iSB.Next(-400, -100)),
+                new Point(center.X + iSB.Next(100, 400), center.Y + iSB.Next(-100, 100)),
+                new Point(center.X + iSB.Next(-100, 100), center.Y + iSB.Next(100, 400)),
+                new Point(center.X + iSB.Next(-400, -100), center.Y + iSB.Next(-100, 100))
             };
             
-            int length = 60;
+            int length = 200;
 
             for (int i = 0; i < iterations; i++)
             {
@@ -106,8 +160,8 @@ namespace Underwater_Boat
                             Y = (points[j].Y + (points[(j + 1)%points.Count].Y - points[j].Y)/2)
                         };
 
-                        var hypotenuse = iSB.Next(-(int) Math.Round(length/Math.Pow(1.8, i)),
-                            (int) Math.Round(length/Math.Pow(1.8, i)));
+                        var hypotenuse = iSB.Next(-(int) Math.Round(length/Math.Pow(2, i)),
+                            (int) Math.Round(length/Math.Pow(2, i)));
 
                         var angle2 = Math.PI/2 - angle;
 
