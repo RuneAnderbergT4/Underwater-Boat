@@ -21,7 +21,7 @@ namespace Underwater_Boat
 
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(250, 250), 4)
+                GeneratePolygon(new Point(250, 250), 8)
             };
 
             for (int w = 0; w < width; w++)
@@ -30,7 +30,7 @@ namespace Underwater_Boat
                 {
                     foreach (var polygon in polygons)
                     {
-                        if (IsPointInPolygon(w, h, polygon))
+                        if (IsPointInPolygon(polygon, new Point(w, h)))
                         {
                             col2D[w, h] = Color.Red;
                         }
@@ -150,6 +150,20 @@ namespace Underwater_Boat
 
         //    return true;
         //} 
+
+        public static bool IsPointInPolygon(List<Point> polygon, Point point)
+        {
+            bool isInside = false;
+            for (int i = 0, j = polygon.Count - 1; i < polygon.Count; j = i++)
+            {
+                if (((polygon[i].Y > point.Y) != (polygon[j].Y > point.Y)) &&
+                (point.X < (polygon[j].X - polygon[i].X) * (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) + polygon[i].X))
+                {
+                    isInside = !isInside;
+                }
+            }
+            return isInside;
+        }
 
         #region IsPointInPolygon
         // Return true if the point is in the polygon.
