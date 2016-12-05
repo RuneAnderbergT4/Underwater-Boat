@@ -12,6 +12,7 @@ namespace Underwater_Boat
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D _level;
+        private Rectangle _sourceRect;
 
         public Game1()
         {
@@ -19,6 +20,7 @@ namespace Underwater_Boat
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = 1600;
             graphics.PreferredBackBufferHeight = 900;
+            _sourceRect = new Rectangle(0, 0, 1400, 700);
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace Underwater_Boat
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 1500, 800, new ServiceBus());
+            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 1920, 1080, new ServiceBus());
 
         }
 
@@ -69,6 +71,23 @@ namespace Underwater_Boat
 
             // TODO: Add your update logic here
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && _sourceRect.Y > 0)
+            {
+                _sourceRect.Y++;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && _sourceRect.Y < 1000 )
+            {
+                _sourceRect.Y--;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && _sourceRect.X > 0)
+            {
+                _sourceRect.X--;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && _sourceRect.X < 3000)
+            {
+                _sourceRect.X++;
+            }
+
             base.Update(gameTime);
         }
 
@@ -84,7 +103,7 @@ namespace Underwater_Boat
 
 
             spriteBatch.Begin();
-            spriteBatch.Draw(_level, new Vector2(50, 50));
+            spriteBatch.Draw(_level, Vector2.Zero, _sourceRect, Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);

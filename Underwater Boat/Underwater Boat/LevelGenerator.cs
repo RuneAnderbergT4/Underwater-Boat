@@ -18,9 +18,9 @@ namespace Underwater_Boat
             
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(400, 300), 5, iSB),
-                GeneratePolygon(new Point(1000, 300), 5, iSB),
-                GenerateBottom(width, height, 10, iSB)
+                GeneratePolygon(new Point(width * 1/4 + iSB.Next(-100, 100), height * 1/3 + iSB.Next(-100, 100)), 5, iSB),
+                GeneratePolygon(new Point(width * 3/4 + iSB.Next(-100, 100), height * 1/3 + iSB.Next(-100, 100)), 5, iSB),
+                GenerateBottom(width, height, 8, iSB)
             };
 
             Color[,] col2D = new Color[level.Width, level.Height];
@@ -155,13 +155,13 @@ namespace Underwater_Boat
                     // To stop it from creating points to close to eachother
                     if (new Vector2(points[j].X - points[j + 1].X, points[j].Y - points[j + 1].Y).Length() > 10)
                     {
-                        var iSBPoint = new Point
+                        var newPoint = new Point
                         {
                             X = points[j].X + (points[j + 1].X - points[j].X) / 2,
                             Y = iSB.Next((points[j].Y + (points[j + 1].Y - points[j].Y) / 2) - (int) Math.Round(length / Math.Pow(2, i)), (points[j].Y + (points[j + 1].Y - points[j].Y) / 2 + (int)Math.Round(length / Math.Pow(2, i))))
                         };
 
-                        tempList.Add(iSBPoint);
+                        tempList.Add(newPoint);
                     }
                 }
 
