@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,9 +23,9 @@ namespace Underwater_Boat
                 GeneratePolygon(new Point(width * 3/4 + iSB.Next(-100, 100), height * 1/3 + iSB.Next(-100, 100)), 5, iSB),
                 GenerateBottom(width, height, 8, iSB)
             };
-
+            
             Color[,] col2D = new Color[level.Width, level.Height];
-
+            
             for (int w = 0; w < width; w++)
             {
                 for (int h = 0; h < height; h++)
@@ -54,7 +55,7 @@ namespace Underwater_Boat
             //        col2D[point.X + 500 - 1, point.Y + 200] = Color.Red;
             //    }
             //}
-
+            
             Color[] col = new Color[level.Width*level.Height];
 
             var p = 0;
@@ -82,9 +83,7 @@ namespace Underwater_Boat
                 new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(100, 400)),
                 new Point(center.X + iSB.Next(-400, -100), center.Y + iSB.Next(-80, 80))
             };
-
-            //Generate 4 starting points
-
+            
             int length = 60;
 
             for (int i = 0; i < iterations; i++)
@@ -100,14 +99,15 @@ namespace Underwater_Boat
                         var angle =
                             Math.Atan((double) (points[(j + 1)%points.Count].X - points[j].X)/
                                       (points[(j + 1)%points.Count].Y - points[j].Y));
+
                         var newPoint = new Point
                         {
                             X = (points[j].X + (points[(j + 1)%points.Count].X - points[j].X)/2),
                             Y = (points[j].Y + (points[(j + 1)%points.Count].Y - points[j].Y)/2)
                         };
 
-                        var hypotenuse = iSB.Next(-(int) Math.Round(length/Math.Pow(2, i)),
-                            (int) Math.Round(length/Math.Pow(2, i)));
+                        var hypotenuse = iSB.Next(-(int) Math.Round(length/Math.Pow(1.8, i)),
+                            (int) Math.Round(length/Math.Pow(1.8, i)));
 
                         var angle2 = Math.PI/2 - angle;
 
@@ -141,6 +141,7 @@ namespace Underwater_Boat
             List<Point> points = new List<Point>
             {
                 new Point(0, iSB.Next(height - 400, height - 100)),
+                new Point(width/2, iSB.Next(height - 600, height - 200)),
                 new Point(width, iSB.Next(height - 400, height - 100))
             };
 
@@ -158,8 +159,13 @@ namespace Underwater_Boat
                         var newPoint = new Point
                         {
                             X = points[j].X + (points[j + 1].X - points[j].X) / 2,
-                            Y = iSB.Next((points[j].Y + (points[j + 1].Y - points[j].Y) / 2) - (int) Math.Round(length / Math.Pow(2, i)), (points[j].Y + (points[j + 1].Y - points[j].Y) / 2 + (int)Math.Round(length / Math.Pow(2, i))))
+                            Y = iSB.Next((points[j].Y + (points[j + 1].Y - points[j].Y) / 2) - (int) Math.Round(length / Math.Pow(1.8, i)), (points[j].Y + (points[j + 1].Y - points[j].Y) / 2 + (int)Math.Round(length / Math.Pow(1.8, i))))
                         };
+
+                        if (newPoint.Y > height - 50)
+                        {
+                            newPoint.Y = height - 50;
+                        }
 
                         tempList.Add(newPoint);
                     }
