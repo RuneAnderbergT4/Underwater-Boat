@@ -363,7 +363,6 @@ namespace Underwater_Boat
             _spriteBatch.Draw(_background, new Rectangle(0, 0, Game1.graphics.PreferredBackBufferWidth, Game1.graphics.PreferredBackBufferHeight), Color.White);
             foreach (var choice in _activeMenu.Items)
             {
-                
                 if (!choice.IsVisible())
                     continue;
                 // HitBox Koll
@@ -373,7 +372,6 @@ namespace Underwater_Boat
                 {
                     _spriteBatch.DrawString(_normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.Crimson);
                 }
-                
             }
 
             var mp = Mouse.GetState().Position;
@@ -391,13 +389,13 @@ namespace Underwater_Boat
         {
             SP = SelMap.Forrest;
             Game1 g = Game as Game1;
-            g.LoadMap(SP);
+            g.LoadMap();
         }
         private void StoneMap()
         {
             SP = SelMap.Stone;
             Game1 g = Game as Game1;
-            g.LoadMap(SP);
+            g.LoadMap();
         }
         private void MoveUpClick()
         {

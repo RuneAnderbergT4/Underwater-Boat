@@ -102,11 +102,10 @@ namespace Underwater_Boat
                     graphics.PreferredBackBufferHeight = 900;
                     graphics.ApplyChanges();
                     break;
-
             }
         }
 
-        public void LoadMap(MenuComponent.SelMap selectedMap)
+        public void LoadMap()
         {
             _level = LevelGenerator.GenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
         }

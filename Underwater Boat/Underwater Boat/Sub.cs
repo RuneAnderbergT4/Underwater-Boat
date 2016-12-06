@@ -23,19 +23,16 @@ namespace Underwater_Boat
         Vector2 speed;
         Vector2 velocity = new Vector2(0,0);
         bool movingrignt;
-        public bool gamepad;//= true;
+        public bool gamepad = true;
         private bool movingUp;
 
         public Vector2 position { get; private set; }
 
         public Sub(Team Team,SubType subtype,bool isBot)
         {
-           
             this.Team = Team;
             this.subtype = subtype;
             this.isBot = isBot;
-            
-            
         }
         public new void Initialize()
         {
@@ -82,10 +79,6 @@ namespace Underwater_Boat
                     break;
             }
         }
-        
-
-       
-
         
         public  void Update(KeyboardState ks,GamePadState gs)
         {
