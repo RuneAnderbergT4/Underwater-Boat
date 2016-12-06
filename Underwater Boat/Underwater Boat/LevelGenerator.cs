@@ -20,8 +20,8 @@ namespace Underwater_Boat
             
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(width * 1/4 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 5, iSB),
-                GeneratePolygon(new Point(width * 3/4 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 5, iSB),
+                GeneratePolygon(new Point(width * 1/4 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
+                GeneratePolygon(new Point(width * 3/4 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
                 GenerateBottom(width, height, 8, iSB)
             };
             
@@ -29,87 +29,85 @@ namespace Underwater_Boat
             
             List<Rectangle> rectToCheck = new List<Rectangle>();
 
-            foreach (var polygon in polygons)
-            {
-                Rectangle rect = new Rectangle
-                {
-                    X = polygon[0].X,
-                    Y = polygon[0].Y,
-                    Width = Math.Abs(polygon[1].X - polygon[0].X),
-                    Height = Math.Abs(polygon[1].Y - polygon[0].Y)
-                };
-                
-                foreach (var point in polygon)
-                {
-                    if (!rect.Contains(point))
-                    {
-                        if (point.X < rect.X)
-                        {
-                            rect.X = point.X;
-                        }
-                        else if (point.X > rect.Right)
-                        {
-                            rect.Width += point.X - rect.Right;
-                        }
+            //foreach (var polygon in polygons)
+            //{
+            //    Rectangle rect = new Rectangle
+            //    {
+            //        X = polygon[0].X,
+            //        Y = polygon[0].Y,
+            //        Width = Math.Abs(polygon[1].X - polygon[0].X),
+            //        Height = Math.Abs(polygon[1].Y - polygon[0].Y)
+            //    };
 
-                        if (point.Y < rect.Y)
-                        {
-                            rect.Y = point.Y;
-                        }
-                        else if (point.Y > rect.Bottom)
-                        {
-                            rect.Height += point.Y - rect.Bottom;
-                        }
-                    }
-                }
+            //    foreach (var point in polygon)
+            //    {
+            //        if (!rect.Contains(point))
+            //        {
+            //            if (point.X < rect.X)
+            //            {
+            //                rect.X = point.X;
+            //            }
+            //            else if (point.X > rect.Right)
+            //            {
+            //                rect.Width += point.X - rect.Right;
+            //            }
 
-                rectToCheck.Add(rect);
-            }
+            //            if (point.Y < rect.Y)
+            //            {
+            //                rect.Y = point.Y;
+            //            }
+            //            else if (point.Y > rect.Bottom)
+            //            {
+            //                rect.Height += point.Y - rect.Bottom;
+            //            }
+            //        }
+            //    }
+
+            //    rectToCheck.Add(rect);
+            //}
 
             for (int w = 0; w < width; w++)
             {
                 for (int h = 0; h < height; h++)
                 {
-                    //if (rectToCheck.Any(rect => rect.Contains(w, h)))
-                    //{
-                    //    if (polygons.Any(polygon => IsPointInPolygon(polygon, new Point(w, h))))
-                    //    {
-                    //        col2D[w, h] = Color.SeaGreen;
-                    //    }
-                    //}
-
-                    for (int i = 0; i < rectToCheck.Count; i++)
+                    if (polygons.Any(polygon => IsPointInPolygon(polygon, new Point(w, h))))
                     {
-                        if (rectToCheck[i].Contains(w, h))
-                        {
-                            if (IsPointInPolygon(polygons[i], new Point(w, h)))
-                            {
-                                col2D[w, h] = Color.SeaGreen;
-                            }
-                        }
+                        col2D[w, h] = Color.DarkSeaGreen;
                     }
+
+
+                    //        //for (int i = 0; i < rectToCheck.Count; i++)
+                    //        //{
+                    //        //    if (rectToCheck[i].Contains(w, h))
+                    //        //    {
+                    //        //        if (IsPointInPolygon(polygons[i], new Point(w, h)))
+                    //        //        {
+                    //        //            col2D[w, h] = Color.DarkSeaGreen;
+                    //        //        }
+                    //        //    }
+                    //        //}
                 }
             }
-            
+
             // Testcode
             //foreach (var polygon in polygons)
             //{
             //    foreach (var point in polygon)
             //    {
             //        // drawing points for testing purposes
-            //        col2D[point.X + 500, point.Y + 200] = Color.Red;
+            //        col2D[point.X, point.Y] = Color.Red;
 
-            //        col2D[point.X + 500 - 1, point.Y - 1 + 200] = Color.Red;
-            //        col2D[point.X + 500, point.Y - 1 + 200] = Color.Red;
-            //        col2D[point.X + 500 + 1, point.Y - 1 + 200] = Color.Red;
-            //        col2D[point.X + 500 + 1, point.Y + 200] = Color.Red;
-            //        col2D[point.X + 500 + 1, point.Y + 1 + 200] = Color.Red;
-            //        col2D[point.X + 500, point.Y + 1 + 200] = Color.Red;
-            //        col2D[point.X + 500 - 1, point.Y + 1 + 200] = Color.Red;
-            //        col2D[point.X + 500 - 1, point.Y + 200] = Color.Red;
+            //        //col2D[point.X + 500 - 1, point.Y - 1 + 200] = Color.Red;
+            //        //col2D[point.X + 500, point.Y - 1 + 200] = Color.Red;
+            //        //col2D[point.X + 500 + 1, point.Y - 1 + 200] = Color.Red;
+            //        //col2D[point.X + 500 + 1, point.Y + 200] = Color.Red;
+            //        //col2D[point.X + 500 + 1, point.Y + 1 + 200] = Color.Red;
+            //        //col2D[point.X + 500, point.Y + 1 + 200] = Color.Red;
+            //        //col2D[point.X + 500 - 1, point.Y + 1 + 200] = Color.Red;
+            //        //col2D[point.X + 500 - 1, point.Y + 200] = Color.Red;
             //    }
             //}
-            
+
             Color[] col = new Color[level.Width*level.Height];
 
             var p = 0;
@@ -132,13 +130,13 @@ namespace Underwater_Boat
         {
             List<Point> points = new List<Point>
             {
-                new Point(center.X + iSB.Next(-100, 100), center.Y + iSB.Next(-400, -100)),
-                new Point(center.X + iSB.Next(100, 400), center.Y + iSB.Next(-100, 100)),
-                new Point(center.X + iSB.Next(-100, 100), center.Y + iSB.Next(100, 400)),
-                new Point(center.X + iSB.Next(-400, -100), center.Y + iSB.Next(-100, 100))
+                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(-400, -200)),
+                new Point(center.X + iSB.Next(200, 400), center.Y + iSB.Next(-80, 80)),
+                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(200, 400)),
+                new Point(center.X + iSB.Next(-400, -200), center.Y + iSB.Next(-80, 80))
             };
             
-            int length = 200;
+            int length = 120;
 
             for (int i = 0; i < iterations; i++)
             {
