@@ -87,12 +87,16 @@ namespace Underwater_Boat
                 graphics.ApplyChanges();
             }
         }
-        public void LoadMap(MenuComponent.SelMap selectedMap)
+        public void ChooseSprites()
         {
-            //switch (selectedMap)
-            //{
+            if (MenuComponent.SP == MenuComponent.SelShip.Ship)
+            {
+
+            }
+            else
+            {
                 
-            //}
+            }
         }
         public void FullScreen()
         {
@@ -100,8 +104,6 @@ namespace Underwater_Boat
             {
                 graphics.IsFullScreen = true;
                 graphics.ApplyChanges();
-                Settings.Default.Grafik = "1920 * 1080";
-                Settings.Default.Save();
                 Grafitti();
             }
             else if (Settings.Default.IsFullScreen == false)

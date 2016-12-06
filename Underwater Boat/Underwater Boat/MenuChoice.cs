@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Underwater_Boat
 {
@@ -31,6 +32,8 @@ namespace Underwater_Boat
         public Func<bool> IsVisible { get; set; }
 
         public bool IsEnabled { get; set; }
+
+        public Texture2D Bild { get; set; }
 
         public Menu ParentMenu { get; private set; }
         public Menu SubMenu { get; set; }
