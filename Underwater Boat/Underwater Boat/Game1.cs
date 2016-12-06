@@ -41,6 +41,7 @@ namespace Underwater_Boat
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             Grafitti();
             FullScreen();
             graphics.PreferredBackBufferHeight = 1080;
@@ -127,6 +128,8 @@ namespace Underwater_Boat
             sub2.LoadContent(this);
             sub3.LoadContent(this);
 
+            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
+
         }
         protected override void UnloadContent()
         {
@@ -147,6 +150,23 @@ namespace Underwater_Boat
             sub.Update(ks,gs);
             sub2.Update(ks, gs);
             sub3.Update(ks, gs);
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && _cameraRect.Top > 0)
+            {
+                _cameraRect.Y -= 20;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && _cameraRect.Bottom < _level.Height)
+            {
+                _cameraRect.Y += 20;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && _cameraRect.Left > 0)
+            {
+                _cameraRect.X -= 20;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && _cameraRect.Right < _level.Width)
+            {
+                _cameraRect.X += 20;
+            }
+
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -162,6 +182,11 @@ namespace Underwater_Boat
                     mc.Draw(gameTime);
                     break;
             }
+
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
