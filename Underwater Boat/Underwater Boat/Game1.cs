@@ -107,7 +107,7 @@ namespace Underwater_Boat
 
         public void LoadMap()
         {
-            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
+            
         }
 
         public void FullScreen()

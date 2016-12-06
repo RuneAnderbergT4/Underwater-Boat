@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
@@ -10,7 +11,17 @@ namespace Underwater_Boat
 {
     public class LevelGenerator
     {
-        public static Texture2D GenerateLevel(GraphicsDevice gD, int width, int height, IServiceBus iSB)
+        public static Texture2D Result;
+
+        public static Thread StartGenerateLevel(GraphicsDevice gD, int width, int height, IServiceBus iSB)
+        {
+            var thread = new Thread(() => GenerateLevel(gD, width, height, iSB));
+            thread.Start();
+            
+            return thread;
+        }
+
+        public static void GenerateLevel(GraphicsDevice gD, int width, int height, IServiceBus iSB)
         {
             Texture2D level = new Texture2D(gD, width, height, false, SurfaceFormat.Color);
             
@@ -88,7 +99,7 @@ namespace Underwater_Boat
 
             level.SetData(col);
 
-            return level;
+            Result = level;
         }
 
         private static List<Point> GeneratePolygon(Point center, int iterations, IServiceBus iSB)
