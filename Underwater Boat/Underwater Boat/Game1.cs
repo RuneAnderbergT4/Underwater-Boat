@@ -18,9 +18,7 @@ namespace Underwater_Boat
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 1600;
-            graphics.PreferredBackBufferHeight = 900;
-            _cameraRect = new Rectangle(0, 0, 1600, 900);
+            _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
 
         /// <summary>
