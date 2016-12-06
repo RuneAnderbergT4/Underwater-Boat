@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Underwater_Boat
 {
@@ -26,33 +26,37 @@ namespace Underwater_Boat
 
     public class Game1 : Game
     {
-         public static SpriteBatch spriteBatch;
-        public static Random r = new Random();
+        public static SpriteBatch spriteBatch;
+        public static GameState GS;
+        public static GraphicsDeviceManager graphics;
+
         Sub sub;
         Sub sub2;
         Sub sub3;
         Team t1;
         Team t2;
-        public static GameState GS;
-        public static GraphicsDeviceManager graphics;
+
         MenuComponent mc;
         MouseState ms;
+
+        private Rectangle _cameraRect;
+        private Texture2D _level;
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             Grafitti();
             FullScreen();
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.PreferredBackBufferWidth = 1920;
+            
+            _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
         protected override void Initialize()
         {
             mc = new MenuComponent(this);
             Components.Add(mc);
             GS = GameState.Start;
-             sub = new Sub(new Team("Team"),SubType.Light,false);
+            sub = new Sub(new Team("Team"),SubType.Light,false);
             sub2 = new Sub(new Team("Team"), SubType.Heavy, false);
             sub3 = new Sub(new Team("Team"), SubType.Highdmg, false);
             sub.Initialize();
@@ -66,44 +70,47 @@ namespace Underwater_Boat
         }
         public void Grafitti()
         {
-            if (Settings.Default.Grafik == "1920 * 1080")
+            switch (Settings.Default.Grafik)
             {
-                graphics.PreferredBackBufferWidth = 1920;
-                graphics.PreferredBackBufferHeight = 1080;
-                graphics.ApplyChanges();
-            }
-            if (Settings.Default.Grafik == "1024 * 700")
-            {
-                graphics.PreferredBackBufferWidth = 1024;
-                graphics.PreferredBackBufferHeight = 700;
-                graphics.ApplyChanges();
-            }
-            if (Settings.Default.Grafik == "1366 * 768")
-            {
-                graphics.PreferredBackBufferWidth = 1366;
-                graphics.PreferredBackBufferHeight = 768;
-                graphics.ApplyChanges();
-            }
-            if (Settings.Default.Grafik == "1440 * 900")
-            {
-                graphics.PreferredBackBufferWidth = 1440;
-                graphics.PreferredBackBufferHeight = 900;
-                graphics.ApplyChanges();
-            }
-            if (Settings.Default.Grafik == "1600 * 900")
-            {
-                graphics.PreferredBackBufferWidth = 1600;
-                graphics.PreferredBackBufferHeight = 900;
-                graphics.ApplyChanges();
+                case "1920 * 1080":
+                    graphics.PreferredBackBufferWidth = 1920;
+                    graphics.PreferredBackBufferHeight = 1080;
+                    graphics.ApplyChanges();
+                    break;
+                case "1024 * 700":
+                    graphics.PreferredBackBufferWidth = 1024;
+                    graphics.PreferredBackBufferHeight = 700;
+                    graphics.ApplyChanges();
+                    break;
+                case "1366 * 768":
+                    graphics.PreferredBackBufferWidth = 1366;
+                    graphics.PreferredBackBufferHeight = 768;
+                    graphics.ApplyChanges();
+                    break;
+                case "1440 * 900":
+                    graphics.PreferredBackBufferWidth = 1440;
+                    graphics.PreferredBackBufferHeight = 900;
+                    graphics.ApplyChanges();
+                    break;
+                case "1600 * 900":
+                    graphics.PreferredBackBufferWidth = 1600;
+                    graphics.PreferredBackBufferHeight = 900;
+                    graphics.ApplyChanges();
+                    break;
+                default:
+                    graphics.PreferredBackBufferWidth = 1600;
+                    graphics.PreferredBackBufferHeight = 900;
+                    graphics.ApplyChanges();
+                    break;
+
             }
         }
+
         public void LoadMap(MenuComponent.SelMap selectedMap)
         {
-            //switch (selectedMap)
-            //{
-                
-            //}
+            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
         }
+
         public void FullScreen()
         {
             if (Settings.Default.IsFullScreen)
@@ -122,14 +129,11 @@ namespace Underwater_Boat
         }
         protected override void LoadContent()
         {
-            
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sub.LoadContent(this);
             sub2.LoadContent(this);
             sub3.LoadContent(this);
-
-            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
-
+            _level = new Texture2D(GraphicsDevice, 1, 1);
         }
         protected override void UnloadContent()
         {
@@ -140,16 +144,19 @@ namespace Underwater_Boat
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
+
             switch (GS)
             {
                 case GameState.Start:
                     break;
             }
+
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
             sub.Update(ks,gs);
             sub2.Update(ks, gs);
             sub3.Update(ks, gs);
+
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && _cameraRect.Top > 0)
             {
                 _cameraRect.Y -= 20;
@@ -172,21 +179,21 @@ namespace Underwater_Boat
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            sub.Draw();
-            sub2.Draw();
-            sub3.Draw();
-            switch (GS)
             
+            switch (GS)
             {
                 case GameState.Start:
                     mc.Draw(gameTime);
                     break;
+                case GameState.Playing:
+                    sub.Draw();
+                    sub2.Draw();
+                    sub3.Draw();
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+                    spriteBatch.End();
+                    break;
             }
-
-
-            spriteBatch.Begin();
-            spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

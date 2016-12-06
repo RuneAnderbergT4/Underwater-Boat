@@ -174,14 +174,12 @@ namespace Underwater_Boat
                         velocity.X -= 0.05f * Math.Sign(velocity.X);
                         if (Math.Abs(velocity.X) < 0.1f)
                             velocity.X = 0;
-
                     }
                     if (!movingUp)
                     {
                         velocity.Y -= 0.04f * Math.Sign(velocity.Y);
                         if (Math.Abs(velocity.Y) < 0.1f)
                             velocity.Y = 0;
-
                     }
                 }
 
@@ -189,7 +187,6 @@ namespace Underwater_Boat
             movingrignt = false;
             movingUp = false;
         }
-
         
        public  void Draw()
         {
@@ -197,6 +194,5 @@ namespace Underwater_Boat
             Game1.spriteBatch.Draw(Texture,position,Color.White);
             Game1.spriteBatch.End();
         }
-
     }
 }

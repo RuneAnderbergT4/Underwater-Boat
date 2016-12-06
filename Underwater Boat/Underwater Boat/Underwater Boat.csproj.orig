@@ -41,12 +41,10 @@
     <Compile Include="Game1.cs" />
 <<<<<<< HEAD
     <Compile Include="GamePadComponent.cs" />
+    <Compile Include="PlayerStat.cs" />
     <Compile Include="KeyboardComponent.cs" />
     <Compile Include="MenuComponent.cs" />
     <Compile Include="MenuChoice.cs" />
-=======
-    <Compile Include="PlayerStat.cs" />
->>>>>>> origin/Player
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sub.cs" />
@@ -56,13 +54,25 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+=======
+    <Compile Include="IServiceBus.cs" />
+    <Compile Include="LevelGenerator.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBus.cs" />
+>>>>>>> feature-LevelDesigner
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />

@@ -10,62 +10,64 @@ using System.Threading.Tasks;
 
 namespace Underwater_Boat
 {
-<<<<<<< HEAD
+    public enum GameState
+    {
+        Start,
+        Playing,
+        Pause,
+        GameOver
+    }
     enum SubType
     {
+<<<<<<< HEAD
         Heavy,
         Highdmg,
         Light
     }
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
+=======
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
+        private Texture2D _level;
+        private Rectangle _cameraRect;
+>>>>>>> feature-LevelDesigner
+
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        public static SpriteBatch spriteBatch;
+         public static SpriteBatch spriteBatch;
         public static Random r = new Random();
         Sub sub;
-=======
-    public class Game1 : Game
-    {
-        public enum GameState
-        {
-            Start,
-            Playing,
-            Pause,
-            GameOver
-        }
+        Sub sub2;
+        Sub sub3;
+        Team t1;
+        Team t2;
         public static GameState GS;
-        public static GraphicsDeviceManager Graphics;
+        public static GraphicsDeviceManager graphics;
         MenuComponent mc;
         MouseState ms;
-        SpriteBatch spriteBatch;
-
->>>>>>> origin/feature-Menu
         public Game1()
         {
-            Graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 <<<<<<< HEAD
+            Grafitti();
+            FullScreen();
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1920;
 =======
-            Grafitti();
-            FullScreen();
->>>>>>> origin/feature-Menu
+            _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+>>>>>>> feature-LevelDesigner
         }
         protected override void Initialize()
         {
-<<<<<<< HEAD
-            // TODO: Add your initialization logic here
-             sub = new Sub(new Team("Team"),SubType.Heavy,false);
-            sub.Initialize();
-=======
             mc = new MenuComponent(this);
             Components.Add(mc);
             GS = GameState.Start;
->>>>>>> origin/feature-Menu
+             sub = new Sub(new Team("Team"),SubType.Light,false);
+            sub2 = new Sub(new Team("Team"), SubType.Heavy, false);
+            sub3 = new Sub(new Team("Team"), SubType.Highdmg, false);
+            sub.Initialize();
+            sub2.Initialize();
+            sub3.Initialize();
             base.Initialize();
         }
         public void Restart()
@@ -76,70 +78,72 @@ namespace Underwater_Boat
         {
             if (Settings.Default.Grafik == "1920 * 1080")
             {
-                Graphics.PreferredBackBufferWidth = 1920;
-                Graphics.PreferredBackBufferHeight = 1080;
-                Graphics.ApplyChanges();
+                graphics.PreferredBackBufferWidth = 1920;
+                graphics.PreferredBackBufferHeight = 1080;
+                graphics.ApplyChanges();
             }
             if (Settings.Default.Grafik == "1024 * 700")
             {
-                Graphics.PreferredBackBufferWidth = 1024;
-                Graphics.PreferredBackBufferHeight = 700;
-                Graphics.ApplyChanges();
+                graphics.PreferredBackBufferWidth = 1024;
+                graphics.PreferredBackBufferHeight = 700;
+                graphics.ApplyChanges();
             }
             if (Settings.Default.Grafik == "1366 * 768")
             {
-                Graphics.PreferredBackBufferWidth = 1366;
-                Graphics.PreferredBackBufferHeight = 768;
-                Graphics.ApplyChanges();
+                graphics.PreferredBackBufferWidth = 1366;
+                graphics.PreferredBackBufferHeight = 768;
+                graphics.ApplyChanges();
             }
             if (Settings.Default.Grafik == "1440 * 900")
             {
-                Graphics.PreferredBackBufferWidth = 1440;
-                Graphics.PreferredBackBufferHeight = 900;
-                Graphics.ApplyChanges();
+                graphics.PreferredBackBufferWidth = 1440;
+                graphics.PreferredBackBufferHeight = 900;
+                graphics.ApplyChanges();
             }
             if (Settings.Default.Grafik == "1600 * 900")
             {
-                Graphics.PreferredBackBufferWidth = 1600;
-                Graphics.PreferredBackBufferHeight = 900;
-                Graphics.ApplyChanges();
+                graphics.PreferredBackBufferWidth = 1600;
+                graphics.PreferredBackBufferHeight = 900;
+                graphics.ApplyChanges();
             }
         }
         public void LoadMap(MenuComponent.SelMap selectedMap)
         {
-            switch (selectedMap)
-            {
+            //switch (selectedMap)
+            //{
                 
-            }
+            //}
         }
         public void FullScreen()
         {
             if (Settings.Default.IsFullScreen)
             {
-                Graphics.IsFullScreen = true;
-                Graphics.ApplyChanges();
+                graphics.IsFullScreen = true;
+                graphics.ApplyChanges();
                 Settings.Default.Grafik = "1920 * 1080";
                 Settings.Default.Save();
                 Grafitti();
             }
             else if (Settings.Default.IsFullScreen == false)
             {
-                Graphics.IsFullScreen = false;
-                Graphics.ApplyChanges();
+                graphics.IsFullScreen = false;
+                graphics.ApplyChanges();
             }
         }
         protected override void LoadContent()
         {
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
-<<<<<<< HEAD
             sub.LoadContent(this);
-            // TODO: use this.Content to load your game content here
-        }
+            sub2.LoadContent(this);
+            sub3.LoadContent(this);
+
+<<<<<<< HEAD
 =======
+            // TODO: use this.Content to load your game content here
+            _level = LevelGenerator.GenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
 
->>>>>>> origin/feature-Menu
-
+>>>>>>> feature-LevelDesigner
         }
         protected override void UnloadContent()
         {
@@ -151,34 +155,58 @@ namespace Underwater_Boat
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 <<<<<<< HEAD
-
-            // TODO: Add your update logic here
-            KeyboardState ks = Keyboard.GetState();
-            GamePadState gs = GamePad.GetState(0);
-            sub.Update(ks,gs);
-=======
             switch (GS)
             {
                 case GameState.Start:
                     break;
             }
->>>>>>> origin/feature-Menu
+            KeyboardState ks = Keyboard.GetState();
+            GamePadState gs = GamePad.GetState(0);
+            sub.Update(ks,gs);
+            sub2.Update(ks, gs);
+            sub3.Update(ks, gs);
+=======
+
+            // TODO: Add your update logic here
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && _cameraRect.Top > 0)
+            {
+                _cameraRect.Y -= 20;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && _cameraRect.Bottom < _level.Height)
+            {
+                _cameraRect.Y += 20;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && _cameraRect.Left > 0)
+            {
+                _cameraRect.X -= 20;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && _cameraRect.Right < _level.Width)
+            {
+                _cameraRect.X += 20;
+            }
+
+>>>>>>> feature-LevelDesigner
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-<<<<<<< HEAD
-
             sub.Draw();
-=======
+            sub2.Draw();
+            sub3.Draw();
             switch (GS)
+            
             {
                 case GameState.Start:
                     mc.Draw(gameTime);
                     break;
             }
->>>>>>> origin/feature-Menu
+
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
