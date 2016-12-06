@@ -26,66 +26,59 @@ namespace Underwater_Boat
             };
             
             Color[,] col2D = new Color[level.Width, level.Height];
-            
-            List<Rectangle> rectToCheck = new List<Rectangle>();
 
-            //foreach (var polygon in polygons)
-            //{
-            //    Rectangle rect = new Rectangle
-            //    {
-            //        X = polygon[0].X,
-            //        Y = polygon[0].Y,
-            //        Width = Math.Abs(polygon[1].X - polygon[0].X),
-            //        Height = Math.Abs(polygon[1].Y - polygon[0].Y)
-            //    };
+            List<Boundaries> boundsToCheck = new List<Boundaries>();
 
-            //    foreach (var point in polygon)
-            //    {
-            //        if (!rect.Contains(point))
-            //        {
-            //            if (point.X < rect.X)
-            //            {
-            //                rect.X = point.X;
-            //            }
-            //            else if (point.X > rect.Right)
-            //            {
-            //                rect.Width += point.X - rect.Right;
-            //            }
+            foreach (var polygon in polygons)
+            {
+                Boundaries b = new Boundaries(polygon[0].Y, polygon[0].Y + 1, polygon[0].X, polygon[0].X + 1);
 
-            //            if (point.Y < rect.Y)
-            //            {
-            //                rect.Y = point.Y;
-            //            }
-            //            else if (point.Y > rect.Bottom)
-            //            {
-            //                rect.Height += point.Y - rect.Bottom;
-            //            }
-            //        }
-            //    }
+                foreach (var point in polygon)
+                {
+                    if (point.X < b.Left || point.X > b.Right || point.Y < b.Top || point.Y > b.Bottom)
+                    {
+                        if (point.X < b.Left)
+                        {
+                            b.Left = point.X;
+                        }
+                        else if (point.X > b.Right)
+                        {
+                            b.Right = point.X;
+                        }
 
-            //    rectToCheck.Add(rect);
-            //}
+                        if (point.Y < b.Top)
+                        {
+                            b.Top = point.Y;
+                        }
+                        else if (point.Y > b.Bottom)
+                        {
+                            b.Bottom = point.Y;
+                        }
+                    }
+                }
+
+                boundsToCheck.Add(b);
+            }
 
             for (int w = 0; w < width; w++)
             {
                 for (int h = 0; h < height; h++)
                 {
-                    if (polygons.Any(polygon => IsPointInPolygon(polygon, new Point(w, h))))
+                    //if (polygons.Any(polygon => IsPointInPolygon(polygon, new Point(w, h))))
+                    //{
+                    //    col2D[w, h] = Color.DarkSeaGreen;
+                    //}
+
+                    for (int i = 0; i < boundsToCheck.Count; i++)
                     {
-                        col2D[w, h] = Color.DarkSeaGreen;
+                        if (w >= boundsToCheck[i].Left && w <= boundsToCheck[i].Right && h >= boundsToCheck[i].Top && h <= boundsToCheck[i].Bottom)
+                        {
+                            if (IsPointInPolygon(polygons[i], new Point(w, h)))
+                            {
+                                col2D[w, h] = Color.DarkSeaGreen;
+                            }
+                        }
                     }
-
-
-                    //        //for (int i = 0; i < rectToCheck.Count; i++)
-                    //        //{
-                    //        //    if (rectToCheck[i].Contains(w, h))
-                    //        //    {
-                    //        //        if (IsPointInPolygon(polygons[i], new Point(w, h)))
-                    //        //        {
-                    //        //            col2D[w, h] = Color.DarkSeaGreen;
-                    //        //        }
-                    //        //    }
-                    //        //}
                 }
             }
 
