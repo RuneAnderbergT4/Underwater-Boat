@@ -27,22 +27,40 @@ namespace Underwater_Boat
             t1sub = 0;
             t2sub = 0;
         }
-        public bool AddSub(SubmarineType st,bool isbot,string teamname)
+        public bool AddSub(SubType st,bool isbot,string teamname)
         {
-            
-            if (t1.teamname == teamname)
+            if ((int)st < 5)
             {
-                Sub sub = new Sub(t1,Submarine.Sub(st),isbot);
-                t1.members.Add(sub);
-            }
-            else if (t2.teamname == teamname)
-            {
-                Sub sub = new Sub(t2, Submarine.Sub(st), isbot);
-                t2.members.Add(sub);
+                if (t1.teamname == teamname)
+                {
+                    Sub sub = new Sub(t1, Submarine.Sub(st), isbot);
+                    t1.members.Add(sub);
+                }
+                else if (t2.teamname == teamname)
+                {
+                    Sub sub = new Sub(t2, Submarine.Sub(st), isbot);
+                    t2.members.Add(sub);
+                }
+                else
+                    return false;
+                return true;
             }
             else
-                return false;
-            return true;
+            {
+                if (t1.teamname == teamname)
+                {
+                    Sub sub = new Sub(t1, Ship.ship(st), isbot);
+                    t1.members.Add(sub);
+                }
+                else if (t2.teamname == teamname)
+                {
+                    Sub sub = new Sub(t2, Ship.ship(st), isbot);
+                    t2.members.Add(sub);
+                }
+                else
+                    return false;
+                return true;
+            }
         }
         
         public void Update()
@@ -51,30 +69,30 @@ namespace Underwater_Boat
            
             if (currentteam == 1 && t1.members.Count != 0)
             {
-                if (t1sub == t1.members.Count - 1)
+                if (t1sub == t1.members.Count )
                     t1sub = 0;
                  t1.members[t1sub].Update();
                    
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
-                    currentteam *= -1;
                     t1sub++;
+                    currentteam *= -1;
                 }
             }
             else if (currentteam == 1 && t1.members.Count == 0)
                 currentteam *= -1;
             else if (currentteam == -1 && t2.members.Count != 0)
             {
-                if (t2sub == t2.members.Count - 1)
+                if (t2sub == t2.members.Count )
                     t2sub = 0;
                 t2.members[t2sub].Update();
 
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
+                    t2sub++;
                     currentteam *= -1;
-                    t1sub++;
                 }
             }
             else if (currentteam == -1 && t2.members.Count == 0)

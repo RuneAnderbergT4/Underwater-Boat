@@ -35,31 +35,28 @@ namespace Underwater_Boat
         
     }
 
-    public enum SubmarineType 
+    public enum SubType 
     {
         Standard,
         Aqua,
         X_1,
         Megalodon,
-        YellowSubmarine,
+        YellowSubmarine,shipTradional,
+        shipPansar,
+        shipCamoflage,
+        shipCarrier,
+        shipVintage
     }
-    public enum ShipType
-    {
-        Tradional,
-        Pansar,
-        Camoflage,
-        Carrier,
-        Vintage
-    }
+   
     class Submarine
     {
-        public static PlayerStat Sub(SubmarineType type)
+        public static PlayerStat Sub(SubType type)
         {
             PlayerStat stats = new PlayerStat();
-            
+            stats.isboat = false;
             switch (type)
             {
-                case SubmarineType.Standard:
+                case SubType.Standard:
                     stats.PlayerId = 1;
                     stats.Name = "Standard";
                     stats.Health = 50;
@@ -72,7 +69,7 @@ namespace Underwater_Boat
                     stats.Texturestring = "submarine";
                     return stats;
                     break;
-                case SubmarineType.Aqua:
+                case SubType.Aqua:
                     stats.PlayerId = 2;
                     stats.Name = "Aqua";
                     stats.Health = 50;
@@ -85,7 +82,7 @@ namespace Underwater_Boat
                     stats.Texturestring = "submarine 2";
                     return stats;
                     break;
-                case SubmarineType.X_1:
+                case SubType.X_1:
                     stats.PlayerId = 3;
                     stats.Name = "X-1";
                     stats.Health = 35;
@@ -98,7 +95,7 @@ namespace Underwater_Boat
                     stats.Fuel = 100;
                     return stats;
                     break;
-                case SubmarineType.Megalodon:
+                case SubType.Megalodon:
                     stats.PlayerId = 4;
                     stats.Name = "Megalodon";
                     stats.Health = 75;
@@ -111,7 +108,7 @@ namespace Underwater_Boat
                     stats.Texturestring = "submarine 4";
                     return stats;
                     break;
-                case SubmarineType.YellowSubmarine:
+                case SubType.YellowSubmarine:
                     stats.PlayerId = 5;
                     stats.Name = "Yellow Submarine";
                     stats.Health = 50;
@@ -130,74 +127,77 @@ namespace Underwater_Boat
     }
     class Ship 
     {
-        public static PlayerStat ship(ShipType type)
+        public static PlayerStat ship(SubType type)
         {
-            PlayerStat tradional = new PlayerStat();
-            PlayerStat pansar = new PlayerStat();
-            PlayerStat camoflage = new PlayerStat();
-            PlayerStat carrier = new PlayerStat();
-            PlayerStat vintage = new PlayerStat();
-            switch(type)
+            PlayerStat stat = new PlayerStat();
+            stat.isboat = false;
+
+            switch (type)
             {
-                case ShipType.Tradional:
-                    tradional.PlayerId = 1;
-                    tradional.Name = "Tradional";
-                    tradional.Health = 50;
-                    tradional.Resistance = 10;
-                    tradional.ExplosionResistence = 10;
-                    tradional.Damage = 10;
-                    tradional.Speed = 1;
-                    tradional.Size = 1;
-                    tradional.Fuel = 50;
-                    return tradional;
+                case SubType.shipTradional:
+                    stat.PlayerId = 1;
+                    stat.Name = "Tradional";
+                    stat.Health = 50;
+                    stat.Resistance = 10;
+                    stat.ExplosionResistence = 10;
+                    stat.Damage = 10;
+                    stat.Speed = 1;
+                    stat.Size = 1;
+                    stat.Fuel = 50;
+                    stat.Texturestring = "ship";
+                    return stat;
                     break;
-                case ShipType.Pansar:
-                    pansar.PlayerId = 2;
-                    pansar.Name = "Pansar";
-                    pansar.Health = 35;
-                    pansar.Resistance = 25;
-                    pansar.ExplosionResistence = 20;
-                    pansar.Damage = 10;
-                    pansar.Speed = 1;
-                    pansar.Size = 1;
-                    pansar.Fuel = 50;
-                    return pansar;
+                case SubType.shipPansar:
+                    stat.PlayerId = 2;
+                    stat.Name = "Pansar";
+                    stat.Health = 35;
+                    stat.Resistance = 25;
+                    stat.ExplosionResistence = 20;
+                    stat.Damage = 10;
+                    stat.Speed = 1;
+                    stat.Size = 1;
+                    stat.Fuel = 50;
+                    stat.Texturestring = "ship 2";
+                    return stat;
                     break;
-                case ShipType.Camoflage:
-                    camoflage.PlayerId = 3;
-                    camoflage.Name = "Camoflage";
-                    camoflage.Health = 50;
-                    camoflage.Resistance = 10;
-                    camoflage.ExplosionResistence = 10;
-                    camoflage.Damage = 6;
-                    camoflage.Speed = 2;
-                    camoflage.Size = 1;
-                    camoflage.Fuel = 80;
-                    return camoflage;
+                case SubType.shipCamoflage:
+                    stat.PlayerId = 3;
+                    stat.Name = "Camoflage";
+                    stat.Health = 50;
+                    stat.Resistance = 10;
+                    stat.ExplosionResistence = 10;
+                    stat.Damage = 6;
+                    stat.Speed = 2;
+                    stat.Size = 1;
+                    stat.Fuel = 80;
+                    stat.Texturestring = "ship 3";
+                    return stat;
                     break;
-                case ShipType.Carrier:
-                    carrier.PlayerId = 4;
-                    carrier.Name = "Carrier";
-                    carrier.Health = 75;
-                    carrier.Resistance = 10;
-                    carrier.ExplosionResistence = 10;
-                    carrier.Damage = 10;
-                    carrier.Speed = 0.5f;
-                    carrier.Size = 2;
-                    carrier.Fuel = 50;
-                    return carrier;
+                case SubType.shipCarrier:
+                    stat.PlayerId = 4;
+                    stat.Name = "Carrier";
+                    stat.Health = 75;
+                    stat.Resistance = 10;
+                    stat.ExplosionResistence = 10;
+                    stat.Damage = 10;
+                    stat.Speed = 0.5f;
+                    stat.Size = 2;
+                    stat.Fuel = 50;
+                    stat.Texturestring = "ship 4";
+                    return stat;
                     break;
-                case ShipType.Vintage:
-                    vintage.PlayerId = 5;
-                    vintage.Name = "Vintage";
-                    vintage.Health = 50;
-                    vintage.Resistance = 0;
-                    vintage.ExplosionResistence = 0;
-                    vintage.Damage = 20;
-                    vintage.Speed = 1.5f;
-                    vintage.Size = 1;
-                    vintage.Fuel = 50;
-                    return vintage;
+                case SubType.shipVintage:
+                    stat.PlayerId = 5;
+                    stat.Name = "Vintage";
+                    stat.Health = 50;
+                    stat.Resistance = 0;
+                    stat.ExplosionResistence = 0;
+                    stat.Damage = 20;
+                    stat.Speed = 1.5f;
+                    stat.Size = 1;
+                    stat.Fuel = 50;
+                    stat.Texturestring = "ship 5";
+                    return stat;
                     break;
             }
             return null;

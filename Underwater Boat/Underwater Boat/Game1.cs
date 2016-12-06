@@ -17,12 +17,7 @@ namespace Underwater_Boat
         Pause,
         GameOver
     }
-    enum SubType
-    {
-        Heavy,
-        Highdmg,
-        Light
-    }
+
 
     public class Game1 : Game
     {
@@ -49,13 +44,19 @@ namespace Underwater_Boat
             Components.Add(mc);
             GS = GameState.Start;
             tb = new Turnbase("t1","t2");
-            tb.AddSub(SubmarineType.Aqua,false,"t1");
-            tb.AddSub(SubmarineType.Megalodon, false, "t1");
-            tb.AddSub(SubmarineType.Standard, false, "t1");
-            tb.AddSub(SubmarineType.X_1, false, "t2");
-            tb.AddSub(SubmarineType.YellowSubmarine, false, "t2");
-            tb.AddSub(SubmarineType.Standard, false, "t2");
-           
+            tb.AddSub(SubType.Aqua,false,"t1");
+            tb.AddSub(SubType.Megalodon, false, "t1");
+            tb.AddSub(SubType.Standard, false, "t1");
+            tb.AddSub(SubType.X_1, false, "t2");
+            tb.AddSub(SubType.YellowSubmarine, false, "t2");
+            tb.AddSub(SubType.Standard, false, "t2");
+            tb.AddSub(SubType.shipCamoflage, false, "t1");
+            tb.AddSub(SubType.shipCarrier, false, "t1");
+            tb.AddSub(SubType.shipPansar, false, "t1");
+            tb.AddSub(SubType.shipTradional, false, "t2");
+            tb.AddSub(SubType.shipVintage, false, "t2");
+            tb.AddSub(SubType.shipPansar, false, "t2");
+
             base.Initialize();
         }
         public void Restart()

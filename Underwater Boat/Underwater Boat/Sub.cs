@@ -26,7 +26,7 @@ namespace Underwater_Boat
             
             this.Team = Team;
             this.isBot = isBot;
-            PlayerId = ps.PlayerId;
+           // PlayerId = ps.PlayerId;
             Name = ps.Name;
             Health = ps.Health;
             Resistance = ps.Resistance;
