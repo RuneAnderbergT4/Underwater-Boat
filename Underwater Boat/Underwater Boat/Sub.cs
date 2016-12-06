@@ -25,6 +25,12 @@ namespace Underwater_Boat
         bool movingrignt;
         public bool gamepad;//= true;
         private bool movingUp;
+        private Texture2D red;
+        private Texture2D hit;
+        private Rectangle collision;
+        private bool bHit = false;
+
+        //double subX, subY, sub2X, sub2Y;
 
         public Vector2 position { get; private set; }
 
@@ -81,6 +87,8 @@ namespace Underwater_Boat
                     Texture = Game1.Content.Load<Texture2D>("submarine 3");
                     break;
             }
+            hit = Game1.Content.Load<Texture2D>("hit");
+            red = Game1.Content.Load<Texture2D>("red");
         }
         
 
@@ -184,6 +192,17 @@ namespace Underwater_Boat
 
                     }
                 }
+            Rectangle subBox = new Rectangle((int)subX, (int)subY, 115, 110);
+            Rectangle subBox2 = new Rectangle((int)sub2X, (int)sub2Y, 115, 110);
+
+            collision = Intersection(subBox, subBox2);
+
+            if (collision.Width > 0 && collision.Height > 0)
+            {
+                Rectangle r1 = Normalize(subBox, collision);
+                Rectangle r2 = Normalize(subBox2, collision);
+
+            }
 
             position += velocity;
             movingrignt = false;
@@ -195,8 +214,64 @@ namespace Underwater_Boat
         {
             Game1.spriteBatch.Begin();
             Game1.spriteBatch.Draw(Texture,position,Color.White);
+
+            if (collision.Width > 0 && collision.Width > 0)
+            {
+                Game1.spriteBatch.Draw(red, collision, new Rectangle(0, 0, collision.Width, collision.Height), Color.White);
+            }
+            //Har vi en kollision?
+            if (bHit)
+            {
+                Game1.spriteBatch.Draw(hit, new Rectangle(150, 10, 150, 50), Color.White);
+            }
             Game1.spriteBatch.End();
         }
 
+        public static Rectangle Intersection(Rectangle r1, Rectangle r2)
+        {
+            int x1 = Math.Max(r1.Left, r2.Left);
+            int y1 = Math.Max(r1.Top, r2.Top);
+            int x2 = Math.Min(r1.Right, r2.Right);
+            int y2 = Math.Min(r1.Bottom, r2.Bottom);
+
+            if ((x2 >= x1) && (y2 >= y1))
+            {
+                return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+            }
+            return Rectangle.Empty;
+        }
+
+        public static Rectangle Normalize(Rectangle reference, Rectangle overlap)
+        {
+            //Räkna ut en rektangel som kan användas relativt till referensrektangeln
+            return new Rectangle(
+              overlap.X - reference.X,
+              overlap.Y - reference.Y,
+              overlap.Width,
+              overlap.Height);
+        }
+
+        public static bool TestCollision(Texture2D t1, Rectangle r1, Texture2D t2, Rectangle r2)
+        {
+            //Beräkna hur många pixlar som finns i området som ska undersökas
+            int pixelCount = r1.Width * r1.Height;
+            uint[] texture1Pixels = new uint[pixelCount];
+            uint[] texture2Pixels = new uint[pixelCount];
+
+            //Kopiera ut pixlarna från båda områdena
+            t1.GetData(0, r1, texture1Pixels, 0, pixelCount);
+            t2.GetData(0, r2, texture2Pixels, 0, pixelCount);
+
+
+            //Jämför om vi har några pixlar som överlappar varandra i områdena
+            for (int i = 0; i < pixelCount; ++i)
+            {
+                if (((texture1Pixels[i] & 0xff000000) > 0) && ((texture2Pixels[i] & 0xff000000) > 0) && ((texture2Pixels[i] & 0xff000000) > 0))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

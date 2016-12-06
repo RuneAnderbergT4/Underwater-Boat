@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 
 namespace Underwater_Boat
 {
@@ -37,6 +38,7 @@ namespace Underwater_Boat
         public static GraphicsDeviceManager graphics;
         MenuComponent mc;
         MouseState ms;
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,7 +53,7 @@ namespace Underwater_Boat
             mc = new MenuComponent(this);
             Components.Add(mc);
             GS = GameState.Start;
-             sub = new Sub(new Team("Team"),SubType.Light,false);
+            sub = new Sub(new Team("Team"),SubType.Light,false);
             sub2 = new Sub(new Team("Team"), SubType.Heavy, false);
             sub3 = new Sub(new Team("Team"), SubType.Highdmg, false);
             sub.Initialize();
@@ -107,7 +109,7 @@ namespace Underwater_Boat
         {
             if (Settings.Default.IsFullScreen)
             {
-                graphics.IsFullScreen = true;
+                graphics.IsFullScreen = false;
                 graphics.ApplyChanges();
                 Settings.Default.Grafik = "1920 * 1080";
                 Settings.Default.Save();
@@ -126,6 +128,8 @@ namespace Underwater_Boat
             sub.LoadContent(this);
             sub2.LoadContent(this);
             sub3.LoadContent(this);
+
+            
 
         }
         protected override void UnloadContent()
@@ -148,6 +152,7 @@ namespace Underwater_Boat
             sub2.Update(ks, gs);
             sub3.Update(ks, gs);
             base.Update(gameTime);
+            
         }
         protected override void Draw(GameTime gameTime)
         {
@@ -156,13 +161,11 @@ namespace Underwater_Boat
             sub2.Draw();
             sub3.Draw();
             switch (GS)
-            
             {
                 case GameState.Start:
                     mc.Draw(gameTime);
                     break;
             }
-
             base.Draw(gameTime);
         }
     }
