@@ -10,10 +10,6 @@ namespace Underwater_Boat
 {
     public class LevelGenerator
     {
-        public LevelGenerator()
-        {
-        }
-        
         public static Texture2D GenerateLevel(GraphicsDevice gD, int width, int height, IServiceBus iSB)
         {
             Texture2D level = new Texture2D(gD, width, height, false, SurfaceFormat.Color);
@@ -64,11 +60,6 @@ namespace Underwater_Boat
             {
                 for (int h = 0; h < height; h++)
                 {
-                    //if (polygons.Any(polygon => IsPointInPolygon(polygon, new Point(w, h))))
-                    //{
-                    //    col2D[w, h] = Color.DarkSeaGreen;
-                    //}
-
                     for (int i = 0; i < boundsToCheck.Count; i++)
                     {
                         if (w >= boundsToCheck[i].Left && w <= boundsToCheck[i].Right && h >= boundsToCheck[i].Top && h <= boundsToCheck[i].Bottom)
@@ -81,25 +72,6 @@ namespace Underwater_Boat
                     }
                 }
             }
-
-            // Testcode
-            //foreach (var polygon in polygons)
-            //{
-            //    foreach (var point in polygon)
-            //    {
-            //        // drawing points for testing purposes
-            //        col2D[point.X, point.Y] = Color.Red;
-
-            //        //col2D[point.X + 500 - 1, point.Y - 1 + 200] = Color.Red;
-            //        //col2D[point.X + 500, point.Y - 1 + 200] = Color.Red;
-            //        //col2D[point.X + 500 + 1, point.Y - 1 + 200] = Color.Red;
-            //        //col2D[point.X + 500 + 1, point.Y + 200] = Color.Red;
-            //        //col2D[point.X + 500 + 1, point.Y + 1 + 200] = Color.Red;
-            //        //col2D[point.X + 500, point.Y + 1 + 200] = Color.Red;
-            //        //col2D[point.X + 500 - 1, point.Y + 1 + 200] = Color.Red;
-            //        //col2D[point.X + 500 - 1, point.Y + 200] = Color.Red;
-            //    }
-            //}
 
             Color[] col = new Color[level.Width*level.Height];
 
