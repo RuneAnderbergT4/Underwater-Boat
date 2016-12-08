@@ -32,8 +32,10 @@ namespace Underwater_Boat
             
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(width * 1/4 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
-                GeneratePolygon(new Point(width * 3/4 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
+                GeneratePolygon(new Point(width * 1/8 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
+                GeneratePolygon(new Point(width * 3/8 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
+                GeneratePolygon(new Point(width * 5/8 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
+                GeneratePolygon(new Point(width * 7/8 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
                 GenerateBottom(width, height, 8, iSB)
             };
             
