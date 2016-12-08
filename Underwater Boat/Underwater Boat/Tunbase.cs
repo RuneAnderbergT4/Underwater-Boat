@@ -71,11 +71,14 @@ namespace Underwater_Boat
             {
                 if (t1sub == t1.members.Count )
                     t1sub = 0;
+                 t1.members[t1sub].color = Color.Salmon;
                  t1.members[t1sub].Update();
                    
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
+                   
+                    t1.members[t1sub].ResetVel();
                     t1sub++;
                     currentteam *= -1;
                 }
@@ -86,11 +89,14 @@ namespace Underwater_Boat
             {
                 if (t2sub == t2.members.Count )
                     t2sub = 0;
+                t2.members[t2sub].color = Color.Salmon;
                 t2.members[t2sub].Update();
 
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
+                    t2.members[t2sub].ResetVel();
+
                     t2sub++;
                     currentteam *= -1;
                 }

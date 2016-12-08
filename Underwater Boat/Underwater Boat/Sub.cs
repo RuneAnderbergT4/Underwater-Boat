@@ -34,10 +34,11 @@ namespace Underwater_Boat
             Damage = ps.Damage;
             //Speed = 1;
             //Size = 1;
-            Fuel = 50;
+            MaxFuel = ps.MaxFuel;
             Maxspeed = 5;
             Texturestring = ps.Texturestring;
-
+            Fuel = MaxFuel;
+            color = Color.White;
 
 
 
@@ -48,7 +49,7 @@ namespace Underwater_Boat
         {
             
 
-            Fuel = 300888;
+           // Fuel = 300888;
             Position = new Vector2(500,500);
             velocity = new Vector2(0,0);
         }
@@ -120,7 +121,7 @@ namespace Underwater_Boat
                     movingUp = true;
                     if (velocity.Y < Maxspeed / 2)
                         velocity.Y += 0.1f * Maxspeed;
-                    Fuel -= 0.1f;
+                   Fuel -= 0.1f;
                 }
                 if (ks.IsKeyUp(Keys.A) && ks.IsKeyDown(Keys.D) && Fuel > 0)
                 {
@@ -173,7 +174,13 @@ namespace Underwater_Boat
 
         public void Draw()
         {
-            Game1.spriteBatch.Draw(Texture, Position, Color.White);
+            Game1.spriteBatch.Draw(Texture, Position, color);
+        }
+        public void ResetVel()
+        {
+            color = Color.White;
+            velocity = Vector2.Zero;
+            Fuel = MaxFuel;
         }
 
     }

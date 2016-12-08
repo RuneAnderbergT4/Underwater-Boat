@@ -21,7 +21,9 @@ namespace Underwater_Boat
         public int Damage { get; set; }
         public float Speed { get; set; }
         public float Size { get; set; }
+        public float MaxFuel { get; set; }
         public float Fuel { get; set; }
+
         public float Maxspeed { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Angle { get; set; }
@@ -29,6 +31,7 @@ namespace Underwater_Boat
         public Team T { get; set; }
         public string Texturestring { get; internal set; }
         public bool isboat { get; set; }
+        public Color color { get; set; }
     }
     public class PlayerStat : PlayerStatBase
     {
@@ -65,7 +68,7 @@ namespace Underwater_Boat
                     stats.Damage = 10;
                     stats.Speed = 1;
                     stats.Size = 1;
-                    stats.Fuel = 50;
+                    stats.MaxFuel = 50;
                     stats.Texturestring = "submarine";
                     return stats;
                     break;
@@ -78,7 +81,7 @@ namespace Underwater_Boat
                     stats.Damage = 5;
                     stats.Speed = 2;
                     stats.Size = 1;
-                    stats.Fuel = 75;
+                    stats.MaxFuel = 75;
                     stats.Texturestring = "submarine 2";
                     return stats;
                     break;
@@ -92,7 +95,7 @@ namespace Underwater_Boat
                     stats.Speed = 1;
                     stats.Size = 1;
                     stats.Texturestring = "submarine 3";
-                    stats.Fuel = 100;
+                    stats.MaxFuel = 100;
                     return stats;
                     break;
                 case SubType.Megalodon:
@@ -104,7 +107,7 @@ namespace Underwater_Boat
                     stats.Damage = 20;
                     stats.Speed = 1;
                     stats.Size = 2;
-                    stats.Fuel = 25;
+                    stats.MaxFuel = 25;
                     stats.Texturestring = "submarine 4";
                     return stats;
                     break;
@@ -117,7 +120,7 @@ namespace Underwater_Boat
                     stats.Damage = 10;
                     stats.Speed = 0.5f;
                     stats.Size = 1;
-                    stats.Fuel = 60;
+                    stats.MaxFuel = 60;
                     stats.Texturestring = "submarine 5";
                     return stats;
                     break; 
@@ -143,7 +146,7 @@ namespace Underwater_Boat
                     stat.Damage = 10;
                     stat.Speed = 1;
                     stat.Size = 1;
-                    stat.Fuel = 50;
+                    stat.MaxFuel = 50;
                     stat.Texturestring = "ship";
                     return stat;
                     break;
@@ -156,7 +159,7 @@ namespace Underwater_Boat
                     stat.Damage = 10;
                     stat.Speed = 1;
                     stat.Size = 1;
-                    stat.Fuel = 50;
+                    stat.MaxFuel = 50;
                     stat.Texturestring = "ship 2";
                     return stat;
                     break;
@@ -169,7 +172,7 @@ namespace Underwater_Boat
                     stat.Damage = 6;
                     stat.Speed = 2;
                     stat.Size = 1;
-                    stat.Fuel = 80;
+                    stat.MaxFuel = 80;
                     stat.Texturestring = "ship 3";
                     return stat;
                     break;
@@ -182,7 +185,7 @@ namespace Underwater_Boat
                     stat.Damage = 10;
                     stat.Speed = 0.5f;
                     stat.Size = 2;
-                    stat.Fuel = 50;
+                    stat.MaxFuel = 50;
                     stat.Texturestring = "ship 4";
                     return stat;
                     break;
@@ -195,7 +198,7 @@ namespace Underwater_Boat
                     stat.Damage = 20;
                     stat.Speed = 1.5f;
                     stat.Size = 1;
-                    stat.Fuel = 50;
+                    stat.MaxFuel = 50;
                     stat.Texturestring = "ship 5";
                     return stat;
                     break;
