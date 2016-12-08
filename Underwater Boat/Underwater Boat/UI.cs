@@ -13,6 +13,9 @@ namespace Underwater_Boat
         PlayerStat stat;
         Sub sub;
 
+        Vector2 fuelpos;
+        Vector2 healthpos;
+
         Texture2D HUD;
         Texture2D FuelTank100;
         Texture2D FuelTank90;
@@ -34,7 +37,9 @@ namespace Underwater_Boat
         int MaxHealth;
         public UI ()
         {
-           // MaxHealth = stat.Health;
+            MaxHealth = 100;
+            fuelpos = new Vector2(22,853);
+            healthpos = new Vector2(1074, 33);
         }
 
         public void LoadContent(Game1 game)
@@ -54,59 +59,60 @@ namespace Underwater_Boat
             RedHealthBar = game.Content.Load<Texture2D>("Big red healthbar");
             GreenHealthBar = game.Content.Load<Texture2D>("Big green healthbar");
         }
-        public void Update()
+        public void Update(Sub sub)
         {
-
+            this.sub = sub;
+            this.stat = sub.ps;
         }
         public void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(HUD, sub.position, Color.White);
-            if(stat.Fuel <= stat.Fuel* 1)
+            spritebatch.Draw(HUD, Vector2.Zero, Color.White);
+            if(sub.Fuel >= sub.MaxFuel* 1)
             {
-                spritebatch.Draw(FuelTank100/*, (int)sub.position.X + 75, (int)sub.position.Y + 75, Color.White*/);
+                spritebatch.Draw(FuelTank100, fuelpos, Color.White);
             }
-            else if(stat.Fuel <= stat.Fuel * 0.9)
+            else if(sub.Fuel >= sub.MaxFuel * 0.9)
             {
-                spritebatch.Draw(FuelTank90);
+                spritebatch.Draw(FuelTank90, fuelpos, Color.White);
             }
-            else if(stat.Fuel <= stat.Fuel* 0.8)
+            else if(sub.Fuel >= sub.MaxFuel* 0.8)
             {
-                spritebatch.Draw(FuelTank80);
+                spritebatch.Draw(FuelTank80, fuelpos, Color.White);
             }
-            else if(stat.Fuel <= stat.Fuel * 0.7)
+            else if(sub.Fuel >= sub.MaxFuel * 0.7)
             {
-                spritebatch.Draw(FuelTank70);
+                spritebatch.Draw(FuelTank70, fuelpos, Color.White);
             }
-            else if (stat.Fuel <= stat.Fuel * 0.6)
+            else if (sub.Fuel >= stat.MaxFuel * 0.6)
             {
-                spritebatch.Draw(FuelTank60);
+                spritebatch.Draw(FuelTank60, fuelpos, Color.White);
             }
-            else if (stat.Fuel <= stat.Fuel * 0.5)
+            else if (sub.Fuel >= stat.MaxFuel * 0.5)
             {
-                spritebatch.Draw(FuelTank50);
+                spritebatch.Draw(FuelTank50, fuelpos, Color.White);
             }
-            else if (stat.Fuel <= stat.Fuel * 0.4)
+            else if (sub.Fuel >= stat.MaxFuel * 0.4)
             {
-                spritebatch.Draw(FuelTank40);
+                spritebatch.Draw(FuelTank40, fuelpos, Color.White);
             }
-            else if (stat.Fuel <= stat.Fuel * 0.3)
+            else if (sub.Fuel >= stat.MaxFuel * 0.3)
             {
-                spritebatch.Draw(FuelTank30);
+                spritebatch.Draw(FuelTank30, fuelpos, Color.White);
             }
-            else if (stat.Fuel <= stat.Fuel * 0.2)
+            else if (sub.Fuel >= stat.MaxFuel * 0.2)
             {
-                spritebatch.Draw(FuelTank20);
+                spritebatch.Draw(FuelTank20, fuelpos, Color.White);
             }
-            else if (stat.Fuel <= stat.Fuel * 0.1)
+            else if (sub.Fuel >= stat.MaxFuel * 0.1)
             {
-                spritebatch.Draw(FuelTank10);
+                spritebatch.Draw(FuelTank10, fuelpos, Color.White);
             }
-            else if (stat.Fuel == 0)
+            else if (sub.Fuel <= 1)
             {
-                spritebatch.Draw(FuelTank0);
+                spritebatch.Draw(FuelTank0, fuelpos, Color.White);
             }
-            RedHealthRectangle = new Rectangle(((int)sub.position.X - 50), ((int)sub.position.Y + 35), 10, 1);
-            GreenHealthRectangle = new Rectangle(((int)sub.position.X - 50), ((int)sub.position.Y + 35), stat.Health / MaxHealth * 10, 1);
+            RedHealthRectangle = new Rectangle((int)healthpos.X,(int)healthpos.Y, 806, 46);
+            GreenHealthRectangle = new Rectangle((int)healthpos.X,(int)healthpos.Y, stat.Health / MaxHealth * 806, 46);
             spritebatch.Draw(RedHealthBar, RedHealthRectangle, Color.White);
             spritebatch.Draw(GreenHealthBar, GreenHealthRectangle, Color.White);
         }

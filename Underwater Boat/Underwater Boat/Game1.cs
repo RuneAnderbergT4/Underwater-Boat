@@ -33,7 +33,8 @@ namespace Underwater_Boat
 
         private Rectangle _cameraRect;
         private Texture2D _level;
-        
+        private Sub currentSub;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -150,7 +151,8 @@ namespace Underwater_Boat
         }
         protected override void Update(GameTime gameTime)
         {
-            ui.Update();
+            currentSub = tb.currentSub;
+            ui.Update(currentSub);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 

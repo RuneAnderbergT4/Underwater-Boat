@@ -11,14 +11,16 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Underwater_Boat
 {
-    class Turnbase
+    public class Turnbase
     {
-        public static Team t1;
-        public static Team t2;
+        public  Team t1;
+        public  Team t2;
         int currentteam;
         int t1sub;
         int t2sub;
         KeyboardState pks;
+        public Sub currentSub;
+
         public Turnbase(string team1, string team2)
         {
             t1 = new Team(team1);
@@ -43,6 +45,7 @@ namespace Underwater_Boat
                 }
                 else
                     return false;
+                currentSub = t1.members[0];
                 return true;
             }
             else
@@ -59,6 +62,7 @@ namespace Underwater_Boat
                 }
                 else
                     return false;
+                currentSub = t1.members[0];
                 return true;
             }
         }
@@ -73,7 +77,7 @@ namespace Underwater_Boat
                     t1sub = 0;
                  t1.members[t1sub].color = Color.Salmon;
                  t1.members[t1sub].Update();
-                   
+                currentSub = t1.members[t1sub];
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
@@ -91,7 +95,7 @@ namespace Underwater_Boat
                     t2sub = 0;
                 t2.members[t2sub].color = Color.Salmon;
                 t2.members[t2sub].Update();
-
+                currentSub = t2.members[t2sub];
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
