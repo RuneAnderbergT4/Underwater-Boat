@@ -29,8 +29,7 @@ namespace Underwater_Boat
         private Texture2D hit;
         private Rectangle collision;
         private bool bHit = false;
-
-        //double subX, subY, sub2X, sub2Y;
+        
 
         public Vector2 position { get; private set; }
 
@@ -75,6 +74,9 @@ namespace Underwater_Boat
         
         public new void LoadContent(Game Game1)
         {
+            hit = Game1.Content.Load<Texture2D>("hit");
+            red = Game1.Content.Load<Texture2D>("red");
+
             switch (subtype)
             {
                 case SubType.Highdmg:
@@ -87,8 +89,7 @@ namespace Underwater_Boat
                     Texture = Game1.Content.Load<Texture2D>("submarine 3");
                     break;
             }
-            hit = Game1.Content.Load<Texture2D>("hit");
-            red = Game1.Content.Load<Texture2D>("red");
+            
         }
         
 
@@ -192,8 +193,15 @@ namespace Underwater_Boat
 
                     }
                 }
-            Rectangle subBox = new Rectangle((int)subX, (int)subY, 115, 110);
-            Rectangle subBox2 = new Rectangle((int)sub2X, (int)sub2Y, 115, 110);
+            
+            position += velocity;
+            movingrignt = false;
+            movingUp = false;
+
+            Rectangle subBox = new Rectangle((int)position.X, (int)position.Y, 115, 60);
+            Rectangle subBox2 = new Rectangle((int)position.X, (int)position.Y, 115, 60);
+            Rectangle subBox3 = new Rectangle((int)position.X, (int)position.Y, 115, 60);
+
 
             collision = Intersection(subBox, subBox2);
 
@@ -201,12 +209,11 @@ namespace Underwater_Boat
             {
                 Rectangle r1 = Normalize(subBox, collision);
                 Rectangle r2 = Normalize(subBox2, collision);
-
+                Rectangle r3 = Normalize(subBox3, collision);
+                bHit = TestCollision(Texture,Texture, r1, r2);
             }
-
-            position += velocity;
-            movingrignt = false;
-            movingUp = false;
+            else
+                bHit = false;
         }
 
         
@@ -251,16 +258,16 @@ namespace Underwater_Boat
               overlap.Height);
         }
 
-        public static bool TestCollision(Texture2D t1, Rectangle r1, Texture2D t2, Rectangle r2)
+        public static bool TestCollision(Texture2D t1, Texture2D t2, Rectangle r1, Rectangle r2)
         {
             //Beräkna hur många pixlar som finns i området som ska undersökas
             int pixelCount = r1.Width * r1.Height;
             uint[] texture1Pixels = new uint[pixelCount];
             uint[] texture2Pixels = new uint[pixelCount];
 
-            //Kopiera ut pixlarna från båda områdena
-            t1.GetData(0, r1, texture1Pixels, 0, pixelCount);
-            t2.GetData(0, r2, texture2Pixels, 0, pixelCount);
+            ////Kopiera ut pixlarna från båda områdena
+            //t1.GetData(0, r1, texture1Pixels, 0, pixelCount);
+            //t2.GetData(0, r2, texture2Pixels, 0, pixelCount);
 
 
             //Jämför om vi har några pixlar som överlappar varandra i områdena
