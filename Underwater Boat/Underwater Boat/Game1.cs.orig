@@ -21,33 +21,27 @@ namespace Underwater_Boat
 
     public class Game1 : Game
     {
-<<<<<<< HEAD
         public static SpriteBatch spriteBatch;
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
+        Turnbase tb;
 
+<<<<<<< HEAD
+        
+=======
         Sub sub;
         Sub sub2;
         Sub sub3;
         Team t1;
         Team t2;
+        UI ui;
+>>>>>>> origin/UI
 
         MenuComponent mc;
-        MouseState ms;
 
         private Rectangle _cameraRect;
         private Texture2D _level;
         
-=======
-         public static SpriteBatch spriteBatch;
-        public static Random r = new Random();
-        Turnbase tb;
-
-        
-        public static GameState GS;
-        public static GraphicsDeviceManager graphics;
-        MenuComponent mc;
->>>>>>> origin/turnbasestart
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -63,13 +57,6 @@ namespace Underwater_Boat
             Components.Add(mc);
             GS = GameState.Start;
 <<<<<<< HEAD
-            sub = new Sub(new Team("Team"),SubType.Light,false);
-            sub2 = new Sub(new Team("Team"), SubType.Heavy, false);
-            sub3 = new Sub(new Team("Team"), SubType.Highdmg, false);
-            sub.Initialize();
-            sub2.Initialize();
-            sub3.Initialize();
-=======
             tb = new Turnbase("t1","t2");
             tb.AddSub(SubType.Aqua,false,"t1");
             tb.AddSub(SubType.Megalodon, false, "t1");
@@ -84,7 +71,15 @@ namespace Underwater_Boat
             tb.AddSub(SubType.shipVintage, false, "t2");
             tb.AddSub(SubType.shipPansar, false, "t2");
 
->>>>>>> origin/turnbasestart
+=======
+            sub = new Sub(new Team("Team"),SubType.Light,false);
+            sub2 = new Sub(new Team("Team"), SubType.Heavy, false);
+            sub3 = new Sub(new Team("Team"), SubType.Highdmg, false);
+            sub.Initialize();
+            sub2.Initialize();
+            sub3.Initialize();
+            ui = new UI();
+>>>>>>> origin/UI
             base.Initialize();
         }
         public void Restart()
@@ -162,14 +157,14 @@ namespace Underwater_Boat
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 <<<<<<< HEAD
+            tb.LoadContent(this);
+=======
             sub.LoadContent(this);
             sub2.LoadContent(this);
             sub3.LoadContent(this);
+            ui.LoadContent(this);
+>>>>>>> origin/UI
             _level = new Texture2D(GraphicsDevice, 1, 1);
-=======
-            tb.LoadContent(this);
-
->>>>>>> origin/turnbasestart
         }
         protected override void UnloadContent()
         {
@@ -178,6 +173,7 @@ namespace Underwater_Boat
         }
         protected override void Update(GameTime gameTime)
         {
+            ui.Update();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
@@ -189,10 +185,7 @@ namespace Underwater_Boat
 
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
-<<<<<<< HEAD
-            sub.Update(ks,gs);
-            sub2.Update(ks, gs);
-            sub3.Update(ks, gs);
+            tb.Update();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && _cameraRect.Top > 0)
             {
@@ -211,31 +204,23 @@ namespace Underwater_Boat
                 _cameraRect.X += 20;
             }
 
-=======
-            tb.Update();
->>>>>>> origin/turnbasestart
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-<<<<<<< HEAD
-=======
-            tb.Draw();
-            switch (GS)
->>>>>>> origin/turnbasestart
-            
+           
             switch (GS)
             {
                 case GameState.Start:
                     mc.Draw(gameTime);
                     break;
                 case GameState.Playing:
-                    sub.Draw();
-                    sub2.Draw();
-                    sub3.Draw();
+                   
                     spriteBatch.Begin();
+                    tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+                    ui.Draw(spriteBatch);
                     spriteBatch.End();
                     break;
             }
