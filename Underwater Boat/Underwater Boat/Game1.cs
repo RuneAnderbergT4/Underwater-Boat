@@ -27,6 +27,7 @@ namespace Underwater_Boat
         Turnbase tb;
 
         
+        UI ui;
 
         MenuComponent mc;
 
@@ -53,6 +54,7 @@ namespace Underwater_Boat
             tb.AddSub(SubType.Standard, false, "t1");
             tb.AddSub(SubType.X_1, false, "t2");
             tb.AddSub(SubType.YellowSubmarine, false, "t2");
+            ui = new UI();
             tb.AddSub(SubType.Standard, false, "t2");
             tb.AddSub(SubType.shipCamoflage, false, "t1");
             tb.AddSub(SubType.shipCarrier, false, "t1");
@@ -138,6 +140,7 @@ namespace Underwater_Boat
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             tb.LoadContent(this);
+            ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
         }
         protected override void UnloadContent()
@@ -147,6 +150,7 @@ namespace Underwater_Boat
         }
         protected override void Update(GameTime gameTime)
         {
+            ui.Update();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
@@ -193,6 +197,7 @@ namespace Underwater_Boat
                     spriteBatch.Begin();
                     tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+                    ui.Draw(spriteBatch);
                     spriteBatch.End();
                     break;
             }
