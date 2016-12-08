@@ -29,11 +29,15 @@ namespace Underwater_Boat
         Texture2D _overlay;
         Texture2D _mouse;
 
+        private LevelGenerator _lvlgen;
+        private Menu _returnMenu;
+
         #region GameStates
 
         public enum MenyState
         {
             MainMenu,
+            Generating,
             Playing
         }
 
@@ -98,50 +102,52 @@ namespace Underwater_Boat
 
             _menu = new Menu();
             _activeMenu = _menu;
-            var MapMenu = new Menu();
+            var mapMenu = new Menu();
             var optionsMenu = new Menu();
             var graphicsMenu = new Menu();
             var soundMenu = new Menu();
-            var TwoPlayers = new Menu();
+            var twoPlayers = new Menu();
             var controllMenu = new Menu();
             var returnToMenu = new Menu();
             var exitMenu = new Menu();
+            var generatingLevel = new Menu();
+
             _menu.Items = new List<MenuChoice>
             {
                 new MenuChoice(null) { Text = "Submarine Battle of DOOOOM", IsEnabled = false},
-                new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = MapMenu, IsVisible = () => Game1.GS != GameState.Pause},
+                new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = mapMenu, IsVisible = () => Game1.GS != GameState.Pause},
                 new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == GameState.Pause, IsEnabled = false},
                 new MenuChoice(null) { Text = "OPTIONS", ClickAction = MoveClick, SubMenu = optionsMenu},
                 new MenuChoice(null) { Text = "EXIT TO MENU", ClickAction = MoveClick, SubMenu = returnToMenu, IsVisible = () => Game1.GS == GameState.Pause},
                 new MenuChoice(null) { Text = "QUIT", ClickAction = MoveClick, SubMenu = exitMenu}
             };
-            TwoPlayers.Items = new List<MenuChoice>
+            twoPlayers.Items = new List<MenuChoice>
             {
-                new MenuChoice(MapMenu) { Text = "Start game", Selected = true, ClickAction = MenuStartClicked},
-                new MenuChoice(MapMenu) { Text = "Twoplayer off", IsVisible = () => Settings.Default.TwoPlayer == true, ClickAction = PlayerNum },
-                new MenuChoice(MapMenu) { Text = "Twoplayer on", IsVisible = () => Settings.Default.TwoPlayer == false, ClickAction = PlayerNum },
-                new MenuChoice(MapMenu) { Text = "Back", ClickAction = MoveUpClick}
+                new MenuChoice(mapMenu) { Text = "Start game", Selected = true, ClickAction = MenuStartClicked},
+                new MenuChoice(mapMenu) { Text = "Twoplayer off", IsVisible = () => Settings.Default.TwoPlayer == true, ClickAction = PlayerNum },
+                new MenuChoice(mapMenu) { Text = "Twoplayer on", IsVisible = () => Settings.Default.TwoPlayer == false, ClickAction = PlayerNum },
+                new MenuChoice(mapMenu) { Text = "Back", ClickAction = MoveUpClick}
             };
-            MapMenu.Items = new List<MenuChoice>
+            mapMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(_menu) { Text = "Select your map", IsEnabled = false},
-                new MenuChoice(_menu) { Text = "ForrestMap", Selected = true, ClickAction = ForrestMap, SubMenu = TwoPlayers},
-                new MenuChoice(_menu) { Text = "StoneMap", ClickAction = StoneMap, SubMenu = TwoPlayers},
+                new MenuChoice(_menu) { Text = "Forest map", Selected = true, ClickAction = () => ForestMap(twoPlayers), SubMenu = generatingLevel},
+                new MenuChoice(_menu) { Text = "Stone map", ClickAction = () => StoneMap(twoPlayers), SubMenu = generatingLevel},
                 new MenuChoice(_menu) { Text = "Back", ClickAction = MoveUpClick}
             };
             optionsMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(_menu) { Text = "Options Menu", ClickAction = MoveClick, IsEnabled = false},
-                new MenuChoice(_menu) { Text = "Grahpics Menu", Selected = true, ClickAction = MoveClick, SubMenu = graphicsMenu},
-                new MenuChoice(_menu) { Text = "Controll Menu", ClickAction = MoveClick, SubMenu = controllMenu},
+                new MenuChoice(_menu) { Text = "Graphics Menu", Selected = true, ClickAction = MoveClick, SubMenu = graphicsMenu},
+                new MenuChoice(_menu) { Text = "Control Menu", ClickAction = MoveClick, SubMenu = controllMenu},
                 new MenuChoice(_menu) { Text = "Sound Menu", ClickAction = MoveClick, SubMenu = soundMenu},
                 new MenuChoice(_menu) { Text = "Back to Main", ClickAction = MoveUpClick}
             };
             graphicsMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(optionsMenu) { Text = "Graphics Menu", IsEnabled = false},
-                new MenuChoice(optionsMenu) { Text = "Fullscreen On", Selected = true, IsVisible = () => Settings.Default.IsFullScreen == true, ClickAction = FullMenu },
-                new MenuChoice(optionsMenu) { Text = "Fullscreen Off", IsVisible = () => Settings.Default.IsFullScreen == false, ClickAction = FullMenu },
+                new MenuChoice(optionsMenu) { Text = "Fullscreen on", Selected = true, IsVisible = () => Settings.Default.IsFullScreen == true, ClickAction = FullMenu },
+                new MenuChoice(optionsMenu) { Text = "Fullscreen off", IsVisible = () => Settings.Default.IsFullScreen == false, ClickAction = FullMenu },
                 new MenuChoice(optionsMenu) { Text = "1920 x 1080", IsVisible = () => Settings.Default.Grafik == "1920 * 1080" && Settings.Default.IsFullScreen == false, ClickAction = Grafik},
                 new MenuChoice(optionsMenu) { Text = "1024 x 700", IsVisible = () => Settings.Default.Grafik == "1024 * 700", ClickAction = Grafik},
                 new MenuChoice(optionsMenu) { Text = "1366 x 768", IsVisible = () => Settings.Default.Grafik == "1366 * 768", ClickAction = Grafik},
@@ -152,8 +158,8 @@ namespace Underwater_Boat
             soundMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(optionsMenu) { Text = "Sound Menu", IsEnabled = false},
-                new MenuChoice(optionsMenu) { Text = "Sound On", Selected = true, IsVisible = () => Settings.Default.Sound, ClickAction = SoundMenu },
-                new MenuChoice(optionsMenu) { Text = "Sound Off", IsVisible = () => Settings.Default.Sound == false, ClickAction = SoundMenu },
+                new MenuChoice(optionsMenu) { Text = "Sound on", Selected = true, IsVisible = () => Settings.Default.Sound, ClickAction = SoundMenu },
+                new MenuChoice(optionsMenu) { Text = "Sound off", IsVisible = () => Settings.Default.Sound == false, ClickAction = SoundMenu },
                 new MenuChoice(optionsMenu) { Text = "Back to Options", ClickAction = MoveUpClick}
             };
             controllMenu.Items = new List<MenuChoice>
@@ -174,6 +180,10 @@ namespace Underwater_Boat
                 new MenuChoice(_menu) { Text = "Are you sure?", IsEnabled = false},
                 new MenuChoice(_menu) { Text = "No", Selected = true, ClickAction = MoveUpClick},
                 new MenuChoice(_menu) { Text = "Yes", ClickAction = PausMenuQuitClicked}
+            };
+            generatingLevel.Items = new List<MenuChoice>
+            {
+                new MenuChoice(mapMenu) {Text = "To be started!", IsEnabled = false, SubMenu = twoPlayers}
             };
 
             #endregion
@@ -319,6 +329,47 @@ namespace Underwater_Boat
                         }
                     }
                     break;
+                case MenyState.Generating:
+                    if (_lvlgen.IsAlive)
+                    {
+                        _activeMenu.Items[0].Text = _lvlgen.Progress;
+
+                        #region Text formatting
+                        startY = 0.2f * GraphicsDevice.Viewport.Height;
+                        foreach (var choice in _activeMenu.Items)
+                        {
+                            if (!choice.IsVisible())
+                                continue;
+
+                            Vector2 size = _normalFont.MeasureString(choice.Text);
+                            choice.Y = startY;
+                            choice.X = GraphicsDevice.Viewport.Width / 2.0f - size.X / 2;
+                            if (FL == Full.off)
+                            {
+                                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y - 10, (int)size.X, (int)size.Y - 10);
+                            }
+                            else if (FL == Full.on)
+                            {
+                                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y);
+                            }
+                            if (choice.IsEnabled == false)
+                            {
+                                startY += 100;
+                            }
+                            else
+                            {
+                                startY += 70;
+                            }
+                        }
+                        #endregion
+                    }
+                    else
+                    {
+                        UpdateLevel();
+                        _activeMenu = _returnMenu;
+                        gs = MenyState.MainMenu;
+                    }
+                    break;
                 case MenyState.Playing:
                     MediaPlayer.Stop();
                     break;
@@ -385,17 +436,36 @@ namespace Underwater_Boat
             gs = MenyState.Playing;
             _activeMenu = _menu;
         }
-        private void ForrestMap()
+        private void ForestMap(Menu returnMenu)
         {
             SP = SelMap.Forrest;
             Game1 g = Game as Game1;
-            g.LoadMap();
+            // g.LoadMap();
+            
+            _lvlgen = g.LoadMap();
+
+            _returnMenu = returnMenu;
+
+            gs = MenyState.Generating;
         }
-        private void StoneMap()
+
+        private void StoneMap(Menu returnMenu)
         {
             SP = SelMap.Stone;
             Game1 g = Game as Game1;
-            g.LoadMap();
+            //g.LoadMap();
+
+            _lvlgen = g.LoadMap();
+
+            _returnMenu = returnMenu;
+
+            gs = MenyState.Generating;
+        }
+
+        private void UpdateLevel()
+        {
+            Game1 g = Game as Game1;
+            g.UpdateLevel();
         }
         private void MoveUpClick()
         {
