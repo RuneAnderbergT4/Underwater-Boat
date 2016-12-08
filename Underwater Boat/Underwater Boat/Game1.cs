@@ -35,6 +35,7 @@ namespace Underwater_Boat
         Sub sub3;
         Team t1;
         Team t2;
+        UI ui;
 
         MenuComponent mc;
         MouseState ms;
@@ -62,6 +63,7 @@ namespace Underwater_Boat
             sub.Initialize();
             sub2.Initialize();
             sub3.Initialize();
+            ui = new UI();
             base.Initialize();
         }
         public void Restart()
@@ -132,6 +134,7 @@ namespace Underwater_Boat
             sub.LoadContent(this);
             sub2.LoadContent(this);
             sub3.LoadContent(this);
+            ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
         }
         protected override void UnloadContent()
@@ -141,6 +144,7 @@ namespace Underwater_Boat
         }
         protected override void Update(GameTime gameTime)
         {
+            ui.Update();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
@@ -190,6 +194,7 @@ namespace Underwater_Boat
                     sub3.Draw();
                     spriteBatch.Begin();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+                    ui.Draw(spriteBatch);
                     spriteBatch.End();
                     break;
             }
