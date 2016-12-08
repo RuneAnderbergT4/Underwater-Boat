@@ -265,7 +265,7 @@ namespace Underwater_Boat
             uint[] texture1Pixels = new uint[pixelCount];
             uint[] texture2Pixels = new uint[pixelCount];
 
-            ////Kopiera ut pixlarna från båda områdena
+            //Kopiera ut pixlarna från båda områdena
             //t1.GetData(0, r1, texture1Pixels, 0, pixelCount);
             //t2.GetData(0, r2, texture2Pixels, 0, pixelCount);
 
