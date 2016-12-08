@@ -17,27 +17,18 @@ namespace Underwater_Boat
         Pause,
         GameOver
     }
-    enum SubType
-    {
-        Heavy,
-        Highdmg,
-        Light
-    }
+
 
     public class Game1 : Game
     {
         public static SpriteBatch spriteBatch;
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
+        Turnbase tb;
 
-        Sub sub;
-        Sub sub2;
-        Sub sub3;
-        Team t1;
-        Team t2;
+        
 
         MenuComponent mc;
-        MouseState ms;
 
         private Rectangle _cameraRect;
         private Texture2D _level;
@@ -56,12 +47,20 @@ namespace Underwater_Boat
             mc = new MenuComponent(this);
             Components.Add(mc);
             GS = GameState.Start;
-            sub = new Sub(new Team("Team"),SubType.Light,false);
-            sub2 = new Sub(new Team("Team"), SubType.Heavy, false);
-            sub3 = new Sub(new Team("Team"), SubType.Highdmg, false);
-            sub.Initialize();
-            sub2.Initialize();
-            sub3.Initialize();
+            tb = new Turnbase("t1","t2");
+            tb.AddSub(SubType.Aqua,false,"t1");
+            tb.AddSub(SubType.Megalodon, false, "t1");
+            tb.AddSub(SubType.Standard, false, "t1");
+            tb.AddSub(SubType.X_1, false, "t2");
+            tb.AddSub(SubType.YellowSubmarine, false, "t2");
+            tb.AddSub(SubType.Standard, false, "t2");
+            tb.AddSub(SubType.shipCamoflage, false, "t1");
+            tb.AddSub(SubType.shipCarrier, false, "t1");
+            tb.AddSub(SubType.shipPansar, false, "t1");
+            tb.AddSub(SubType.shipTradional, false, "t2");
+            tb.AddSub(SubType.shipVintage, false, "t2");
+            tb.AddSub(SubType.shipPansar, false, "t2");
+
             base.Initialize();
         }
         public void Restart()
@@ -138,9 +137,7 @@ namespace Underwater_Boat
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            sub.LoadContent(this);
-            sub2.LoadContent(this);
-            sub3.LoadContent(this);
+            tb.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
         }
         protected override void UnloadContent()
@@ -161,9 +158,7 @@ namespace Underwater_Boat
 
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
-            sub.Update(ks,gs);
-            sub2.Update(ks, gs);
-            sub3.Update(ks, gs);
+            tb.Update();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && _cameraRect.Top > 0)
             {
@@ -187,6 +182,7 @@ namespace Underwater_Boat
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            tb.Draw();
             
             switch (GS)
             {

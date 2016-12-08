@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace Underwater_Boat
 {
-    public class PlayerStat
+    public abstract class PlayerStatBase
     {
         public string Name { get; set; }
         public int PlayerId { get; set; }
@@ -17,171 +21,186 @@ namespace Underwater_Boat
         public int Damage { get; set; }
         public float Speed { get; set; }
         public float Size { get; set; }
+        public float MaxFuel { get; set; }
         public float Fuel { get; set; }
+
+        public float Maxspeed { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Angle { get; set; }
+        public Texture2D Texture { get; set; }
+        public Team T { get; set; }
+        public string Texturestring { get; internal set; }
+        public bool isboat { get; set; }
+        public Color color { get; set; }
     }
-    public enum SubmarineType
+    public class PlayerStat : PlayerStatBase
+    {
+        
+    }
+
+    public enum SubType 
     {
         Standard,
         Aqua,
         X_1,
         Megalodon,
-        YellowSubmarine,
+        YellowSubmarine,shipTradional,
+        shipPansar,
+        shipCamoflage,
+        shipCarrier,
+        shipVintage
     }
-    public enum ShipType
-    {
-        Tradional,
-        Pansar,
-        Camoflage,
-        Carrier,
-        Vintage
-    }
+   
     class Submarine
     {
-        public static PlayerStat Sub(SubmarineType type)
+        public static PlayerStat Sub(SubType type)
         {
-            PlayerStat standard = new PlayerStat();
-            PlayerStat aqua = new PlayerStat();
-            PlayerStat x_1 = new PlayerStat();
-            PlayerStat megalodon = new PlayerStat();
-            PlayerStat yellowSubmarine = new PlayerStat();
+            PlayerStat stats = new PlayerStat();
+            stats.isboat = false;
             switch (type)
             {
-                case SubmarineType.Standard:
-                    standard.PlayerId = 1;
-                    standard.Name = "Standard";
-                    standard.Health = 50;
-                    standard.Resistance = 0;
-                    standard.ExplosionResistence = 0;
-                    standard.Damage = 10;
-                    standard.Speed = 1;
-                    standard.Size = 1;
-                    standard.Fuel = 50;
-                    return standard;
+                case SubType.Standard:
+                    stats.PlayerId = 1;
+                    stats.Name = "Standard";
+                    stats.Health = 50;
+                    stats.Resistance = 0;
+                    stats.ExplosionResistence = 0;
+                    stats.Damage = 10;
+                    stats.Speed = 1;
+                    stats.Size = 1;
+                    stats.MaxFuel = 50;
+                    stats.Texturestring = "submarine";
+                    return stats;
                     break;
-                case SubmarineType.Aqua:
-                    aqua.PlayerId = 2;
-                    aqua.Name = "Aqua";
-                    aqua.Health = 50;
-                    aqua.Resistance = 10;
-                    aqua.ExplosionResistence = 10;
-                    aqua.Damage = 5;
-                    aqua.Speed = 2;
-                    aqua.Size = 1;
-                    aqua.Fuel = 75;
-                    return aqua;
+                case SubType.Aqua:
+                    stats.PlayerId = 2;
+                    stats.Name = "Aqua";
+                    stats.Health = 50;
+                    stats.Resistance = 10;
+                    stats.ExplosionResistence = 10;
+                    stats.Damage = 5;
+                    stats.Speed = 2;
+                    stats.Size = 1;
+                    stats.MaxFuel = 75;
+                    stats.Texturestring = "submarine 2";
+                    return stats;
                     break;
-                case SubmarineType.X_1:
-                    x_1.PlayerId = 3;
-                    x_1.Name = "X-1";
-                    x_1.Health = 35;
-                    x_1.Resistance = 5;
-                    x_1.ExplosionResistence = 0;
-                    x_1.Damage = 15;
-                    x_1.Speed = 1;
-                    x_1.Size = 1;
-                    x_1.Fuel = 100;
-                    return x_1;
+                case SubType.X_1:
+                    stats.PlayerId = 3;
+                    stats.Name = "X-1";
+                    stats.Health = 35;
+                    stats.Resistance = 5;
+                    stats.ExplosionResistence = 0;
+                    stats.Damage = 15;
+                    stats.Speed = 1;
+                    stats.Size = 1;
+                    stats.Texturestring = "submarine 3";
+                    stats.MaxFuel = 100;
+                    return stats;
                     break;
-                case SubmarineType.Megalodon:
-                    megalodon.PlayerId = 4;
-                    megalodon.Name = "Megalodon";
-                    megalodon.Health = 75;
-                    megalodon.Resistance = 0;
-                    megalodon.ExplosionResistence = 0;
-                    megalodon.Damage = 20;
-                    megalodon.Speed = 1;
-                    megalodon.Size = 2;
-                    megalodon.Fuel = 25;
-                    return megalodon;
+                case SubType.Megalodon:
+                    stats.PlayerId = 4;
+                    stats.Name = "Megalodon";
+                    stats.Health = 75;
+                    stats.Resistance = 0;
+                    stats.ExplosionResistence = 0;
+                    stats.Damage = 20;
+                    stats.Speed = 1;
+                    stats.Size = 2;
+                    stats.MaxFuel = 25;
+                    stats.Texturestring = "submarine 4";
+                    return stats;
                     break;
-                case SubmarineType.YellowSubmarine:
-                    yellowSubmarine.PlayerId = 5;
-                    yellowSubmarine.Name = "Yellow Submarine";
-                    yellowSubmarine.Health = 50;
-                    yellowSubmarine.Resistance = 5;
-                    yellowSubmarine.ExplosionResistence = 0;
-                    yellowSubmarine.Damage = 10;
-                    yellowSubmarine.Speed = 0.5f;
-                    yellowSubmarine.Size = 1;
-                    yellowSubmarine.Fuel = 60;
-                    return yellowSubmarine;
+                case SubType.YellowSubmarine:
+                    stats.PlayerId = 5;
+                    stats.Name = "Yellow Submarine";
+                    stats.Health = 50;
+                    stats.Resistance = 5;
+                    stats.ExplosionResistence = 0;
+                    stats.Damage = 10;
+                    stats.Speed = 0.5f;
+                    stats.Size = 1;
+                    stats.MaxFuel = 60;
+                    stats.Texturestring = "submarine 5";
+                    return stats;
                     break; 
             }
             return null;
         }
     }
-    class Ship
+    class Ship 
     {
-        public static PlayerStat ship(ShipType type)
+        public static PlayerStat ship(SubType type)
         {
-            PlayerStat tradional = new PlayerStat();
-            PlayerStat pansar = new PlayerStat();
-            PlayerStat camoflage = new PlayerStat();
-            PlayerStat carrier = new PlayerStat();
-            PlayerStat vintage = new PlayerStat();
-            switch(type)
+            PlayerStat stat = new PlayerStat();
+            stat.isboat = false;
+
+            switch (type)
             {
-                case ShipType.Tradional:
-                    tradional.PlayerId = 1;
-                    tradional.Name = "Tradional";
-                    tradional.Health = 50;
-                    tradional.Resistance = 10;
-                    tradional.ExplosionResistence = 10;
-                    tradional.Damage = 10;
-                    tradional.Speed = 1;
-                    tradional.Size = 1;
-                    tradional.Fuel = 50;
-                    return tradional;
+                case SubType.shipTradional:
+                    stat.PlayerId = 1;
+                    stat.Name = "Tradional";
+                    stat.Health = 50;
+                    stat.Resistance = 10;
+                    stat.ExplosionResistence = 10;
+                    stat.Damage = 10;
+                    stat.Speed = 1;
+                    stat.Size = 1;
+                    stat.MaxFuel = 50;
+                    stat.Texturestring = "ship";
+                    return stat;
                     break;
-                case ShipType.Pansar:
-                    pansar.PlayerId = 2;
-                    pansar.Name = "Pansar";
-                    pansar.Health = 35;
-                    pansar.Resistance = 25;
-                    pansar.ExplosionResistence = 20;
-                    pansar.Damage = 10;
-                    pansar.Speed = 1;
-                    pansar.Size = 1;
-                    pansar.Fuel = 50;
-                    return pansar;
+                case SubType.shipPansar:
+                    stat.PlayerId = 2;
+                    stat.Name = "Pansar";
+                    stat.Health = 35;
+                    stat.Resistance = 25;
+                    stat.ExplosionResistence = 20;
+                    stat.Damage = 10;
+                    stat.Speed = 1;
+                    stat.Size = 1;
+                    stat.MaxFuel = 50;
+                    stat.Texturestring = "ship 2";
+                    return stat;
                     break;
-                case ShipType.Camoflage:
-                    camoflage.PlayerId = 3;
-                    camoflage.Name = "Camoflage";
-                    camoflage.Health = 50;
-                    camoflage.Resistance = 10;
-                    camoflage.ExplosionResistence = 10;
-                    camoflage.Damage = 6;
-                    camoflage.Speed = 2;
-                    camoflage.Size = 1;
-                    camoflage.Fuel = 80;
-                    return camoflage;
+                case SubType.shipCamoflage:
+                    stat.PlayerId = 3;
+                    stat.Name = "Camoflage";
+                    stat.Health = 50;
+                    stat.Resistance = 10;
+                    stat.ExplosionResistence = 10;
+                    stat.Damage = 6;
+                    stat.Speed = 2;
+                    stat.Size = 1;
+                    stat.MaxFuel = 80;
+                    stat.Texturestring = "ship 3";
+                    return stat;
                     break;
-                case ShipType.Carrier:
-                    carrier.PlayerId = 4;
-                    carrier.Name = "Carrier";
-                    carrier.Health = 75;
-                    carrier.Resistance = 10;
-                    carrier.ExplosionResistence = 10;
-                    carrier.Damage = 10;
-                    carrier.Speed = 0.5f;
-                    carrier.Size = 2;
-                    carrier.Fuel = 50;
-                    return carrier;
+                case SubType.shipCarrier:
+                    stat.PlayerId = 4;
+                    stat.Name = "Carrier";
+                    stat.Health = 75;
+                    stat.Resistance = 10;
+                    stat.ExplosionResistence = 10;
+                    stat.Damage = 10;
+                    stat.Speed = 0.5f;
+                    stat.Size = 2;
+                    stat.MaxFuel = 50;
+                    stat.Texturestring = "ship 4";
+                    return stat;
                     break;
-                case ShipType.Vintage:
-                    vintage.PlayerId = 5;
-                    vintage.Name = "Vintage";
-                    vintage.Health = 50;
-                    vintage.Resistance = 0;
-                    vintage.ExplosionResistence = 0;
-                    vintage.Damage = 20;
-                    vintage.Speed = 1.5f;
-                    vintage.Size = 1;
-                    vintage.Fuel = 50;
-                    return vintage;
+                case SubType.shipVintage:
+                    stat.PlayerId = 5;
+                    stat.Name = "Vintage";
+                    stat.Health = 50;
+                    stat.Resistance = 0;
+                    stat.ExplosionResistence = 0;
+                    stat.Damage = 20;
+                    stat.Speed = 1.5f;
+                    stat.Size = 1;
+                    stat.MaxFuel = 50;
+                    stat.Texturestring = "ship 5";
+                    return stat;
                     break;
             }
             return null;
