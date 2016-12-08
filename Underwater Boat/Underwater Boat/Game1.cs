@@ -105,9 +105,18 @@ namespace Underwater_Boat
             }
         }
 
-        public void LoadMap()
+        public LevelGenerator LoadMap()
         {
-            
+            var lvlgen = new LevelGenerator();
+
+            lvlgen.StartGenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
+
+            return lvlgen;
+        }
+
+        public void UpdateLevel()
+        {
+            _level = LevelGenerator.Result;
         }
 
         public void FullScreen()
