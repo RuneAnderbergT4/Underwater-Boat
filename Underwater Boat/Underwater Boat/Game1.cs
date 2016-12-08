@@ -182,18 +182,16 @@ namespace Underwater_Boat
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            tb.Draw();
-            
+           
             switch (GS)
             {
                 case GameState.Start:
                     mc.Draw(gameTime);
                     break;
                 case GameState.Playing:
-                    sub.Draw();
-                    sub2.Draw();
-                    sub3.Draw();
+                   
                     spriteBatch.Begin();
+                    tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
                     spriteBatch.End();
                     break;

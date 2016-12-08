@@ -107,7 +107,7 @@ namespace Underwater_Boat
         }
         public void Draw()
         {
-            Game1.spriteBatch.Begin();
+            
             foreach (var s in t1.members)
             {
                 s.Draw();
@@ -116,7 +116,7 @@ namespace Underwater_Boat
             {
                 s.Draw();
             }
-            Game1.spriteBatch.End();
+            
         }
 
         internal void LoadContent(Game1 game1)

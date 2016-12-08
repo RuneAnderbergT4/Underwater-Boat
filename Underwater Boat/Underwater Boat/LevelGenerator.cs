@@ -16,6 +16,11 @@ namespace Underwater_Boat
         public bool IsAlive { get { return _thread != null && _thread.IsAlive; } }
 
         private Thread _thread;
+
+        public LevelGenerator()
+        {
+            Progress = "";
+        }
         
         public void StartGenerateLevel(GraphicsDevice gD, int width, int height, IServiceBus iSB)
         {
