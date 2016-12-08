@@ -14,6 +14,8 @@ namespace Underwater_Boat
         Texture2D RedHealthBar;
         Texture2D GreenHealthBar;
 
+
+
         public void LoadContent(Game1 game)
         {
             HUD = game.Content.Load<Texture2D>("HUD watergame");
@@ -27,7 +29,8 @@ namespace Underwater_Boat
         }
         public void Draw(SpriteBatch spritebatch)
         {
-
+            spritebatch.Draw(HUD);
+            spritebatch.Draw(FuelTank);
         }
     }
 }
