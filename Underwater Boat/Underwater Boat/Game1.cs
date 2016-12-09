@@ -25,9 +25,6 @@ namespace Underwater_Boat
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
         Turnbase tb;
-
-        
-
         MenuComponent mc;
 
         private Rectangle _cameraRect;
@@ -145,13 +142,7 @@ namespace Underwater_Boat
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-
-            switch (GS)
-            {
-                case GameState.Start:
-                    break;
-            }
-
+            
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
             tb.Update();
@@ -185,7 +176,6 @@ namespace Underwater_Boat
                     mc.Draw(gameTime);
                     break;
                 case GameState.Playing:
-                   
                     spriteBatch.Begin();
                     tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
