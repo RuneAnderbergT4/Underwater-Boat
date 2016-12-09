@@ -473,23 +473,22 @@ namespace Underwater_Boat
         #region Meny Val
         private void MenuStartClicked()
         {
-            {
-                Game1.GS = GameState.Playing;
-                gs = MenyState.Playing;
-                _activeMenu = _menu;
-            }
             Game1 g = Game as Game1;
 
             _lvlgen = g.LoadMap();
 
             gs = MenyState.Generating;
+            Game1.GS = GameState.Playing;
+            gs = MenyState.Playing;
+            _activeMenu = _menu;
+
         }
 
         private void MenuShipSelClick()
         {
             
         }
-        private void StoneMap(Menu returnMenu)
+        private void Laddare(Menu returnMenu)
         {
             SP = (SP == SelShip.Ship) ? SelShip.Submarine : SelShip.Ship;
 
