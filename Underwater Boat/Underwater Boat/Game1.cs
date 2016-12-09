@@ -105,7 +105,8 @@ namespace Underwater_Boat
         }
 
         public LevelGenerator LoadMap()
-        {
+            if (MenuComponent.SP == MenuComponent.SelShip.Ship)
+            {
             var lvlgen = new LevelGenerator();
 
             lvlgen.StartGenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
@@ -124,8 +125,6 @@ namespace Underwater_Boat
             {
                 graphics.IsFullScreen = true;
                 graphics.ApplyChanges();
-                Settings.Default.Grafik = "1920 * 1080";
-                Settings.Default.Save();
                 Grafitti();
             }
             else if (Settings.Default.IsFullScreen == false)

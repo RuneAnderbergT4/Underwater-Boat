@@ -6,13 +6,13 @@ using System.Net;
 using System.Net.Mime;
 using System.Security.Policy;
 using System.Text;
-using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using UnderWater_Boat;
+
 namespace Underwater_Boat
 {
     public class MenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
@@ -28,43 +28,50 @@ namespace Underwater_Boat
         Texture2D _valBild;
         Texture2D _overlay;
         Texture2D _mouse;
-        Menu finalMenu;
+        Menu FinalMenu;
         Menu SubSelection;
         Menu ShipSelection;
-        private LevelGenerator _lvlgen;
-        private Menu _returnMenu;
 
         #region GameStates
+
         public enum MenyState
         {
             MainMenu,
-            Generating,
             Playing
         }
+
         public static MenyState gs;
+
         public enum Sound
         {
             On,
             Off
         }
+
         public static Sound SD;
+
         public enum Full
         {
             on,
             off
         }
+
         public static Full FL;
+
         public enum Controll
         {
             Cont,
             Key
         }
+
         public static Controll CL;
+
         public enum TwoPlayer
         {
             One,
             Two
         }
+
         public static TwoPlayer TP;
         public enum SelShip
         {
@@ -100,134 +107,120 @@ namespace Underwater_Boat
             set4,
             set5
         }
+
         public static Graphics GR;
+
+
         #endregion
+
         public MenuComponent(Game game) : base(game)
         {
             #region Meny Hantering
+
             _menu = new Menu();
             _activeMenu = _menu;
             var ShipMenu = new Menu();
-            var mapMenu = new Menu();
             var optionsMenu = new Menu();
             var graphicsMenu = new Menu();
             var soundMenu = new Menu();
-            var twoPlayers = new Menu();
             var controllMenu = new Menu();
             ShipSelection = new Menu();
             SubSelection = new Menu();
-            finalMenu = new Menu();
-            var loadingMenu = new Menu();
+            FinalMenu = new Menu();
             var returnToMenu = new Menu();
             var exitMenu = new Menu();
-            var generatingLevel = new Menu();
-
             _menu.Items = new List<MenuChoice>
             {
-                new MenuChoice(null) { Text = "Sea battle of DOOOOM", IsEnabled = false },
-                new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = ShipMenu, IsVisible = () => Game1.GS != GameState.Pause },
-                new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == GameState.Pause, IsEnabled = false },
-                new MenuChoice(null) { Text = "ONE PLAYER", IsVisible = () => Settings.Default.TwoPlayer == true, ClickAction = PlayerNum },
-                new MenuChoice(null) { Text = "TWO PLAYERS", IsVisible = () => Settings.Default.TwoPlayer == false, ClickAction = PlayerNum },
-                new MenuChoice(null) { Text = "OPTIONS", ClickAction = MoveClick, SubMenu = optionsMenu },
-                new MenuChoice(null) { Text = "EXIT TO MENU", ClickAction = MoveClick, SubMenu = returnToMenu, IsVisible = () => Game1.GS == GameState.Pause },
-                new MenuChoice(null) { Text = "QUIT", ClickAction = MoveClick, SubMenu = exitMenu }
+                new MenuChoice(null) { Text = "Sea battle of DOOOOM", IsEnabled = false},
+                new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = ShipMenu, IsVisible = () => Game1.GS != GameState.Pause},
+                new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == GameState.Pause, IsEnabled = false},
+                new MenuChoice(null) { Text = "ONE PLAYER", IsVisible = () => Settings.Default.TwoPlayer == true, ClickAction = PlayerNum},
+                new MenuChoice(null) { Text = "TWO PLAYERS", IsVisible = () => Settings.Default.TwoPlayer == false, ClickAction = PlayerNum},
+                new MenuChoice(null) { Text = "OPTIONS", ClickAction = MoveClick, SubMenu = optionsMenu},
+                new MenuChoice(null) { Text = "EXIT TO MENU", ClickAction = MoveClick, SubMenu = returnToMenu, IsVisible = () => Game1.GS == GameState.Pause},
+                new MenuChoice(null) { Text = "QUIT", ClickAction = MoveClick, SubMenu = exitMenu}
             };
-            twoPlayers.Items = new List<MenuChoice>
             SubSelection.Items = new List<MenuChoice>
             {
-                new MenuChoice(mapMenu) { Text = "Start game", Selected = true, ClickAction = MenuStartClicked},
-                new MenuChoice(mapMenu) { Text = "Twoplayer off", IsVisible = () => Settings.Default.TwoPlayer == true, ClickAction = PlayerNum },
-                new MenuChoice(mapMenu) { Text = "Twoplayer on", IsVisible = () => Settings.Default.TwoPlayer == false, ClickAction = PlayerNum },
-                new MenuChoice(mapMenu) { Text = "Back", ClickAction = MoveUpClick}
-                new MenuChoice(ShipMenu) { Text = "Select your Submarine", IsEnabled = false, ClickAction = MoveClick },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine"), Selected = true, ClickAction = subSelection1, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine 2"), ClickAction = subSelection2, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine 3"), ClickAction = subSelection3, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine 4"), ClickAction = subSelection4, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine 5"), ClickAction = subSelection5, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "Return", ClickAction = MoveUpClick }
+                new MenuChoice(ShipMenu) { Text = "Select your Submarine", IsEnabled = false, ClickAction = MoveClick},
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine"), Selected = true, ClickAction = subSelection1, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine 2"), ClickAction = subSelection2, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine 3"), ClickAction = subSelection3, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine 4"), ClickAction = subSelection4, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("submarine 5"), ClickAction = subSelection5, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "Return", ClickAction = MoveUpClick}
             };
-            mapMenu.Items = new List<MenuChoice>
             ShipSelection.Items = new List<MenuChoice>
             {
-                new MenuChoice(ShipMenu) { Text = "Select your Ship", IsEnabled = false, ClickAction = MoveClick },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship"), Selected = true, ClickAction = shipSelection1, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship 2"), ClickAction = shipSelection2, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship 3"), ClickAction = shipSelection3, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship 4"), ClickAction = shipSelection4, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship 5"), ClickAction = shipSelection5, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "Return", ClickAction = MoveUpClick }
+                new MenuChoice(ShipMenu) { Text = "Select your Ship", IsEnabled = false, ClickAction = MoveClick},
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship"), Selected = true, ClickAction = shipSelection, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship 2"), ClickAction = shipSelection, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship 3"), ClickAction = shipSelection, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship 4"), ClickAction = shipSelection, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "", Bild = Game.Content.Load<Texture2D>("Ship 5"), ClickAction = shipSelection, SubMenu = FinalMenu },
+                new MenuChoice(ShipMenu) { Text = "Return", ClickAction = MoveUpClick}
             };
             ShipMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(_menu) { Text = "Ship battle or Submarine battle", IsEnabled = false },
-                new MenuChoice(_menu) { Text = "Ships", Selected = true, ClickAction = MenuShipSelClick, SubMenu = ShipSelection },
-                new MenuChoice(_menu) { Text = "Submarine", ClickAction = MenuShipSelClick, SubMenu = SubSelection },
-                new MenuChoice(_menu) { Text = "Return", ClickAction = MoveUpClick }
+                new MenuChoice(_menu) { Text = "Ship battle or Submarine battle", IsEnabled = false},
+                new MenuChoice(_menu) { Text = "Ships", Selected = true, ClickAction = MenuShipSelClick, SubMenu = ShipSelection},
+                new MenuChoice(_menu) { Text = "Submarine", ClickAction = MenuShipSelClick, SubMenu = SubSelection},
+                new MenuChoice(_menu) { Text = "Return", ClickAction = MoveUpClick}
             };
-            finalMenu.Items = new List<MenuChoice>
+            FinalMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(ShipMenu) { Text = "Are you pleased with your selection?", IsEnabled = false },
-                new MenuChoice(ShipMenu) { Text = "YES", Selected = true, ClickAction = MenuStartClicked, SubMenu = loadingMenu },
-                new MenuChoice(ShipMenu) { Text = "", IsEnabled = false },
-                new MenuChoice(ShipMenu) { Text = "", IsEnabled = false },
-                new MenuChoice(ShipMenu) { Text = "Return to Selection", ClickAction = MoveUpClick }
-            };
-            loadingMenu.Items = new List<MenuChoice>
-            {
-                new MenuChoice(ShipMenu) { Text = "Loading Map", IsEnabled = false }
+                new MenuChoice(ShipMenu) { Text = "Are you pleased with your selection?", IsEnabled = false},
+                new MenuChoice(ShipMenu) { Text = "YES", Selected = true, ClickAction = MenuStartClicked},
+                new MenuChoice(ShipMenu) { Text = "", IsEnabled = false},
+                new MenuChoice(ShipMenu) { Text = "Return to Selection", ClickAction = MoveUpClick}
             };
             optionsMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(_menu) { Text = "Options Menu", ClickAction = MoveClick, IsEnabled = false },
-                new MenuChoice(_menu) { Text = "Graphics Menu", Selected = true, ClickAction = MoveClick, SubMenu = graphicsMenu},
-                new MenuChoice(_menu) { Text = "Control Menu", ClickAction = MoveClick, SubMenu = controllMenu},
-                new MenuChoice(_menu) { Text = "Sound Menu", ClickAction = MoveClick, SubMenu = soundMenu },
-                new MenuChoice(_menu) { Text = "Return to Main", ClickAction = MoveUpClick }
+                new MenuChoice(_menu) { Text = "Options Menu", ClickAction = MoveClick, IsEnabled = false},
+                new MenuChoice(_menu) { Text = "Grahpics Menu", Selected = true, ClickAction = MoveClick, SubMenu = graphicsMenu},
+                new MenuChoice(_menu) { Text = "Controll Menu", ClickAction = MoveClick, SubMenu = controllMenu},
+                new MenuChoice(_menu) { Text = "Sound Menu", ClickAction = MoveClick, SubMenu = soundMenu},
+                new MenuChoice(_menu) { Text = "Return to Main", ClickAction = MoveUpClick}
             };
             graphicsMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(optionsMenu) { Text = "Graphics Menu", IsEnabled = false },
-                new MenuChoice(optionsMenu) { Text = "Fullscreen on", Selected = true, IsVisible = () => Settings.Default.IsFullScreen == true, ClickAction = FullMenu },
-                new MenuChoice(optionsMenu) { Text = "Fullscreen off", IsVisible = () => Settings.Default.IsFullScreen == false, ClickAction = FullMenu },
-                new MenuChoice(optionsMenu) { Text = "1920 x 1080", IsVisible = () => Settings.Default.Grafik == "1920 * 1080" && Settings.Default.IsFullScreen == false, ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "1024 x 700", IsVisible = () => Settings.Default.Grafik == "1024 * 700", ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "1366 x 768", IsVisible = () => Settings.Default.Grafik == "1366 * 768", ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "1440 x 900", IsVisible = () => Settings.Default.Grafik == "1440 * 900", ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "1600 x 900", IsVisible = () => Settings.Default.Grafik == "1600 * 900", ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "Return to Options", ClickAction = MoveUpClick }
+                new MenuChoice(optionsMenu) { Text = "Graphics Menu", IsEnabled = false},
+                new MenuChoice(optionsMenu) { Text = "Fullscreen On", Selected = true, IsVisible = () => Settings.Default.IsFullScreen == true, ClickAction = FullMenu },
+                new MenuChoice(optionsMenu) { Text = "Fullscreen Off", IsVisible = () => Settings.Default.IsFullScreen == false, ClickAction = FullMenu },
+                new MenuChoice(optionsMenu) { Text = "1920 x 1080", IsVisible = () => Settings.Default.Grafik == "1920 * 1080" && Settings.Default.IsFullScreen == false, ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "1024 x 700", IsVisible = () => Settings.Default.Grafik == "1024 * 700", ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "1366 x 768", IsVisible = () => Settings.Default.Grafik == "1366 * 768", ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "1440 x 900", IsVisible = () => Settings.Default.Grafik == "1440 * 900", ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "1600 x 900", IsVisible = () => Settings.Default.Grafik == "1600 * 900", ClickAction = Grafik},
+                new MenuChoice(optionsMenu) { Text = "Return to Options", ClickAction = MoveUpClick}
             };
             soundMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(optionsMenu) { Text = "Sound Menu", IsEnabled = false },
-                new MenuChoice(optionsMenu) { Text = "Sound on", Selected = true, IsVisible = () => Settings.Default.Sound, ClickAction = SoundMenu },
-                new MenuChoice(optionsMenu) { Text = "Sound off", IsVisible = () => Settings.Default.Sound == false, ClickAction = SoundMenu },
-                new MenuChoice(optionsMenu) { Text = "Return to Options", ClickAction = MoveUpClick }
+                new MenuChoice(optionsMenu) { Text = "Sound Menu", IsEnabled = false},
+                new MenuChoice(optionsMenu) { Text = "Sound On", Selected = true, IsVisible = () => Settings.Default.Sound, ClickAction = SoundMenu },
+                new MenuChoice(optionsMenu) { Text = "Sound Off", IsVisible = () => Settings.Default.Sound == false, ClickAction = SoundMenu },
+                new MenuChoice(optionsMenu) { Text = "Return to Options", ClickAction = MoveUpClick}
             };
             controllMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(optionsMenu) { Text = "Controll Menu", IsEnabled = false },
+                new MenuChoice(optionsMenu) { Text = "Controll Menu", IsEnabled = false},
                 new MenuChoice(optionsMenu) { Text = "Keyboard Active", Selected = true, IsVisible = () => Settings.Default.Keyboard == true, ClickAction = ControlMenu },
                 new MenuChoice(optionsMenu) { Text = "Controll Active", IsVisible = () => Settings.Default.Keyboard == false, ClickAction = ControlMenu },
-                new MenuChoice(optionsMenu) { Text = "Return to Options", ClickAction = MoveUpClick }
+                new MenuChoice(optionsMenu) { Text = "Return to Options", ClickAction = MoveUpClick}
             };
             exitMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(_menu) { Text = "Are you sure?", IsEnabled = false },
-                new MenuChoice(_menu) { Text = "No", Selected = true, ClickAction = MoveUpClick },
-                new MenuChoice(_menu) { Text = "Yes", ClickAction = MenuQuitClicked }
+                new MenuChoice(_menu) { Text = "Are you sure?", IsEnabled = false},
+                new MenuChoice(_menu) { Text = "No", Selected = true, ClickAction = MoveUpClick},
+                new MenuChoice(_menu) { Text = "Yes", ClickAction = MenuQuitClicked}
             };
             returnToMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(_menu) { Text = "Are you sure?", IsEnabled = false },
-                new MenuChoice(_menu) { Text = "No", Selected = true, ClickAction = MoveUpClick },
-                new MenuChoice(_menu) { Text = "Yes", ClickAction = PausMenuQuitClicked }
+                new MenuChoice(_menu) { Text = "Are you sure?", IsEnabled = false},
+                new MenuChoice(_menu) { Text = "No", Selected = true, ClickAction = MoveUpClick},
+                new MenuChoice(_menu) { Text = "Yes", ClickAction = PausMenuQuitClicked}
             };
-            generatingLevel.Items = new List<MenuChoice>
-            {
-                new MenuChoice(mapMenu) {Text = "To be started!", IsEnabled = false, SubMenu = twoPlayers}
-            };
+
             #endregion
         }
         public override void Initialize()
@@ -374,47 +367,6 @@ namespace Underwater_Boat
                         }
                     }
                     break;
-                case MenyState.Generating:
-                    if (_lvlgen.IsAlive)
-                    {
-                        _activeMenu.Items[0].Text = _lvlgen.Progress;
-
-                        #region Text formatting
-                        startY = 0.2f * GraphicsDevice.Viewport.Height;
-                        foreach (var choice in _activeMenu.Items)
-                        {
-                            if (!choice.IsVisible())
-                                continue;
-
-                            Vector2 size = _normalFont.MeasureString(choice.Text);
-                            choice.Y = startY;
-                            choice.X = GraphicsDevice.Viewport.Width / 2.0f - size.X / 2;
-                            if (FL == Full.off)
-                            {
-                                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y - 10, (int)size.X, (int)size.Y - 10);
-                            }
-                            else if (FL == Full.on)
-                            {
-                                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y);
-                            }
-                            if (choice.IsEnabled == false)
-                            {
-                                startY += 100;
-                            }
-                            else
-                            {
-                                startY += 70;
-                            }
-                        }
-                        #endregion
-                    }
-                    else
-                    {
-                        UpdateLevel();
-                        _activeMenu = _returnMenu;
-                        gs = MenyState.MainMenu;
-                    }
-                    break;
                 case MenyState.Playing:
                     MediaPlayer.Stop();
                     break;
@@ -458,7 +410,8 @@ namespace Underwater_Boat
             _spriteBatch.Begin();
             _spriteBatch.Draw(_background, new Rectangle(0, 0, Game1.graphics.PreferredBackBufferWidth, Game1.graphics.PreferredBackBufferHeight), Color.White);
             foreach (var choice in _activeMenu.Items)
-            {               
+            {
+                
                 if (!choice.IsVisible())
                     continue;
                 // HitBox Koll
@@ -470,8 +423,10 @@ namespace Underwater_Boat
                 if (choice.IsEnabled == false)
                 {
                     _spriteBatch.DrawString(_normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.Crimson);
-                }                
+                }
+                
             }
+
             var mp = Mouse.GetState().Position;
             _spriteBatch.Draw(_mouse, new Vector2(mp.X, mp.Y), Color.White);
             _spriteBatch.End();
@@ -479,36 +434,14 @@ namespace Underwater_Boat
         #region Meny Val
         private void MenuStartClicked()
         {
-            
-            {
-                Game1.GS = GameState.Playing;
-                gs = MenyState.Playing;
-                _activeMenu = _menu;
-            }
-            
-            _lvlgen = g.LoadMap();
-
-            _returnMenu = returnMenu;
-
-            gs = MenyState.Generating;
+            Game1.GS = GameState.Playing;
+            gs = MenyState.Playing;
+            _activeMenu = _menu;
         }
         private void MenuShipSelClick()
-        private void StoneMap(Menu returnMenu)
         {
             SP = (SP == SelShip.Ship) ? SelShip.Submarine : SelShip.Ship;
 
-
-            _lvlgen = g.LoadMap();
-
-            _returnMenu = returnMenu;
-
-            gs = MenyState.Generating;
-        }
-
-        private void UpdateLevel()
-        {
-            Game1 g = Game as Game1;
-            g.UpdateLevel();
         }
         private void MoveUpClick()
         {
@@ -548,85 +481,86 @@ namespace Underwater_Boat
                 Settings.Default.Save();
             }
         }
+
         private void subSelection1()
         {
             SM = Submarine.Sub1;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine");
             
         }
         private void subSelection2()
         {
             SM = Submarine.Sub2;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine 2");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine 2");
             
         }
         private void subSelection3()
         {
             SM = Submarine.Sub3;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine 3");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine 3");
         }
         private void subSelection4()
         {
             SM = Submarine.Sub4;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine 4");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine 4");
         }
         private void subSelection5()
         {
             SM = Submarine.Sub5;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine 5");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("submarine 5");
         }
-        //private void shipSelection()
-        //{
-        //    if (ShipSelection.Items[2].Selected)
-        //    {
-        //        SH = Ships.Ship1;
-        //        finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship");
-        //    }
-        //    if (ShipSelection.Items[3].Selected)
-        //    {
-        //        SH = Ships.Ship2;
-        //        finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 2");
-        //    }
-        //    if (ShipSelection.Items[4].Selected)
-        //    {
-        //        SH = Ships.Ship3;
-        //        finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 3");
-        //    }
-        //    if (ShipSelection.Items[5].Selected)
-        //    {
-        //        SH = Ships.Ship4;
-        //        finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 4");
-        //    }
-        //    if (ShipSelection.Items[6].Selected)
-        //    {
-        //        SH = Ships.Ship5;
-        //        finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 5");
-        //    }
-        //}
+        private void shipSelection()
+        {
+            if (ShipSelection.Items[2].Selected)
+            {
+                SH = Ships.Ship1;
+                FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship");
+            }
+            if (ShipSelection.Items[3].Selected)
+            {
+                SH = Ships.Ship2;
+                FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 2");
+            }
+            if (ShipSelection.Items[4].Selected)
+            {
+                SH = Ships.Ship3;
+                FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 3");
+            }
+            if (ShipSelection.Items[5].Selected)
+            {
+                SH = Ships.Ship4;
+                FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 4");
+            }
+            if (ShipSelection.Items[6].Selected)
+            {
+                SH = Ships.Ship5;
+                FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 5");
+            }
+        }
         private void shipSelection1()
         {
             SH = Ships.Ship1;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship");
         }
         private void shipSelection2()
         {
             SH = Ships.Ship2;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 2");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 2");
         }
         private void shipSelection3()
         {
             SH = Ships.Ship3;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 3");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 3");
         }
         private void shipSelection4()
         {
             SH = Ships.Ship4;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 4");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 4");
         }
         private void shipSelection5()
         {
             SH = Ships.Ship5;
-            finalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 5");
+            FinalMenu.Items[3].Bild = Game.Content.Load<Texture2D>("Ship 5");
         }
         private void PlayerNum()
         {
