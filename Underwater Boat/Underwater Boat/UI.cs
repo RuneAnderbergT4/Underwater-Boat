@@ -15,6 +15,8 @@ namespace Underwater_Boat
 
         Vector2 fuelpos;
         Vector2 healthpos;
+        Vector2 timerpos;
+        Vector2 pointpos;
 
         Texture2D HUD;
         Texture2D FuelTank100;
@@ -31,15 +33,18 @@ namespace Underwater_Boat
         Texture2D RedHealthBar;
         Texture2D GreenHealthBar;
 
+        SpriteFont Timer;
+        SpriteFont Points;
+
         Rectangle RedHealthRectangle;
         Rectangle GreenHealthRectangle;
 
-        int MaxHealth;
         public UI ()
         {
-            MaxHealth = 100;
             fuelpos = new Vector2(22,853);
             healthpos = new Vector2(1074, 33);
+            timerpos = new Vector2(760, 35);
+            pointpos = new Vector2(47, 40);
         }
 
         public void LoadContent(Game1 game)
@@ -58,6 +63,8 @@ namespace Underwater_Boat
             FuelTank0 = game.Content.Load<Texture2D>("FuelTank0%");
             RedHealthBar = game.Content.Load<Texture2D>("Big red healthbar");
             GreenHealthBar = game.Content.Load<Texture2D>("Big green healthbar");
+            Timer = game.Content.Load<SpriteFont>("HUDTimer");
+            Points = game.Content.Load<SpriteFont>("HUDPoints");
         }
         public void Update(Sub sub)
         {
@@ -67,6 +74,8 @@ namespace Underwater_Boat
         public void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Draw(HUD, Vector2.Zero, Color.White);
+            spritebatch.DrawString(Timer, "Hej", timerpos, Color.Black);
+            spritebatch.DrawString(Points, "Points: ", pointpos, Color.Black);
             if(sub.Fuel >= sub.MaxFuel* 1)
             {
                 spritebatch.Draw(FuelTank100, fuelpos, Color.White);
@@ -112,7 +121,7 @@ namespace Underwater_Boat
                 spritebatch.Draw(FuelTank0, fuelpos, Color.White);
             }
             RedHealthRectangle = new Rectangle((int)healthpos.X,(int)healthpos.Y, 806, 46);
-            GreenHealthRectangle = new Rectangle((int)healthpos.X,(int)healthpos.Y, stat.Health / MaxHealth * 806, 46);
+            GreenHealthRectangle = new Rectangle((int)healthpos.X,(int)healthpos.Y, 806, 46);
             spritebatch.Draw(RedHealthBar, RedHealthRectangle, Color.White);
             spritebatch.Draw(GreenHealthBar, GreenHealthRectangle, Color.White);
         }

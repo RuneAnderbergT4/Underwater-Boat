@@ -455,3 +455,15 @@
 /processorParam:TextureFormat=Color
 /build:Submarine bubble.png
 
+#begin HUDTimer.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:HUDTimer.spritefont
+
+#begin HUDPoints.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:HUDPoints.spritefont
+
