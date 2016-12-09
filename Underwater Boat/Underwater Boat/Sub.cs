@@ -18,8 +18,9 @@ namespace Underwater_Boat
         bool movingrignt;
         public bool gamepad; // = true;
         private bool movingUp;
+        int currentweapon;
+        public List<Weapon> Weapons { get; private set; }
 
-      
 
         public Sub(Team Team,PlayerStat ps,bool isBot)
         {
@@ -38,7 +39,8 @@ namespace Underwater_Boat
             Texturestring = ps.Texturestring;
             Fuel = MaxFuel;
             color = Color.White;
-
+            Weapons.Add(new Weapon());
+            currentweapon = 0;
             Initialize();
             
         }
@@ -161,7 +163,11 @@ namespace Underwater_Boat
             movingrignt = false;
             movingUp = false;
         }
-        
+
+        public Weapon CurrentWeapon()
+        {
+            return Weapons[currentweapon];
+        }
 
         public void Draw()
         {

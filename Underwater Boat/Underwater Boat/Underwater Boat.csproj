@@ -46,9 +46,11 @@
     <Compile Include="MenuComponent.cs" />
     <Compile Include="MenuChoice.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Projectiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBus.cs" />
     <Compile Include="IServiceBus.cs" />
+    <Compile Include="Shot.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Sub.cs" />
     <Compile Include="LevelGenerator.cs" />
@@ -58,6 +60,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Tunbase.cs" />
+    <Compile Include="Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

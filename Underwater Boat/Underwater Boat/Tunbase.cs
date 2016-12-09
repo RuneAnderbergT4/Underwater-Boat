@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 namespace Underwater_Boat
 {
@@ -19,6 +20,13 @@ namespace Underwater_Boat
         int t1sub;
         int t2sub;
         KeyboardState pks;
+        bool shooting;
+        float power;
+        int upDown;
+        int nrOfShots;
+        int firerate;
+        private bool fire;
+
         public Turnbase(string team1, string team2)
         {
             t1 = new Team(team1);
@@ -27,7 +35,7 @@ namespace Underwater_Boat
             t1sub = 0;
             t2sub = 0;
         }
-        public bool AddSub(SubType st,bool isbot,string teamname)
+        public bool AddSub(SubType st, bool isbot, string teamname)
         {
             if ((int)st < 5)
             {
@@ -62,22 +70,22 @@ namespace Underwater_Boat
                 return true;
             }
         }
-        
+
         public void Update()
         {
             KeyboardState ks = Keyboard.GetState();
-           
+
             if (currentteam == 1 && t1.members.Count != 0)
             {
-                if (t1sub == t1.members.Count )
+                if (t1sub == t1.members.Count)
                     t1sub = 0;
-                 t1.members[t1sub].color = Color.Salmon;
-                 t1.members[t1sub].Update();
-                   
+                t1.members[t1sub].color = Color.Salmon;
+                t1.members[t1sub].Update();
+
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
-                   
+
                     t1.members[t1sub].ResetVel();
                     t1sub++;
                     currentteam *= -1;
@@ -87,7 +95,7 @@ namespace Underwater_Boat
                 currentteam *= -1;
             else if (currentteam == -1 && t2.members.Count != 0)
             {
-                if (t2sub == t2.members.Count )
+                if (t2sub == t2.members.Count)
                     t2sub = 0;
                 t2.members[t2sub].color = Color.Salmon;
                 t2.members[t2sub].Update();
@@ -107,7 +115,7 @@ namespace Underwater_Boat
         }
         public void Draw()
         {
-            
+
             foreach (var s in t1.members)
             {
                 s.Draw();
@@ -116,7 +124,7 @@ namespace Underwater_Boat
             {
                 s.Draw();
             }
-            
+
         }
 
         internal void LoadContent(Game1 game1)
@@ -128,6 +136,53 @@ namespace Underwater_Boat
             foreach (var s in t2.members)
             {
                 s.LoadContent(game1);
+            }
+        }
+        public void Shoot(Sub sub)
+        {
+            KeyboardState ks = Keyboard.GetState();
+
+            if (sub.CurrentWeapon().CurrentAmmo > 0)
+            {
+                if (ks.IsKeyDown(Keys.Space) && !shooting)
+                {
+
+                    nrOfShots = sub.CurrentWeapon().ShotsFired * firerate;
+                    if (power >= 10 && upDown == 1)
+                        upDown = -1;
+                    else if (power <= 1 && upDown == -1)
+                        upDown = 1;
+                    power += 0.1f * upDown;
+
+                    Debug.WriteLine("Power: " + power);
+
+                }
+                else if (ks.IsKeyUp((Keys.Space)) && power != 0)
+                    fire = true;
+                if (fire)
+                {
+                    shooting = true;
+                    if (power > 10)
+                        power = 10;
+
+                    else if (power < 1)
+                        power = 1;
+
+                    if (nrOfShots > 0 && nrOfShots % firerate == firerate - 1)
+                        Projectiles.Add(new Shot(sub.Position,  new Vector2(3,0),sub.CurrentWeapon().Texture));
+
+
+                    else if (nrOfShots <= 0)
+                    {
+                        fire = false;
+                        power = 0;
+                        upDown = 1;
+                        shooting = false;
+                        sub.CurrentWeapon().CurrentAmmo--;
+                        //sub.Weapons[sub.CurrentWeapon.Name].CurrentAmmo--;
+                    }
+                    nrOfShots--;
+                }
             }
         }
     }
