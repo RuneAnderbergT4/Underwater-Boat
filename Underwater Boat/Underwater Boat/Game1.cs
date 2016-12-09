@@ -46,7 +46,7 @@ namespace Underwater_Boat
             mc = new MenuComponent(this);
             Components.Add(mc);
             GS = GameState.Start;
-             sub = new Sub(new Team("Team"),SubType.Light,false);
+            sub = new Sub(new Team("Team"),SubType.Light,false);
             sub.Initialize();
             base.Initialize();
         }
