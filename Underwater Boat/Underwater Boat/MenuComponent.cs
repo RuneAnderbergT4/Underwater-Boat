@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using UnderWater_Boat;
-
 namespace Underwater_Boat
 {
     public class MenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
@@ -31,47 +30,36 @@ namespace Underwater_Boat
         Menu finalMenu;
         Menu SubSelection;
         Menu ShipSelection;
-
         #region GameStates
-
         public enum MenyState
         {
             MainMenu,
             Playing
         }
-
         public static MenyState gs;
-
         public enum Sound
         {
             On,
             Off
         }
-
         public static Sound SD;
-
         public enum Full
         {
             on,
             off
         }
-
         public static Full FL;
-
         public enum Controll
         {
             Cont,
             Key
         }
-
         public static Controll CL;
-
         public enum TwoPlayer
         {
             One,
             Two
         }
-
         public static TwoPlayer TP;
         public enum SelShip
         {
@@ -107,16 +95,11 @@ namespace Underwater_Boat
             set4,
             set5
         }
-
         public static Graphics GR;
-
-
         #endregion
-
         public MenuComponent(Game game) : base(game)
         {
             #region Meny Hantering
-
             _menu = new Menu();
             _activeMenu = _menu;
             var ShipMenu = new Menu();
@@ -172,7 +155,6 @@ namespace Underwater_Boat
             {
                 new MenuChoice(ShipMenu) { Text = "Are you pleased with your selection?", IsEnabled = false },
                 new MenuChoice(ShipMenu) { Text = "YES", Selected = true, ClickAction = MenuStartClicked, SubMenu = loadingMenu },
-                new MenuChoice(ShipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(ShipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(ShipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(ShipMenu) { Text = "Return to Selection", ClickAction = MoveUpClick }
@@ -416,8 +398,7 @@ namespace Underwater_Boat
             _spriteBatch.Begin();
             _spriteBatch.Draw(_background, new Rectangle(0, 0, Game1.graphics.PreferredBackBufferWidth, Game1.graphics.PreferredBackBufferHeight), Color.White);
             foreach (var choice in _activeMenu.Items)
-            {
-                
+            {               
                 if (!choice.IsVisible())
                     continue;
                 // HitBox Koll
@@ -429,10 +410,8 @@ namespace Underwater_Boat
                 if (choice.IsEnabled == false)
                 {
                     _spriteBatch.DrawString(_normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.Crimson);
-                }
-                
+                }                
             }
-
             var mp = Mouse.GetState().Position;
             _spriteBatch.Draw(_mouse, new Vector2(mp.X, mp.Y), Color.White);
             _spriteBatch.End();
