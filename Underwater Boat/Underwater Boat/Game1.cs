@@ -44,6 +44,7 @@ namespace Underwater_Boat
             
             _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
+
         protected override void Initialize()
         {
             mc = new MenuComponent(this);
@@ -66,10 +67,12 @@ namespace Underwater_Boat
 
             base.Initialize();
         }
+
         public void Restart()
         {
             
         }
+
         public void Grafitti()
         {
             switch (Settings.Default.Grafik)

@@ -620,29 +620,28 @@ namespace Underwater_Boat
         }
         private void Grafik()
         {
-            if (GR == Graphics.set1)
+            switch (GR)
             {
-                GR = Graphics.set2;
-                Settings.Default.Grafik = "1600 * 900";
-                Settings.Default.Save();
-            }
-            else if (GR == Graphics.set2)
-            {
-                GR = Graphics.set3;
-                Settings.Default.Grafik = "1366 * 768";
-                Settings.Default.Save();
-            }
-            else if (GR == Graphics.set3)
-            {
-                GR = Graphics.set4;
-                Settings.Default.Grafik = "1280 * 720";
-                Settings.Default.Save();
-            }
-            else if (GR == Graphics.set4)
-            {
-                GR = Graphics.set1;
-                Settings.Default.Grafik = "1920 * 1080";
-                Settings.Default.Save();
+                case Graphics.set1:
+                    GR = Graphics.set2;
+                    Settings.Default.Grafik = "1600 * 900";
+                    Settings.Default.Save();
+                    break;
+                case Graphics.set2:
+                    GR = Graphics.set3;
+                    Settings.Default.Grafik = "1366 * 768";
+                    Settings.Default.Save();
+                    break;
+                case Graphics.set3:
+                    GR = Graphics.set4;
+                    Settings.Default.Grafik = "1280 * 720";
+                    Settings.Default.Save();
+                    break;
+                case Graphics.set4:
+                    GR = Graphics.set1;
+                    Settings.Default.Grafik = "1920 * 1080";
+                    Settings.Default.Save();
+                    break;
             }
             (Game as Game1).Grafitti();
         }
