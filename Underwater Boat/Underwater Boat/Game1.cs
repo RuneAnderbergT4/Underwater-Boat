@@ -210,6 +210,12 @@ namespace Underwater_Boat
                     ui.Draw(spriteBatch, graphics);
                     spriteBatch.End();
                     break;
+                case GameState.Pause:
+                    break;
+                case GameState.GameOver:
+                    break;
+                default:
+                    break;
             }
 
             base.Draw(gameTime);
