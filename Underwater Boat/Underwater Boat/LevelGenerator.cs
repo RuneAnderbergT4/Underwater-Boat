@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
@@ -82,14 +83,15 @@ namespace Underwater_Boat
             }
 
             Progress = "Converting polygons to 2D color array...";
-
-            for (int w = 0; w < width; w++)
+            
+            Parallel.For(0, width, w =>
             {
                 for (int h = 0; h < height; h++)
                 {
                     for (int i = 0; i < boundsToCheck.Count; i++)
                     {
-                        if (w >= boundsToCheck[i].Left && w <= boundsToCheck[i].Right && h >= boundsToCheck[i].Top && h <= boundsToCheck[i].Bottom)
+                        if (w >= boundsToCheck[i].Left && w <= boundsToCheck[i].Right && h >= boundsToCheck[i].Top &&
+                            h <= boundsToCheck[i].Bottom)
                         {
                             if (IsPointInPolygon(polygons[i], new Point(w, h)))
                             {
@@ -98,7 +100,7 @@ namespace Underwater_Boat
                         }
                     }
                 }
-            }
+            });
 
             Progress = "Converting to 1D color array...";
 
