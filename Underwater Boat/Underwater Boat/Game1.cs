@@ -18,14 +18,6 @@ namespace Underwater_Boat
         GameOver
     }
 
-    public enum AspectRatio
-    {
-        SixteenByNine,
-        SixteenByTen,
-        FourByThree,
-        FiveByFour
-    }
-
     public class Game1 : Game
     {
         public static SpriteBatch spriteBatch;
@@ -34,7 +26,6 @@ namespace Underwater_Boat
         public static Matrix SpriteScale;
         public static double HeightScale;
         public static double WidthScale;
-        public static AspectRatio AspectRatio;
 
         Turnbase tb;
         UI ui;
@@ -87,37 +78,26 @@ namespace Underwater_Boat
                     graphics.PreferredBackBufferWidth = 1920;
                     graphics.PreferredBackBufferHeight = 1080;
                     graphics.ApplyChanges();
-                    AspectRatio = AspectRatio.SixteenByNine;
-                    break;
-                case "1024 * 768":
-                    graphics.PreferredBackBufferWidth = 1024;
-                    graphics.PreferredBackBufferHeight = 768;
-                    graphics.ApplyChanges();
-                    AspectRatio = AspectRatio.FourByThree;
-                    break;
-                case "1366 * 768":
-                    graphics.PreferredBackBufferWidth = 1366;
-                    graphics.PreferredBackBufferHeight = 768;
-                    graphics.ApplyChanges();
-                    AspectRatio = AspectRatio.SixteenByNine;
-                    break;
-                case "1440 * 900":
-                    graphics.PreferredBackBufferWidth = 1440;
-                    graphics.PreferredBackBufferHeight = 900;
-                    graphics.ApplyChanges();
-                    AspectRatio = AspectRatio.SixteenByTen;
                     break;
                 case "1600 * 900":
                     graphics.PreferredBackBufferWidth = 1600;
                     graphics.PreferredBackBufferHeight = 900;
                     graphics.ApplyChanges();
-                    AspectRatio = AspectRatio.SixteenByNine;
+                    break;
+                case "1366 * 768":
+                    graphics.PreferredBackBufferWidth = 1366;
+                    graphics.PreferredBackBufferHeight = 768;
+                    graphics.ApplyChanges();
+                    break;
+                case "1280 * 720":
+                    graphics.PreferredBackBufferWidth = 1280;
+                    graphics.PreferredBackBufferHeight = 720;
+                    graphics.ApplyChanges();
                     break;
                 default:
                     graphics.PreferredBackBufferWidth = 1600;
                     graphics.PreferredBackBufferHeight = 900;
                     graphics.ApplyChanges();
-                    AspectRatio = AspectRatio.SixteenByNine;
                     break;
             }
 
@@ -130,8 +110,6 @@ namespace Underwater_Boat
                 // Create the scale transform for Draw. 
                 // Do not scale the sprite depth (Z=1).
                 SpriteScale = Matrix.CreateScale((float) WidthScale, (float)WidthScale, 1);
-
-                
             }
         }
 
@@ -178,9 +156,9 @@ namespace Underwater_Boat
         }
         protected override void UnloadContent()
         {
-            
-            
+
         }
+
         protected override void Update(GameTime gameTime)
         {
             currentSub = tb.currentSub;

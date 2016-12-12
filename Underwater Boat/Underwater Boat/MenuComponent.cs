@@ -98,8 +98,7 @@ namespace Underwater_Boat
             set1,
             set2,
             set3,
-            set4,
-            set5
+            set4
         }
         public static Graphics GR;
         #endregion
@@ -185,11 +184,10 @@ namespace Underwater_Boat
                 new MenuChoice(optionsMenu) { Text = "Graphics Menu", IsEnabled = false },
                 new MenuChoice(optionsMenu) { Text = "Fullscreen on", Selected = true, IsVisible = () => Settings.Default.IsFullScreen == true, ClickAction = FullMenu },
                 new MenuChoice(optionsMenu) { Text = "Fullscreen off", IsVisible = () => Settings.Default.IsFullScreen == false, ClickAction = FullMenu },
-                new MenuChoice(optionsMenu) { Text = "1920 x 1080", IsVisible = () => Settings.Default.Grafik == "1920 * 1080" && Settings.Default.IsFullScreen == false, ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "1024 x 768", IsVisible = () => Settings.Default.Grafik == "1024 * 768", ClickAction = Grafik },
+                new MenuChoice(optionsMenu) { Text = "1920 x 1080 (Full HD)", IsVisible = () => Settings.Default.Grafik == "1920 * 1080" && Settings.Default.IsFullScreen == false, ClickAction = Grafik },
+                new MenuChoice(optionsMenu) { Text = "1600 x 900 (HD+)", IsVisible = () => Settings.Default.Grafik == "1600 * 900", ClickAction = Grafik },
                 new MenuChoice(optionsMenu) { Text = "1366 x 768", IsVisible = () => Settings.Default.Grafik == "1366 * 768", ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "1440 x 900", IsVisible = () => Settings.Default.Grafik == "1440 * 900", ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "1600 x 900", IsVisible = () => Settings.Default.Grafik == "1600 * 900", ClickAction = Grafik },
+                new MenuChoice(optionsMenu) { Text = "1280 x 720 (HD)", IsVisible = () => Settings.Default.Grafik == "1280 * 720", ClickAction = Grafik },
                 new MenuChoice(optionsMenu) { Text = "Return to Options", ClickAction = MoveUpClick }
             };
             soundMenu.Items = new List<MenuChoice>
@@ -263,26 +261,22 @@ namespace Underwater_Boat
             {
                 TP = TwoPlayer.One;
             }
-            if (Settings.Default.Grafik == "1920 * 1080")
+            switch (Settings.Default.Grafik)
             {
-                GR = Graphics.set1;
+                case "1920 * 1080":
+                    GR = Graphics.set1;
+                    break;
+                case "1600 * 900":
+                    GR = Graphics.set2;
+                    break;
+                case "1366 * 768":
+                    GR = Graphics.set3;
+                    break;
+                case "1280 * 720":
+                    GR = Graphics.set4;
+                    break;
             }
-            else if (Settings.Default.Grafik == "1024 * 768")
-            {
-                GR = Graphics.set2;
-            }
-            else if (Settings.Default.Grafik == "1366 * 768")
-            {
-                GR = Graphics.set3;
-            }
-            else if (Settings.Default.Grafik == "1440 * 900")
-            {
-                GR = Graphics.set4;
-            }
-            else if (Settings.Default.Grafik == "1600 * 900")
-            {
-                GR = Graphics.set5;
-            }
+
             SP = SelShip.Ship;
             gs = MenyState.MainMenu;
             base.Initialize();
@@ -632,7 +626,7 @@ namespace Underwater_Boat
             if (GR == Graphics.set1)
             {
                 GR = Graphics.set2;
-                Settings.Default.Grafik = "1024 * 768";
+                Settings.Default.Grafik = "1600 * 900";
                 Settings.Default.Save();
             }
             else if (GR == Graphics.set2)
@@ -644,16 +638,10 @@ namespace Underwater_Boat
             else if (GR == Graphics.set3)
             {
                 GR = Graphics.set4;
-                Settings.Default.Grafik = "1440 * 900";
+                Settings.Default.Grafik = "1280 * 720";
                 Settings.Default.Save();
             }
             else if (GR == Graphics.set4)
-            {
-                GR = Graphics.set5;
-                Settings.Default.Grafik = "1600 * 900";
-                Settings.Default.Save();
-            }
-            else if (GR == Graphics.set5)
             {
                 GR = Graphics.set1;
                 Settings.Default.Grafik = "1920 * 1080";
