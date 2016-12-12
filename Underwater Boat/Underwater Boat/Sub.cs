@@ -11,6 +11,7 @@ namespace Underwater_Boat
 {
     public class Sub : PlayerStatBase
     {
+        public PlayerStat ps;
         Team Team;
         bool isBot;
         float HP;
@@ -23,6 +24,7 @@ namespace Underwater_Boat
 
         public Sub(Team Team,PlayerStat ps,bool isBot)
         {
+            this.ps = ps;
             this.Team = Team;
             this.isBot = isBot;
            // PlayerId = ps.PlayerId;

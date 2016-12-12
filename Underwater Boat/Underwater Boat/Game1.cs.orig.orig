@@ -25,18 +25,19 @@ namespace Underwater_Boat
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
         Turnbase tb;
-
 <<<<<<< HEAD
-        
 =======
-        UI ui;
->>>>>>> origin/UI
 
+        
+        UI ui;
+
+>>>>>>> origin/UI2.0
         MenuComponent mc;
 
         private Rectangle _cameraRect;
         private Texture2D _level;
-        
+        private Sub currentSub;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,13 +52,13 @@ namespace Underwater_Boat
             mc = new MenuComponent(this);
             Components.Add(mc);
             GS = GameState.Start;
-<<<<<<< HEAD
             tb = new Turnbase("t1","t2");
             tb.AddSub(SubType.Aqua,false,"t1");
             tb.AddSub(SubType.Megalodon, false, "t1");
             tb.AddSub(SubType.Standard, false, "t1");
             tb.AddSub(SubType.X_1, false, "t2");
             tb.AddSub(SubType.YellowSubmarine, false, "t2");
+            ui = new UI();
             tb.AddSub(SubType.Standard, false, "t2");
             tb.AddSub(SubType.shipCamoflage, false, "t1");
             tb.AddSub(SubType.shipCarrier, false, "t1");
@@ -66,13 +67,6 @@ namespace Underwater_Boat
             tb.AddSub(SubType.shipVintage, false, "t2");
             tb.AddSub(SubType.shipPansar, false, "t2");
 
-=======
-            sub = new Sub(new Team("Team"),SubType.Light,false);
-            sub.Initialize();
-            sub2.Initialize();
-            sub3.Initialize();
-            ui = new UI();
->>>>>>> origin/UI
             base.Initialize();
         }
         public void Restart()
@@ -115,27 +109,12 @@ namespace Underwater_Boat
                     break;
             }
         }
-<<<<<<< HEAD
 
         public LevelGenerator LoadMap()
         {
             var lvlgen = new LevelGenerator();
-
             lvlgen.StartGenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
-
             return lvlgen;
-=======
-        public void ChooseSprites()
-        {
-            if (MenuComponent.SP == MenuComponent.SelShip.Ship)
-            {
-
-            }
-            else
-            {
-                
-            }
->>>>>>> origin/ValKlasser
         }
 
         public void UpdateLevel()
@@ -161,10 +140,8 @@ namespace Underwater_Boat
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             tb.LoadContent(this);
-=======
             ui.LoadContent(this);
->>>>>>> origin/UI
-
+            _level = new Texture2D(GraphicsDevice, 1, 1);
         }
         protected override void UnloadContent()
         {
@@ -173,16 +150,11 @@ namespace Underwater_Boat
         }
         protected override void Update(GameTime gameTime)
         {
-            ui.Update();
+            currentSub = tb.currentSub;
+            ui.Update(currentSub);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-
-            switch (GS)
-            {
-                case GameState.Start:
-                    break;
-            }
-
+            
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
             tb.Update();
@@ -216,7 +188,6 @@ namespace Underwater_Boat
                     mc.Draw(gameTime);
                     break;
                 case GameState.Playing:
-                   
                     spriteBatch.Begin();
                     tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
