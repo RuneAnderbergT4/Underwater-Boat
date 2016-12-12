@@ -18,16 +18,17 @@ namespace Underwater_Boat
         GameOver
     }
 
-
     public class Game1 : Game
     {
         public static SpriteBatch spriteBatch;
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
+        public static Matrix SpriteScale;
+
         Turnbase tb;
         UI ui;
         MenuComponent mc;
-
+        
         private Rectangle _cameraRect;
         private Texture2D _level;
         private Sub currentSub;
@@ -102,6 +103,16 @@ namespace Underwater_Boat
                     graphics.ApplyChanges();
                     break;
             }
+
+            if (graphics.GraphicsDevice != null)
+            {
+                // Default resolution is 1920x1080; scale sprites up or down based on current viewport
+                float screenscale =
+                    (float)graphics.GraphicsDevice.Viewport.Width / 1920f;
+                // Create the scale transform for Draw. 
+                // Do not scale the sprite depth (Z=1).
+                SpriteScale = Matrix.CreateScale(screenscale, screenscale, 1);
+            }
         }
 
         public LevelGenerator LoadMap()
@@ -136,6 +147,13 @@ namespace Underwater_Boat
             tb.LoadContent(this);
             ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
+
+            // Default resolution is 1920x1080; scale sprites up or down based on current viewport
+            float screenscale =
+                (float)graphics.GraphicsDevice.Viewport.Width / 1920f;
+            // Create the scale transform for Draw. 
+            // Do not scale the sprite depth (Z=1).
+            SpriteScale = Matrix.CreateScale(screenscale, screenscale, 1);
         }
         protected override void UnloadContent()
         {
@@ -182,10 +200,15 @@ namespace Underwater_Boat
                     mc.Draw(gameTime);
                     break;
                 case GameState.Playing:
+                    // Draw non scaled content
                     spriteBatch.Begin();
                     tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
-                    ui.Draw(spriteBatch);
+                    spriteBatch.End();
+
+                    // Draw scaled content
+                    spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, SpriteScale);
+                    ui.Draw(spriteBatch, graphics);
                     spriteBatch.End();
                     break;
             }
