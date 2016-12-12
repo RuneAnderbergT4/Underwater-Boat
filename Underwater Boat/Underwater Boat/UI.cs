@@ -78,7 +78,7 @@ namespace Underwater_Boat
         public void Draw(SpriteBatch spritebatch, GraphicsDeviceManager gDM)
         {
             spritebatch.Draw(HUDTop, Vector2.Zero, Color.White);
-            spritebatch.Draw(HUDBottom, new Vector2(0, gDM.PreferredBackBufferHeight - HUDBottom.Height));
+            spritebatch.Draw(HUDBottom, new Vector2(0, (float) (gDM.PreferredBackBufferHeight - HUDBottom.Height * Game1.HeightScale)));
             spritebatch.DrawString(Timer, "Hej", timerpos, Color.Black);
             spritebatch.DrawString(Points, "Points: ", pointpos, Color.Black);
             if(sub.Fuel >= sub.MaxFuel* 1)

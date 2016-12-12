@@ -24,6 +24,8 @@ namespace Underwater_Boat
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
         public static Matrix SpriteScale;
+        public static double HeightScale;
+        public static double WidthScale;
 
         Turnbase tb;
         UI ui;
@@ -107,11 +109,14 @@ namespace Underwater_Boat
             if (graphics.GraphicsDevice != null)
             {
                 // Default resolution is 1920x1080; scale sprites up or down based on current viewport
-                float screenscale =
-                    (float)graphics.GraphicsDevice.Viewport.Width / 1920f;
+                WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
+                HeightScale = graphics.PreferredBackBufferHeight / 1920.0;
+
                 // Create the scale transform for Draw. 
                 // Do not scale the sprite depth (Z=1).
-                SpriteScale = Matrix.CreateScale(screenscale, screenscale, 1);
+                SpriteScale = Matrix.CreateScale((float) WidthScale, (float)WidthScale, 1);
+
+                
             }
         }
 
@@ -149,11 +154,12 @@ namespace Underwater_Boat
             _level = new Texture2D(GraphicsDevice, 1, 1);
 
             // Default resolution is 1920x1080; scale sprites up or down based on current viewport
-            float screenscale =
-                (float)graphics.GraphicsDevice.Viewport.Width / 1920f;
+            WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
+            HeightScale = graphics.PreferredBackBufferHeight / 1920.0;
+
             // Create the scale transform for Draw. 
             // Do not scale the sprite depth (Z=1).
-            SpriteScale = Matrix.CreateScale(screenscale, screenscale, 1);
+            SpriteScale = Matrix.CreateScale((float)WidthScale, (float)WidthScale, 1);
         }
         protected override void UnloadContent()
         {
