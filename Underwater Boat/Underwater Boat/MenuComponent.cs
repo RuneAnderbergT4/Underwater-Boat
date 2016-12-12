@@ -30,7 +30,7 @@ namespace Underwater_Boat
         Texture2D _mouse;
         Menu finalMenu;
         Menu fightSel;
-        Menu ShipSelection;
+        public static int AntVarde;
         private LevelGenerator _lvlgen;
         private Menu _returnMenu;
 
@@ -102,7 +102,6 @@ namespace Underwater_Boat
             var soundMenu = new Menu();
             var twoPlayers = new Menu();
             var controllMenu = new Menu();
-            ShipSelection = new Menu();
             fightSel = new Menu();
             finalMenu = new Menu();
             var loadingMenu = new Menu();
@@ -514,16 +513,19 @@ namespace Underwater_Boat
         private void subSelection1()
         {
             AT = Antal.En;
+            AntVarde = 1;
             finalMenu.Items[4].Text = "1 v 1";
         }
         private void subSelection2()
         {
             AT = Antal.Två;
+            AntVarde = 2;
             finalMenu.Items[4].Text = "2 v 2";
         }
         private void subSelection3()
         {
             AT = Antal.Tre;
+            AntVarde = 3;
             finalMenu.Items[4].Text = "3 v 3";
         }
         private void PlayerNum()

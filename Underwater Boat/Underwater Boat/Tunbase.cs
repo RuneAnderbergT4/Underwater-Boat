@@ -64,6 +64,7 @@ namespace Underwater_Boat
         }
         public void Update()
         {
+            int i = 0;
             KeyboardState ks = Keyboard.GetState();
            
             if (currentteam == 1 && t1.members.Count != 0)
@@ -76,10 +77,12 @@ namespace Underwater_Boat
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
-                   
+                    i++;
                     t1.members[t1sub].ResetVel();
                     t1sub++;
                     currentteam *= -1;
+                    
+                    
                 }
             }
             else if (currentteam == 1 && t1.members.Count == 0)
@@ -114,11 +117,7 @@ namespace Underwater_Boat
                 {
                     i++;
                     s.Draw();
-                    if (i == 1 && MenuComponent.AT == MenuComponent.Antal.En)
-                        break;
-                    if (i == 2 && MenuComponent.AT == MenuComponent.Antal.Två)
-                        break;
-                    if (i == 3 && MenuComponent.AT == MenuComponent.Antal.Tre)
+                    if (i == MenuComponent.AntVarde)
                         break;
                 }
                 i = 0;
@@ -126,11 +125,7 @@ namespace Underwater_Boat
                 {
                     i++;
                     s.Draw();
-                    if (i == 1 && MenuComponent.AT == MenuComponent.Antal.En)
-                        break;
-                    if (i == 2 && MenuComponent.AT == MenuComponent.Antal.Två)
-                        break;
-                    if (i == 3 && MenuComponent.AT == MenuComponent.Antal.Tre)
+                    if (i == MenuComponent.AntVarde)
                         break;
                 }
             }
@@ -143,11 +138,7 @@ namespace Underwater_Boat
                     if (i > 3)
                     {
                         s.Draw();
-                        if (i == 4 && MenuComponent.AT == MenuComponent.Antal.En)
-                            break;
-                        if (i == 5 && MenuComponent.AT == MenuComponent.Antal.Två)
-                            break;
-                        if (i == 6 && MenuComponent.AT == MenuComponent.Antal.Tre)
+                        if (i == (MenuComponent.AntVarde + 3))
                             break;
                     }
                 }
@@ -158,11 +149,7 @@ namespace Underwater_Boat
                     if (i > 3)
                     {
                         s.Draw();
-                        if (i == 4 && MenuComponent.AT == MenuComponent.Antal.En)
-                            break;
-                        if (i == 5 && MenuComponent.AT == MenuComponent.Antal.Två)
-                            break;
-                        if (i == 6 && MenuComponent.AT == MenuComponent.Antal.Tre)
+                        if (i == (MenuComponent.AntVarde + 3))
                             break;
                     }
                 }
