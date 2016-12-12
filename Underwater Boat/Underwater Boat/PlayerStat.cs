@@ -113,7 +113,7 @@ namespace Underwater_Boat
                     break;
                 case SubType.YellowSubmarine:
                     stats.PlayerId = 5;
-                    stats.Name = "Yellow Submarine";
+                    stats.Name = "Yellow Antal";
                     stats.Health = 50;
                     stats.Resistance = 5;
                     stats.ExplosionResistence = 0;

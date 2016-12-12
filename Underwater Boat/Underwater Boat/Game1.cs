@@ -39,7 +39,6 @@ namespace Underwater_Boat
             Content.RootDirectory = "Content";
             Grafitti();
             FullScreen();
-            
             _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
         protected override void Initialize()

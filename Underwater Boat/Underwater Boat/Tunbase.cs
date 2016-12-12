@@ -48,21 +48,20 @@ namespace Underwater_Boat
             else
             {
                 if (t1.teamname == teamname)
-                {
-                    Sub sub = new Sub(t1, Ship.ship(st), isbot);
-                    t1.members.Add(sub);
-                }
-                else if (t2.teamname == teamname)
-                {
-                    Sub sub = new Sub(t2, Ship.ship(st), isbot);
-                    t2.members.Add(sub);
-                }
-                else
-                    return false;
-                return true;
+                    {
+                        Sub sub = new Sub(t1, Ship.ship(st), isbot);
+                        t1.members.Add(sub);
+                    }
+                    else if (t2.teamname == teamname)
+                    {
+                        Sub sub = new Sub(t2, Ship.ship(st), isbot);
+                        t2.members.Add(sub);
+                    }
+                    else
+                        return false;
+                    return true;
             }
         }
-        
         public void Update()
         {
             KeyboardState ks = Keyboard.GetState();
@@ -107,17 +106,69 @@ namespace Underwater_Boat
         }
         public void Draw()
         {
-            
-            foreach (var s in t1.members)
+            int i = 0;
+            if (MenuComponent.SP == MenuComponent.SelShip.Submarine)
             {
-                s.Draw();
+                
+                foreach (var s in t1.members)
+                {
+                    i++;
+                    s.Draw();
+                    if (i == 1 && MenuComponent.AT == MenuComponent.Antal.En)
+                        break;
+                    if (i == 2 && MenuComponent.AT == MenuComponent.Antal.Två)
+                        break;
+                    if (i == 3 && MenuComponent.AT == MenuComponent.Antal.Tre)
+                        break;
+                }
+                i = 0;
+                foreach (var s in t2.members)
+                {
+                    i++;
+                    s.Draw();
+                    if (i == 1 && MenuComponent.AT == MenuComponent.Antal.En)
+                        break;
+                    if (i == 2 && MenuComponent.AT == MenuComponent.Antal.Två)
+                        break;
+                    if (i == 3 && MenuComponent.AT == MenuComponent.Antal.Tre)
+                        break;
+                }
             }
-            foreach (var s in t2.members)
+            else
             {
-                s.Draw();
+                i = 0;
+                foreach (var s in t1.members)
+                {
+                    i++;
+                    if (i > 3)
+                    {
+                        s.Draw();
+                        if (i == 4 && MenuComponent.AT == MenuComponent.Antal.En)
+                            break;
+                        if (i == 5 && MenuComponent.AT == MenuComponent.Antal.Två)
+                            break;
+                        if (i == 6 && MenuComponent.AT == MenuComponent.Antal.Tre)
+                            break;
+                    }
+                }
+                i = 0;
+                foreach (var s in t2.members)
+                {
+                    i++;
+                    if (i > 3)
+                    {
+                        s.Draw();
+                        if (i == 4 && MenuComponent.AT == MenuComponent.Antal.En)
+                            break;
+                        if (i == 5 && MenuComponent.AT == MenuComponent.Antal.Två)
+                            break;
+                        if (i == 6 && MenuComponent.AT == MenuComponent.Antal.Tre)
+                            break;
+                    }
+                }
             }
-            
         }
+        
 
         internal void LoadContent(Game1 game1)
         {
