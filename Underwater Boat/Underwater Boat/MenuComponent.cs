@@ -186,7 +186,7 @@ namespace Underwater_Boat
                 new MenuChoice(optionsMenu) { Text = "Fullscreen on", Selected = true, IsVisible = () => Settings.Default.IsFullScreen == true, ClickAction = FullMenu },
                 new MenuChoice(optionsMenu) { Text = "Fullscreen off", IsVisible = () => Settings.Default.IsFullScreen == false, ClickAction = FullMenu },
                 new MenuChoice(optionsMenu) { Text = "1920 x 1080", IsVisible = () => Settings.Default.Grafik == "1920 * 1080" && Settings.Default.IsFullScreen == false, ClickAction = Grafik },
-                new MenuChoice(optionsMenu) { Text = "1024 x 700", IsVisible = () => Settings.Default.Grafik == "1024 * 700", ClickAction = Grafik },
+                new MenuChoice(optionsMenu) { Text = "1024 x 768", IsVisible = () => Settings.Default.Grafik == "1024 * 768", ClickAction = Grafik },
                 new MenuChoice(optionsMenu) { Text = "1366 x 768", IsVisible = () => Settings.Default.Grafik == "1366 * 768", ClickAction = Grafik },
                 new MenuChoice(optionsMenu) { Text = "1440 x 900", IsVisible = () => Settings.Default.Grafik == "1440 * 900", ClickAction = Grafik },
                 new MenuChoice(optionsMenu) { Text = "1600 x 900", IsVisible = () => Settings.Default.Grafik == "1600 * 900", ClickAction = Grafik },
@@ -267,7 +267,7 @@ namespace Underwater_Boat
             {
                 GR = Graphics.set1;
             }
-            else if (Settings.Default.Grafik == "1024 * 700")
+            else if (Settings.Default.Grafik == "1024 * 768")
             {
                 GR = Graphics.set2;
             }
@@ -632,7 +632,7 @@ namespace Underwater_Boat
             if (GR == Graphics.set1)
             {
                 GR = Graphics.set2;
-                Settings.Default.Grafik = "1024 * 700";
+                Settings.Default.Grafik = "1024 * 768";
                 Settings.Default.Save();
             }
             else if (GR == Graphics.set2)

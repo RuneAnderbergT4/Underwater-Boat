@@ -43,7 +43,7 @@ namespace Underwater_Boat
 
         public UI ()
         {
-            fuelpos = new Vector2(22,853);
+            fuelpos = new Vector2(22, 857);
             healthpos = new Vector2(1074, 33);
             timerpos = new Vector2(760, 35);
             pointpos = new Vector2(47, 40);
@@ -78,7 +78,7 @@ namespace Underwater_Boat
         public void Draw(SpriteBatch spritebatch, GraphicsDeviceManager gDM)
         {
             spritebatch.Draw(HUDTop, Vector2.Zero, Color.White);
-            spritebatch.Draw(HUDBottom, new Vector2(0, (float) (gDM.PreferredBackBufferHeight - HUDBottom.Height * Game1.HeightScale)));
+            spritebatch.Draw(HUDBottom, new Vector2(0, 1080 - HUDBottom.Height), Color.White);
             spritebatch.DrawString(Timer, "Hej", timerpos, Color.Black);
             spritebatch.DrawString(Points, "Points: ", pointpos, Color.Black);
             if(sub.Fuel >= sub.MaxFuel* 1)
