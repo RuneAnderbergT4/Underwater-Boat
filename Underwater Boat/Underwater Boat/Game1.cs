@@ -168,6 +168,7 @@ namespace Underwater_Boat
 
         protected override void Update(GameTime gameTime)
         {
+            Projectiles.Update();
             currentSub = tb.currentSub;
             ui.Update(currentSub, gameTime);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)

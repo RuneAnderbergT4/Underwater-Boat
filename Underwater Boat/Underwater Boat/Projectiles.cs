@@ -10,6 +10,7 @@ namespace Underwater_Boat
 {
     public static class Projectiles
     {
+        
         public static List<Shot> projectiles;
         static Dictionary< Weap, Texture2D> Tex;
         public static void LoadContent(Game game)
@@ -23,12 +24,16 @@ namespace Underwater_Boat
         {
             projectiles.Add(shot);
         }
+        public static void Update()
+        {
+
+            foreach (Shot s in projectiles)
+                s.Position += s.Velocity;
+        }
         public static void Draw()
         {
             foreach (Shot s in projectiles)
-            {
                 Game1.spriteBatch.Draw(Tex[s.Weapon], s.Position, Color.White);
-            }
         }
 
     }
