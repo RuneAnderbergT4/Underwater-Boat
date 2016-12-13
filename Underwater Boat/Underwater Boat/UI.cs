@@ -76,43 +76,43 @@ namespace Underwater_Boat
             spritebatch.Draw(HUD, Vector2.Zero, Color.White);
             spritebatch.DrawString(Timer, "Hej", timerpos, Color.Black);
             spritebatch.DrawString(Points, "Points: ", pointpos, Color.Black);
-            if(sub.Fuel >= sub.MaxFuel* 1)
+            if(sub.Fuel <= sub.MaxFuel* 1 && sub.Fuel >= sub.MaxFuel * 0.9)
             {
                 spritebatch.Draw(FuelTank100, fuelpos, Color.White);
             }
-            else if(sub.Fuel >= sub.MaxFuel * 0.9)
+            else if(sub.Fuel <= sub.MaxFuel * 0.9 && sub.Fuel >= sub.MaxFuel * 0.8)
             {
                 spritebatch.Draw(FuelTank90, fuelpos, Color.White);
             }
-            else if(sub.Fuel >= sub.MaxFuel* 0.8)
+            else if(sub.Fuel <= sub.MaxFuel* 0.8 && sub.Fuel >= sub.MaxFuel * 0.7)
             {
                 spritebatch.Draw(FuelTank80, fuelpos, Color.White);
             }
-            else if(sub.Fuel >= sub.MaxFuel * 0.7)
+            else if(sub.Fuel <= sub.MaxFuel * 0.7 && sub.Fuel >= sub.MaxFuel * 0.6)
             {
                 spritebatch.Draw(FuelTank70, fuelpos, Color.White);
             }
-            else if (sub.Fuel >= stat.MaxFuel * 0.6)
+            else if (sub.Fuel <= stat.MaxFuel * 0.6 && sub.Fuel >= sub.MaxFuel * 0.5)
             {
                 spritebatch.Draw(FuelTank60, fuelpos, Color.White);
             }
-            else if (sub.Fuel >= stat.MaxFuel * 0.5)
+            else if (sub.Fuel <= stat.MaxFuel * 0.5 && sub.Fuel >= sub.MaxFuel * 0.4)
             {
                 spritebatch.Draw(FuelTank50, fuelpos, Color.White);
             }
-            else if (sub.Fuel >= stat.MaxFuel * 0.4)
+            else if (sub.Fuel <= stat.MaxFuel * 0.4 && sub.Fuel >= sub.MaxFuel * 0.3)
             {
                 spritebatch.Draw(FuelTank40, fuelpos, Color.White);
             }
-            else if (sub.Fuel >= stat.MaxFuel * 0.3)
+            else if (sub.Fuel <= stat.MaxFuel * 0.3 && sub.Fuel >= sub.MaxFuel * 0.2)
             {
                 spritebatch.Draw(FuelTank30, fuelpos, Color.White);
             }
-            else if (sub.Fuel >= stat.MaxFuel * 0.2)
+            else if (sub.Fuel <= stat.MaxFuel * 0.2 && sub.Fuel >= sub.MaxFuel * 0.1)
             {
                 spritebatch.Draw(FuelTank20, fuelpos, Color.White);
             }
-            else if (sub.Fuel >= stat.MaxFuel * 0.1)
+            else if (sub.Fuel <= stat.MaxFuel * 0.1 && sub.Fuel >= 0)
             {
                 spritebatch.Draw(FuelTank10, fuelpos, Color.White);
             }
