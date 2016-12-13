@@ -69,14 +69,14 @@ namespace Underwater_Boat
         public void Update()
         {
             KeyboardState ks = Keyboard.GetState();
-           
+
             if (currentteam == 1 && t1.members.Count != 0)
             {
-                if (t1sub == t1.members.Count)
+                if (MenuComponent.SP == MenuComponent.SelShip.Submarine && t1sub == 3)
                     t1sub = 0;
-                if (MenuComponent.SP == MenuComponent.SelShip.Ship)
+                else if (MenuComponent.SP == MenuComponent.SelShip.Ship && t1sub == 0)
                     t1sub = 3;
-                 t1.members[t1sub].color = Color.Salmon;
+                t1.members[t1sub].color = Color.Salmon;
                  t1.members[t1sub].Update();
                 currentSub = t1.members[t1sub];
 
@@ -85,7 +85,7 @@ namespace Underwater_Boat
                     t1.members[t1sub].ResetVel();
                     t1sub++;
                     currentteam *= -1;
-                    if (MenuComponent.SP == MenuComponent.SelShip.Ship && t1sub == (MenuComponent.AntVarde + 3))
+                    if (t1sub == (MenuComponent.AntVarde + 3) && MenuComponent.SP == MenuComponent.SelShip.Ship)
                         t1sub = 3;
                     if (t1sub == MenuComponent.AntVarde && MenuComponent.SP == MenuComponent.SelShip.Submarine)
                         t1sub = 0;
@@ -97,7 +97,7 @@ namespace Underwater_Boat
             {
                 if (t2sub == t2.members.Count )
                     t2sub = 0;
-                if (MenuComponent.SP == MenuComponent.SelShip.Ship)
+                else if (MenuComponent.SP == MenuComponent.SelShip.Ship && t2sub == 0)
                     t2sub = 3;
                 t2.members[t2sub].color = Color.Salmon;
                 t2.members[t2sub].Update();
@@ -108,7 +108,7 @@ namespace Underwater_Boat
                     t2.members[t2sub].ResetVel();
                     t2sub++;
                     currentteam *= -1;
-                    if (MenuComponent.SP == MenuComponent.SelShip.Ship && t2sub == (MenuComponent.AntVarde + 3))
+                    if (t2sub == (MenuComponent.AntVarde + 3) && MenuComponent.SP == MenuComponent.SelShip.Ship)
                         t2sub = 3;
                     if (t2sub == MenuComponent.AntVarde && MenuComponent.SP == MenuComponent.SelShip.Submarine)
                         t2sub = 0;

@@ -55,7 +55,6 @@ namespace Underwater_Boat
             tb.AddSub(SubType.Standard, false, "t1");
             tb.AddSub(SubType.X_1, false, "t2");
             tb.AddSub(SubType.YellowSubmarine, false, "t2");
-            ui = new UI();
             tb.AddSub(SubType.Standard, false, "t2");
             tb.AddSub(SubType.shipCamoflage, false, "t1");
             tb.AddSub(SubType.shipCarrier, false, "t1");
@@ -63,6 +62,7 @@ namespace Underwater_Boat
             tb.AddSub(SubType.shipTradional, false, "t2");
             tb.AddSub(SubType.shipVintage, false, "t2");
             tb.AddSub(SubType.shipPansar, false, "t2");
+            ui = new UI();
 
             base.Initialize();
         }
