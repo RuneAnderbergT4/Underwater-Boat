@@ -261,7 +261,8 @@ namespace Underwater_Boat
             _overlay = Game.Content.Load<Texture2D>("temp");
             _mouse = Game.Content.Load<Texture2D>("mouse");
             _song = Game.Content.Load<Song>("MenuMusic");
-            MediaPlayer.Play(_song);
+            if (Settings.Default.Sound)
+                MediaPlayer.Play(_song);
             _previousMouseState = Mouse.GetState();
             base.LoadContent();
         }
@@ -492,11 +493,13 @@ namespace Underwater_Boat
             SD = (SD == Sound.On) ? Sound.Off : Sound.On;
             if (SD == Sound.On)
             {
+                MediaPlayer.Play(_song);
                 Settings.Default.Sound = true;
                 Settings.Default.Save();
             }
             else
             {
+                MediaPlayer.Stop();
                 Settings.Default.Sound = false;
                 Settings.Default.Save();
             }
