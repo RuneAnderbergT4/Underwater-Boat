@@ -37,7 +37,7 @@ namespace Underwater_Boat {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1920 * 1080")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1600 * 900")]
         public string Grafik {
             get {
                 return ((string)(this["Grafik"]));

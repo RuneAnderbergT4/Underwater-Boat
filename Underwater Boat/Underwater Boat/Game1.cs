@@ -133,7 +133,6 @@ namespace Underwater_Boat
             {
                 graphics.IsFullScreen = true;
                 graphics.ApplyChanges();
-                Grafitti();
             }
             else if (Settings.Default.IsFullScreen == false)
             {

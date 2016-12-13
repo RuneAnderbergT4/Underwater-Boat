@@ -6,7 +6,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Grafik" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1920 * 1080</Value>
+      <Value Profile="(Default)">1600 * 900</Value>
     </Setting>
     <Setting Name="TwoPlayer" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

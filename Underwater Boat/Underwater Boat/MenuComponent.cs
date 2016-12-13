@@ -121,10 +121,10 @@ namespace Underwater_Boat
             };
             fightSel.Items = new List<MenuChoice>
             {
-                new MenuChoice(ShipMenu) { Text = "Choose the size of the teams", IsEnabled = false, ClickAction = MoveClick },
-                new MenuChoice(ShipMenu) { Text = "1 v 1", Selected = true, ClickAction = subSelection1, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "2 v 2", ClickAction = subSelection2, SubMenu = finalMenu },
-                new MenuChoice(ShipMenu) { Text = "3 v 3", ClickAction = subSelection3, SubMenu = finalMenu },
+                new MenuChoice(shipMenu) { Text = "Choose the size of the teams", IsEnabled = false, ClickAction = MoveClick },
+                new MenuChoice(shipMenu) { Text = "1 v 1", Selected = true, ClickAction = subSelection1, SubMenu = finalMenu },
+                new MenuChoice(shipMenu) { Text = "2 v 2", ClickAction = subSelection2, SubMenu = finalMenu },
+                new MenuChoice(shipMenu) { Text = "3 v 3", ClickAction = subSelection3, SubMenu = finalMenu },
                 new MenuChoice(shipMenu) { Text = "Return", ClickAction = MoveUpClick }
             };
             shipMenu.Items = new List<MenuChoice>
@@ -140,8 +140,8 @@ namespace Underwater_Boat
                 new MenuChoice(shipMenu) { Text = "YES", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = loadingMenu },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
-                new MenuChoice(ShipMenu) { Text = "", IsEnabled = false },
-                new MenuChoice(ShipMenu) { Text = "", IsEnabled = false },
+                new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
+                new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
             };
             optionsMenu.Items = new List<MenuChoice>
             {
@@ -459,6 +459,18 @@ namespace Underwater_Boat
             SP = SelShip.Submarine;
             finalMenu.Items[5].Text = "Submarines";
         }
+
+        private void StartLevelGeneration(Menu returnMenu)
+        {
+            Game1 g = Game as Game1;
+
+            _lvlgen = g.LoadMap();
+
+            _returnMenu = returnMenu;
+
+            gs = MenyState.Generating;
+        }
+
         private void UpdateLevel()
         {
             Game1 g = Game as Game1;
