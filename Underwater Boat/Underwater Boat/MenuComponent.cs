@@ -258,7 +258,7 @@ namespace Underwater_Boat
             _normalFont = Game.Content.Load<SpriteFont>("menuFontNormal");
             _selectedFont = Game.Content.Load<SpriteFont>("menuFontSelected");
             _background = Game.Content.Load<Texture2D>("Sjöodjur");
-            _overlay = Game.Content.Load<Texture2D>("temp");
+            _overlay = Game.Content.Load<Texture2D>("temp"); 
             _mouse = Game.Content.Load<Texture2D>("mouse");
             _song = Game.Content.Load<Song>("MenuMusic");
             if (Settings.Default.Sound)
@@ -322,8 +322,7 @@ namespace Underwater_Boat
                             choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, choice.Bild.Width, choice.Bild.Height - 10);
                         else if (FL == Full.off && choice.Bild == null)
                         {
-                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, (int) size.X,
-                                (int) size.Y - 10);
+                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, (int) size.X, (int) size.Y - 10);
                         }
                         else if (FL == Full.on && choice.Bild == null)
                         {
@@ -386,22 +385,6 @@ namespace Underwater_Boat
             } 
             base.Update(gameTime);
         }
-        private void PreviousMenuChoice()
-        {
-            int selectedIndex = _activeMenu.Items.IndexOf(_activeMenu.Items.First(c => c.Selected));
-            _activeMenu.Items[selectedIndex].Selected = false;
-            for (int i = 0; i < _activeMenu.Items.Count; i++)
-            {
-                selectedIndex--;
-                if (selectedIndex < 0)
-                    selectedIndex = _activeMenu.Items.Count - 1;
-                if (_activeMenu.Items[selectedIndex].IsVisible() && _activeMenu.Items[selectedIndex].IsEnabled)
-                {
-                    _activeMenu.Items[selectedIndex].Selected = true;
-                    break;
-                }
-            }
-        }
         private void NextMenuChoice()
         {
             int selectedIndex = _activeMenu.Items.IndexOf(_activeMenu.Items.First(c => c.Selected));
@@ -418,6 +401,22 @@ namespace Underwater_Boat
                 }
             }
         }
+        private void PreviousMenuChoice()
+        {
+            int selectedIndex = _activeMenu.Items.IndexOf(_activeMenu.Items.First(c => c.Selected));
+            _activeMenu.Items[selectedIndex].Selected = false;
+            for (int i = 0; i < _activeMenu.Items.Count; i++)
+            {
+                selectedIndex--;
+                if (selectedIndex < 0)
+                    selectedIndex = _activeMenu.Items.Count - 1;
+                if (_activeMenu.Items[selectedIndex].IsVisible() && _activeMenu.Items[selectedIndex].IsEnabled)
+                {
+                    _activeMenu.Items[selectedIndex].Selected = true;
+                    break;
+                }
+            }
+        }
         public void Draw(GameTime gameTime)
         {
             _spriteBatch.Begin();
@@ -427,7 +426,7 @@ namespace Underwater_Boat
                 if (!choice.IsVisible())
                     continue;
                 // HitBox Koll
-                //_spriteBatch.Draw(_overlay, choice.HitBox, Color.Blue);
+                _spriteBatch.Draw(_overlay, choice.HitBox, Color.Blue);
                 if (choice.Bild != null)
                     _spriteBatch.Draw(choice.Bild, new Vector2(choice.X, choice.Y));
                 else if (choice.Bild == null)

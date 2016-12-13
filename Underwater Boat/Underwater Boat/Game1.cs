@@ -48,6 +48,7 @@ namespace Underwater_Boat
         {
             mc = new MenuComponent(this);
             Components.Add(mc);
+            Components.Add(new KeyboardComponent(this));
             GS = GameState.Start;
             tb = new Turnbase("t1","t2");
             tb.AddSub(SubType.Aqua,false,"t1");
