@@ -22,10 +22,6 @@ namespace Underwater_Boat
         int currentweapon;
         public List<Weapon> Weapons { get; private set; }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/feature-Camera
         public Sub(Team Team,PlayerStat ps,bool isBot)
         {
             this.ps = ps;
@@ -41,12 +37,16 @@ namespace Underwater_Boat
             //Size = 1;
             MaxFuel = ps.MaxFuel;
             Maxspeed = 5;
-            Texturestring = ps.Texturestring;
+            TextureID = ps.TextureID;
             Fuel = MaxFuel;
             color = Color.White;
+<<<<<<< HEAD
             Weapons = new List<Weapon>();
             Weapons.Add(new Weapon(Weap.Nuke));
             currentweapon = 0;
+=======
+            Texture = ps.Texture;
+>>>>>>> origin/Hitbox
             Initialize();
             
         }
@@ -57,16 +57,10 @@ namespace Underwater_Boat
            // Fuel = 300888;
             Position = new Vector2(500,500);
             velocity = new Vector2(0,0);
+            
         }
 
-        
-        public  void LoadContent(Game Game1)
-        {
-            
-                    Texture = Game1.Content.Load<Texture2D>(Texturestring);
-              
-        }
-        
+       
         public  void Update()
         {
             KeyboardState ks = Keyboard.GetState();

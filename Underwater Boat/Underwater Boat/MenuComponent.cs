@@ -523,8 +523,10 @@ namespace Underwater_Boat
             AT = Antal.En;
             AntVarde = 1;
             finalMenu.Items[4].Text = "1 v 1";
+            Game1.tb.ClearPlayers();
             if (SP == SelShip.Submarine)
             {
+                
                 Game1.tb.AddSub(SubType.Aqua, false, "t1");
                 Game1.tb.AddSub(SubType.X_1, false, "t2");
             }
@@ -540,6 +542,7 @@ namespace Underwater_Boat
             AT = Antal.Två;
             AntVarde = 2;
             finalMenu.Items[4].Text = "2 v 2";
+            Game1.tb.ClearPlayers();
             if (SP == SelShip.Submarine)
             {
                 Game1.tb.AddSub(SubType.Aqua, false, "t1");
@@ -560,6 +563,7 @@ namespace Underwater_Boat
             AT = Antal.Tre;
             AntVarde = 3;
             finalMenu.Items[4].Text = "3 v 3";
+            Game1.tb.ClearPlayers();
             if (SP == SelShip.Submarine)
             {
                 Game1.tb.AddSub(SubType.Aqua, false, "t1");

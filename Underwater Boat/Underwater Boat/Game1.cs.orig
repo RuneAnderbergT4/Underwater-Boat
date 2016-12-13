@@ -27,18 +27,19 @@ namespace Underwater_Boat
         public static Matrix SpriteScale;
         public static double HeightScale;
         public static double WidthScale;
+        public static Sub currentSub;
 
-        Turnbase tb;
+        public static Turnbase tb;
+<<<<<<< HEAD
+        private UI ui;
+        private MenuComponent mc;
+=======
         UI ui;
         MenuComponent mc;
+>>>>>>> origin/Hitbox
         
         private Texture2D _level;
-<<<<<<< HEAD
-        public static Sub currentSub;
-=======
-        public Sub currentSub;
         private Camera _camera;
->>>>>>> origin/feature-Camera
 
         public Game1()
         {
@@ -51,24 +52,25 @@ namespace Underwater_Boat
 
         protected override void Initialize()
         {
+
             mc = new MenuComponent(this);
             Components.Add(mc);
             Components.Add(new KeyboardComponent(this));
             Components.Add(new GamePadComponent(this));
             GS = GameState.Start;
             tb = new Turnbase("t1","t2");
-            tb.AddSub(SubType.Aqua,false,"t1");
-            tb.AddSub(SubType.Megalodon, false, "t1");
-            tb.AddSub(SubType.Standard, false, "t1");
-            tb.AddSub(SubType.X_1, false, "t2");
-            tb.AddSub(SubType.YellowSubmarine, false, "t2");
-            tb.AddSub(SubType.Standard, false, "t2");
-            tb.AddSub(SubType.shipCamoflage, false, "t1");
-            tb.AddSub(SubType.shipCarrier, false, "t1");
-            tb.AddSub(SubType.shipPansar, false, "t1");
-            tb.AddSub(SubType.shipTradional, false, "t2");
-            tb.AddSub(SubType.shipVintage, false, "t2");
-            tb.AddSub(SubType.shipPansar, false, "t2");
+           
+            //tb.AddSub(SubType.Megalodon, false, "t1");
+            //tb.AddSub(SubType.Standard, false, "t1");
+            //tb.AddSub(SubType.X_1, false, "t2");
+            //tb.AddSub(SubType.YellowSubmarine, false, "t2");
+            //tb.AddSub(SubType.Standard, false, "t2");
+            //tb.AddSub(SubType.shipCamoflage, false, "t1");
+            //tb.AddSub(SubType.shipCarrier, false, "t1");
+            //tb.AddSub(SubType.shipPansar, false, "t1");
+            //tb.AddSub(SubType.shipTradional, false, "t2");
+            //tb.AddSub(SubType.shipVintage, false, "t2");
+            //tb.AddSub(SubType.shipPansar, false, "t2");
             ui = new UI();
 
             base.Initialize();
@@ -147,13 +149,17 @@ namespace Underwater_Boat
                 graphics.ApplyChanges();
             }
         }
+
         protected override void LoadContent()
         {
+            Submarine.LoadContent(this);
+            Ship.LoadContent(this);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            tb.LoadContent(this);
+            tb.AddSub(SubType.Aqua, false, "t1");
             ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
             Projectiles.LoadContent(this);
+
             // Default resolution is 1920x1080; scale sprites up or down based on current viewport
             WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
             HeightScale = graphics.PreferredBackBufferHeight / 1080.0;
@@ -162,6 +168,7 @@ namespace Underwater_Boat
             // Do not scale the sprite depth (Z=1).
             SpriteScale = Matrix.CreateScale((float)WidthScale, (float)WidthScale, 1);
         }
+
         protected override void UnloadContent()
         {
 
@@ -169,16 +176,26 @@ namespace Underwater_Boat
 
         protected override void Update(GameTime gameTime)
         {
-            currentSub = tb.currentSub;
-            ui.Update(currentSub, gameTime);
+
+            switch (GS)
+            {
+                case GameState.Playing:
+
+            tb.Update();
+            
+            Projectiles.Update();
+            ui.Update(gameTime);
+
+
+
+            _camera.UpdateCamera();
+                    break;
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-            
-            tb.Update();
-            _camera.UpdateCamera(currentSub);
-            
             base.Update(gameTime);
         }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -189,23 +206,16 @@ namespace Underwater_Boat
                     mc.Draw(gameTime);
                     break;
                 case GameState.Playing:
-                    // Draw non scaled content
-<<<<<<< HEAD
-                    spriteBatch.Begin();
-                    Projectiles.Draw();
-                    tb.Draw();
-                    spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
-                    Projectiles.Draw();
-=======
+                    // Draw game content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
-                    tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, Color.White);
->>>>>>> origin/feature-Camera
+                    tb.Draw();
+                    Projectiles.Draw();
                     spriteBatch.End();
 
-                    // Draw scaled content
+                    // Draw hud content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, SpriteScale);
-                    ui.Draw(spriteBatch, graphics);
+                    ui.Draw();
                     spriteBatch.End();
                     break;
                 case GameState.Pause:
