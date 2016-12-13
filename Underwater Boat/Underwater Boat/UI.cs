@@ -80,7 +80,7 @@ namespace Underwater_Boat
             this.stat = sub.ps;
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer -= elapsed;
-            if (timer < 0)
+            if (timer <= 0)
             {
                 Game1.tb.NextPlayer();
                 timer = TIMER; // Reset Timer
