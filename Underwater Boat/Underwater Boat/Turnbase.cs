@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
@@ -31,12 +32,12 @@ namespace Underwater_Boat
         {
             if ((int)st < 5)
             {
-                if (t1.teamname == teamname && MenuComponent.SP != MenuComponent.SelShip.Ship && t1.members.Count <= MenuComponent.AntVarde)
+                if (t1.teamname == teamname)
                 {
                     Sub sub = new Sub(t1, Submarine.Sub(st), isbot);
                     t1.members.Add(sub);
                 }
-                else if (t2.teamname == teamname && MenuComponent.SP != MenuComponent.SelShip.Ship && t2.members.Count <= MenuComponent.AntVarde)
+                else if (t2.teamname == teamname)
                 {
                     Sub sub = new Sub(t2, Submarine.Sub(st), isbot);
                     t2.members.Add(sub);
@@ -48,12 +49,12 @@ namespace Underwater_Boat
             }
             else 
             {
-                if (t1.teamname == teamname && MenuComponent.SP != MenuComponent.SelShip.Submarine && t1.members.Count <= MenuComponent.AntVarde)
+                if (t1.teamname == teamname)
                     {
                         Sub sub = new Sub(t1, Ship.ship(st), isbot);
                         t1.members.Add(sub);
                     }
-                    else if (t2.teamname == teamname && MenuComponent.SP != MenuComponent.SelShip.Submarine && t2.members.Count <= MenuComponent.AntVarde)
+                    else if (t2.teamname == teamname)
                     {
                         Sub sub = new Sub(t2, Ship.ship(st), isbot);
                         t2.members.Add(sub);
@@ -61,11 +62,12 @@ namespace Underwater_Boat
                     else
                         return false;
                 currentSub = t1.members[0];
-                    return true;
+                return true;
             }
         }
         public void Update()
         {
+
             switch (Game1.GS)
             {
                 case GameState.Playing:
