@@ -22,7 +22,6 @@ namespace Underwater_Boat
         int currentweapon;
         public List<Weapon> Weapons { get; private set; }
 
-
         public Sub(Team Team,PlayerStat ps,bool isBot)
         {
             this.ps = ps;
