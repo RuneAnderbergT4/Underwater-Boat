@@ -24,12 +24,16 @@ namespace Underwater_Boat
         {
             projectiles.Add(shot);
         }
+        public static void Update()
+        {
+
+            foreach (Shot s in projectiles)
+                s.Position += s.Velocity;
+        }
         public static void Draw()
         {
             foreach (Shot s in projectiles)
-            {
                 Game1.spriteBatch.Draw(Tex[s.Weapon], s.Position, Color.White);
-            }
         }
 
     }
