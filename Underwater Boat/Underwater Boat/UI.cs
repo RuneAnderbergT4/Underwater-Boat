@@ -74,19 +74,23 @@ namespace Underwater_Boat
             Timer = game.Content.Load<SpriteFont>("HUDTimer");
             Points = game.Content.Load<SpriteFont>("HUDPoints");
         }
-        public void Update(Sub sub, GameTime gameTime)
+        public void Update( GameTime gameTime)
         {
-            this.sub = sub;
+            sub = Game1.tb.currentSub;
             this.stat = sub.ps;
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer -= elapsed;
             if (timer < 0)
             {
+                Game1.tb.Nextplayer();
                 timer = TIMER; // Reset Timer
             }
         }
-        public void Draw(SpriteBatch spritebatch, GraphicsDeviceManager gDM)
+        public void Draw()
         {
+            sub = Game1.tb.currentSub;
+            stat = sub.ps;
+            SpriteBatch spritebatch = Game1.spriteBatch;
             spritebatch.Draw(HUDBlue, Vector2.Zero, Color.White);
             //spritebatch.Draw(HUDBottom, new Vector2(0, 1080 - HUDBottom.Height), Color.White);
             spritebatch.DrawString(Timer, ((int)timer).ToString(), timerpos, Color.Black);

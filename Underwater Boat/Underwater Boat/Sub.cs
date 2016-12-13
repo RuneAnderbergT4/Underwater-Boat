@@ -53,6 +53,7 @@ namespace Underwater_Boat
            // Fuel = 300888;
             Position = new Vector2(500,500);
             velocity = new Vector2(0,0);
+            
         }
 
         

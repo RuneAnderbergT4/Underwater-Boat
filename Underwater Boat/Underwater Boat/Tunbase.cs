@@ -28,6 +28,8 @@ namespace Underwater_Boat
         int firerate = 5;
         private bool fire;
 
+        public bool NextPlayer { get; private set; }
+
         public Turnbase(string team1, string team2)
         {
             t1 = new Team(team1);
@@ -36,6 +38,7 @@ namespace Underwater_Boat
             t1sub = 0;
             t2sub = 0;
             firerate = 1;
+            currentSub = new Sub(t1, new PlayerStat(), false);
         }
         public bool AddSub(SubType st, bool isbot, string teamname)
         {
@@ -90,9 +93,9 @@ namespace Underwater_Boat
                 t1.members[t1sub].Update();
                 currentSub = t1.members[t1sub];
 
-                if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
+                if (NextPlayer)
                 {
-
+                    NextPlayer = false;
                     t1.members[t1sub].ResetVel();
                     t1sub++;
                     currentteam *= -1;
@@ -108,8 +111,9 @@ namespace Underwater_Boat
                 t2.members[t2sub].Update();
                 currentSub = t2.members[t2sub];
 
-                if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
+                if (NextPlayer)
                 {
+                    NextPlayer = false;
                     t2.members[t2sub].ResetVel();
 
                     t2sub++;
@@ -118,9 +122,16 @@ namespace Underwater_Boat
             }
             else if (currentteam == -1 && t2.members.Count == 0)
                 currentteam *= -1;
-            Shoot();
             pks = ks;
+            Shoot();
+
+        } 
+
+        public void Nextplayer()
+        {
+            NextPlayer = true;
         }
+
         public void Draw()
         {
 
@@ -148,7 +159,7 @@ namespace Underwater_Boat
         }
         public void Shoot()
         {
-            Sub sub = Game1.currentSub;
+            Sub sub = currentSub;
             KeyboardState ks = Keyboard.GetState();
 
             if (sub.CurrentWeapon().CurrentAmmo > 0)
@@ -178,7 +189,7 @@ namespace Underwater_Boat
                         power = 1;
 
                     if (nrOfShots > 0 && nrOfShots % firerate == firerate - 1)
-                        Projectiles.Add(new Shot(sub.Position, new Vector2(power , 0), sub.CurrentWeapon().weapon));
+                        Projectiles.Add(new Shot(sub.Position, new Vector2(power, 0), sub.CurrentWeapon().weapon));
 
 
                     else if (nrOfShots <= 0)

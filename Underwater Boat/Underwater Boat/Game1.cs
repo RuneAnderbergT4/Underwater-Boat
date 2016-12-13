@@ -29,7 +29,7 @@ namespace Underwater_Boat
         public static double WidthScale;
         public static Sub currentSub;
 
-        private Turnbase tb;
+        public static Turnbase tb;
         private UI ui;
         private MenuComponent mc;
         
@@ -168,15 +168,23 @@ namespace Underwater_Boat
 
         protected override void Update(GameTime gameTime)
         {
+
+            switch (GS)
+            {
+                case GameState.Playing:
+
+            tb.Update();
+            
             Projectiles.Update();
-            currentSub = tb.currentSub;
-            ui.Update(currentSub, gameTime);
+            ui.Update(gameTime);
+
+
+
+            _camera.UpdateCamera();
+                    break;
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-            
-            tb.Update();
-            _camera.UpdateCamera(currentSub);
-            
             base.Update(gameTime);
         }
 
@@ -199,7 +207,7 @@ namespace Underwater_Boat
 
                     // Draw hud content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, SpriteScale);
-                    ui.Draw(spriteBatch, graphics);
+                    ui.Draw();
                     spriteBatch.End();
                     break;
                 case GameState.Pause:

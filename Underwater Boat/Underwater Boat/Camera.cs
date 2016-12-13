@@ -27,8 +27,9 @@ namespace Underwater_Boat
             pos = Vector2.Zero;
         }
 
-        public void UpdateCamera(Sub currentSub)
+        public void UpdateCamera()
         {
+            Sub currentSub = Game1.tb.currentSub;
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (keyboardState.IsKeyDown(Keys.C) && _previousKeyboardState.IsKeyUp(Keys.C))
