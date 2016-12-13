@@ -24,7 +24,6 @@ namespace Underwater_Boat
         public float Size { get; set; }
         public float MaxFuel { get; set; }
         public float Fuel { get; set; }
-
         public float Maxspeed { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Angle { get; set; }

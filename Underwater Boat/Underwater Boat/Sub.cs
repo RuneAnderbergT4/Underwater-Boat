@@ -29,7 +29,6 @@ namespace Underwater_Boat
             this.isBot = isBot;
            // PlayerId = ps.PlayerId;
             Name = ps.Name;
-            Health = ps.Health;
             Resistance = ps.Resistance;
             ExplosionResistence = ps.ExplosionResistence;
             Damage = ps.Damage;
