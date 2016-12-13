@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using UnderWater_Boat;
 
 namespace Underwater_Boat
 {
@@ -18,40 +19,39 @@ namespace Underwater_Boat
         GameOver
     }
 
-
     public class Game1 : Game
     {
         public static SpriteBatch spriteBatch;
         public static GameState GS;
         public static GraphicsDeviceManager graphics;
+        public static Matrix SpriteScale;
+        public static double HeightScale;
+        public static double WidthScale;
+
         Turnbase tb;
-
-<<<<<<< HEAD
-        
-=======
         UI ui;
->>>>>>> origin/UI
-
         MenuComponent mc;
-
+        
         private Rectangle _cameraRect;
         private Texture2D _level;
-        
+        private Sub currentSub;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Grafitti();
             FullScreen();
-            
             _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
+
         protected override void Initialize()
         {
             mc = new MenuComponent(this);
             Components.Add(mc);
+            Components.Add(new KeyboardComponent(this));
+            Components.Add(new GamePadComponent(this));
             GS = GameState.Start;
-<<<<<<< HEAD
             tb = new Turnbase("t1","t2");
             tb.AddSub(SubType.Aqua,false,"t1");
             tb.AddSub(SubType.Megalodon, false, "t1");
@@ -65,20 +65,16 @@ namespace Underwater_Boat
             tb.AddSub(SubType.shipTradional, false, "t2");
             tb.AddSub(SubType.shipVintage, false, "t2");
             tb.AddSub(SubType.shipPansar, false, "t2");
-
-=======
-            sub = new Sub(new Team("Team"),SubType.Light,false);
-            sub.Initialize();
-            sub2.Initialize();
-            sub3.Initialize();
             ui = new UI();
->>>>>>> origin/UI
+
             base.Initialize();
         }
+
         public void Restart()
         {
             
         }
+
         public void Grafitti()
         {
             switch (Settings.Default.Grafik)
@@ -88,9 +84,9 @@ namespace Underwater_Boat
                     graphics.PreferredBackBufferHeight = 1080;
                     graphics.ApplyChanges();
                     break;
-                case "1024 * 700":
-                    graphics.PreferredBackBufferWidth = 1024;
-                    graphics.PreferredBackBufferHeight = 700;
+                case "1600 * 900":
+                    graphics.PreferredBackBufferWidth = 1600;
+                    graphics.PreferredBackBufferHeight = 900;
                     graphics.ApplyChanges();
                     break;
                 case "1366 * 768":
@@ -98,14 +94,9 @@ namespace Underwater_Boat
                     graphics.PreferredBackBufferHeight = 768;
                     graphics.ApplyChanges();
                     break;
-                case "1440 * 900":
-                    graphics.PreferredBackBufferWidth = 1440;
-                    graphics.PreferredBackBufferHeight = 900;
-                    graphics.ApplyChanges();
-                    break;
-                case "1600 * 900":
-                    graphics.PreferredBackBufferWidth = 1600;
-                    graphics.PreferredBackBufferHeight = 900;
+                case "1280 * 720":
+                    graphics.PreferredBackBufferWidth = 1280;
+                    graphics.PreferredBackBufferHeight = 720;
                     graphics.ApplyChanges();
                     break;
                 default:
@@ -114,28 +105,24 @@ namespace Underwater_Boat
                     graphics.ApplyChanges();
                     break;
             }
+
+            if (graphics.GraphicsDevice != null)
+            {
+                // Default resolution is 1920x1080; scale sprites up or down based on current viewport
+                WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
+                HeightScale = graphics.PreferredBackBufferHeight / 1080.0;
+
+                // Create the scale transform for Draw. 
+                // Do not scale the sprite depth (Z=1).
+                SpriteScale = Matrix.CreateScale((float) WidthScale, (float)WidthScale, 1);
+            }
         }
-<<<<<<< HEAD
 
         public LevelGenerator LoadMap()
         {
             var lvlgen = new LevelGenerator();
-
             lvlgen.StartGenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
-
             return lvlgen;
-=======
-        public void ChooseSprites()
-        {
-            if (MenuComponent.SP == MenuComponent.SelShip.Ship)
-            {
-
-            }
-            else
-            {
-                
-            }
->>>>>>> origin/ValKlasser
         }
 
         public void UpdateLevel()
@@ -149,7 +136,6 @@ namespace Underwater_Boat
             {
                 graphics.IsFullScreen = true;
                 graphics.ApplyChanges();
-                Grafitti();
             }
             else if (Settings.Default.IsFullScreen == false)
             {
@@ -161,28 +147,33 @@ namespace Underwater_Boat
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             tb.LoadContent(this);
-=======
             ui.LoadContent(this);
->>>>>>> origin/UI
+            _level = new Texture2D(GraphicsDevice, 1, 1);
+<<<<<<< HEAD
 
+            // Default resolution is 1920x1080; scale sprites up or down based on current viewport
+            WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
+            HeightScale = graphics.PreferredBackBufferHeight / 1080.0;
+
+            // Create the scale transform for Draw. 
+            // Do not scale the sprite depth (Z=1).
+            SpriteScale = Matrix.CreateScale((float)WidthScale, (float)WidthScale, 1);
+=======
+            Projectiles.LoadContent(this);
+>>>>>>> origin/PewPew
         }
         protected override void UnloadContent()
         {
-            
-            
+
         }
+
         protected override void Update(GameTime gameTime)
         {
-            ui.Update();
+            currentSub = tb.currentSub;
+            ui.Update(currentSub);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-
-            switch (GS)
-            {
-                case GameState.Start:
-                    break;
-            }
-
+            
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
             tb.Update();
@@ -216,12 +207,24 @@ namespace Underwater_Boat
                     mc.Draw(gameTime);
                     break;
                 case GameState.Playing:
-                   
+                    // Draw non scaled content
                     spriteBatch.Begin();
+                    Projectiles.Draw();
                     tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
-                    ui.Draw(spriteBatch);
+                    Projectiles.Draw();
                     spriteBatch.End();
+
+                    // Draw scaled content
+                    spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, SpriteScale);
+                    ui.Draw(spriteBatch, graphics);
+                    spriteBatch.End();
+                    break;
+                case GameState.Pause:
+                    break;
+                case GameState.GameOver:
+                    break;
+                default:
                     break;
             }
 
