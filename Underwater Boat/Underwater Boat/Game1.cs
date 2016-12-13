@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using UnderWater_Boat;
 
 namespace Underwater_Boat
 {
@@ -49,6 +50,7 @@ namespace Underwater_Boat
             mc = new MenuComponent(this);
             Components.Add(mc);
             Components.Add(new KeyboardComponent(this));
+            Components.Add(new GamePadComponent(this));
             GS = GameState.Start;
             tb = new Turnbase("t1","t2");
             tb.AddSub(SubType.Aqua,false,"t1");
