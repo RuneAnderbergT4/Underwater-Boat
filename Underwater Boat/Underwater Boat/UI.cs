@@ -21,9 +21,8 @@ namespace Underwater_Boat
         Vector2 pointpos;
         Vector2 profilepos;
 
-        //Texture2D HUD;
-        private Texture2D HUDTop;
-        private Texture2D HUDBottom;
+        Texture2D HUDBlue;
+        Texture2D HUDRed;
         Texture2D FuelTank100;
         Texture2D FuelTank90;
         Texture2D FuelTank80;
@@ -56,9 +55,8 @@ namespace Underwater_Boat
 
         public void LoadContent(Game1 game)
         {
-            //HUD = game.Content.Load<Texture2D>("HUD watergame");
-            HUDTop = game.Content.Load<Texture2D>("HUD watergame Top");
-            HUDBottom = game.Content.Load<Texture2D>("HUD watergame Bottom");
+            HUDBlue = game.Content.Load<Texture2D>("HUD watergame");
+            HUDRed = game.Content.Load<Texture2D>("HUD watergame red");
             FuelTank100 = game.Content.Load<Texture2D>("FuelTank100%");
             FuelTank90 = game.Content.Load<Texture2D>("FuelTank90%");
             FuelTank80 = game.Content.Load<Texture2D>("FuelTank80%");
@@ -89,8 +87,8 @@ namespace Underwater_Boat
         }
         public void Draw(SpriteBatch spritebatch, GraphicsDeviceManager gDM)
         {
-            spritebatch.Draw(HUDTop, Vector2.Zero, Color.White);
-            spritebatch.Draw(HUDBottom, new Vector2(0, 1080 - HUDBottom.Height), Color.White);
+            spritebatch.Draw(HUDBlue, Vector2.Zero, Color.White);
+            //spritebatch.Draw(HUDBottom, new Vector2(0, 1080 - HUDBottom.Height), Color.White);
             spritebatch.DrawString(Timer, ((int)timer).ToString(), timerpos, Color.Black);
             spritebatch.DrawString(Points, "Points: ", pointpos, Color.Black);
             spritebatch.Draw(SubmarineProfile1, profilepos, Color.White);
