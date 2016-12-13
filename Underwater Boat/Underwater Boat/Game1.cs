@@ -47,13 +47,14 @@ namespace Underwater_Boat
 
         protected override void Initialize()
         {
+
             mc = new MenuComponent(this);
             Components.Add(mc);
             Components.Add(new KeyboardComponent(this));
             Components.Add(new GamePadComponent(this));
             GS = GameState.Start;
             tb = new Turnbase("t1","t2");
-            tb.AddSub(SubType.Aqua,false,"t1");
+           
             //tb.AddSub(SubType.Megalodon, false, "t1");
             //tb.AddSub(SubType.Standard, false, "t1");
             //tb.AddSub(SubType.X_1, false, "t2");
@@ -145,8 +146,10 @@ namespace Underwater_Boat
         }
         protected override void LoadContent()
         {
+            Submarine.LoadContent(this);
+            Ship.LoadContent(this);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            tb.LoadContent(this);
+            tb.AddSub(SubType.Aqua, false, "t1");
             ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
 

@@ -37,10 +37,10 @@ namespace Underwater_Boat
             //Size = 1;
             MaxFuel = ps.MaxFuel;
             Maxspeed = 5;
-            Texturestring = ps.Texturestring;
+            TextureID = ps.TextureID;
             Fuel = MaxFuel;
             color = Color.White;
-
+            Texture = ps.Texture;
             Initialize();
             
         }
@@ -53,14 +53,7 @@ namespace Underwater_Boat
             velocity = new Vector2(0,0);
         }
 
-        
-        public  void LoadContent(Game Game1)
-        {
-            
-                    Texture = Game1.Content.Load<Texture2D>(Texturestring);
-              
-        }
-        
+       
         public  void Update()
         {
             KeyboardState ks = Keyboard.GetState();

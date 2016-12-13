@@ -121,16 +121,6 @@ namespace Underwater_Boat
                     s.Draw();
                 }
         }
-        internal void LoadContent(Game1 game1)
-        {
-            foreach (var s in t1.members)
-            {
-                s.LoadContent(game1);
-            }
-            foreach (var s in t2.members)
-            {
-                s.LoadContent(game1);
-            }
-        }
+       
     }
 }
