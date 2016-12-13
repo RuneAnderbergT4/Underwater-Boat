@@ -82,7 +82,7 @@ namespace Underwater_Boat
             timer -= elapsed;
             if (timer < 0)
             {
-                Game1.tb.Nextplayer();
+                Game1.tb.NextPlayer();
                 timer = TIMER; // Reset Timer
             }
         }
