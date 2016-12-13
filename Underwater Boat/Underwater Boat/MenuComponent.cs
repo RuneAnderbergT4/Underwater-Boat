@@ -426,7 +426,7 @@ namespace Underwater_Boat
                 if (!choice.IsVisible())
                     continue;
                 // HitBox Koll
-                _spriteBatch.Draw(_overlay, choice.HitBox, Color.Blue);
+                //_spriteBatch.Draw(_overlay, choice.HitBox, Color.Blue);
                 if (choice.Bild != null)
                     _spriteBatch.Draw(choice.Bild, new Vector2(choice.X, choice.Y));
                 else if (choice.Bild == null)

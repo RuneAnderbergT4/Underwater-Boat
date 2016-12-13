@@ -32,9 +32,13 @@ namespace Underwater_Boat
         UI ui;
         MenuComponent mc;
         
-        private Rectangle _cameraRect;
         private Texture2D _level;
-        private Sub currentSub;
+<<<<<<< HEAD
+        public static Sub currentSub;
+=======
+        public Sub currentSub;
+        private Camera _camera;
+>>>>>>> origin/feature-Camera
 
         public Game1()
         {
@@ -42,7 +46,7 @@ namespace Underwater_Boat
             Content.RootDirectory = "Content";
             Grafitti();
             FullScreen();
-            _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            _camera = new Camera();
         }
 
         protected override void Initialize()
@@ -149,8 +153,7 @@ namespace Underwater_Boat
             tb.LoadContent(this);
             ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
-<<<<<<< HEAD
-
+            Projectiles.LoadContent(this);
             // Default resolution is 1920x1080; scale sprites up or down based on current viewport
             WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
             HeightScale = graphics.PreferredBackBufferHeight / 1080.0;
@@ -158,9 +161,6 @@ namespace Underwater_Boat
             // Create the scale transform for Draw. 
             // Do not scale the sprite depth (Z=1).
             SpriteScale = Matrix.CreateScale((float)WidthScale, (float)WidthScale, 1);
-=======
-            Projectiles.LoadContent(this);
->>>>>>> origin/PewPew
         }
         protected override void UnloadContent()
         {
@@ -170,31 +170,13 @@ namespace Underwater_Boat
         protected override void Update(GameTime gameTime)
         {
             currentSub = tb.currentSub;
-            ui.Update(currentSub);
+            ui.Update(currentSub, gameTime);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
             
-            KeyboardState ks = Keyboard.GetState();
-            GamePadState gs = GamePad.GetState(0);
             tb.Update();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && _cameraRect.Top > 0)
-            {
-                _cameraRect.Y -= 20;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && _cameraRect.Bottom < _level.Height)
-            {
-                _cameraRect.Y += 20;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && _cameraRect.Left > 0)
-            {
-                _cameraRect.X -= 20;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && _cameraRect.Right < _level.Width)
-            {
-                _cameraRect.X += 20;
-            }
-
+            _camera.UpdateCamera(currentSub);
+            
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -208,11 +190,17 @@ namespace Underwater_Boat
                     break;
                 case GameState.Playing:
                     // Draw non scaled content
+<<<<<<< HEAD
                     spriteBatch.Begin();
                     Projectiles.Draw();
                     tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
                     Projectiles.Draw();
+=======
+                    spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
+                    tb.Draw();
+                    spriteBatch.Draw(_level, Vector2.Zero, Color.White);
+>>>>>>> origin/feature-Camera
                     spriteBatch.End();
 
                     // Draw scaled content

@@ -11,6 +11,7 @@ namespace Underwater_Boat
 {
     public class Sub : PlayerStatBase
     {
+        public PlayerStat ps;
         Team Team;
         bool isBot;
         float HP;
@@ -18,19 +19,18 @@ namespace Underwater_Boat
         bool movingrignt;
         public bool gamepad; // = true;
         private bool movingUp;
+        int currentweapon;
+        public List<Weapon> Weapons { get; private set; }
 
-      
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/feature-Camera
         public Sub(Team Team,PlayerStat ps,bool isBot)
         {
-<<<<<<< HEAD
-=======
-            
->>>>>>> origin/turnbasestart
+            this.ps = ps;
             this.Team = Team;
             this.isBot = isBot;
-<<<<<<< HEAD
-=======
            // PlayerId = ps.PlayerId;
             Name = ps.Name;
             Health = ps.Health;
@@ -44,12 +44,11 @@ namespace Underwater_Boat
             Texturestring = ps.Texturestring;
             Fuel = MaxFuel;
             color = Color.White;
-
-
-
+            Weapons = new List<Weapon>();
+            Weapons.Add(new Weapon(Weap.Nuke));
+            currentweapon = 0;
             Initialize();
             
->>>>>>> origin/turnbasestart
         }
         public  void Initialize()
         {
@@ -68,15 +67,7 @@ namespace Underwater_Boat
               
         }
         
-<<<<<<< HEAD
-        public  void Update(KeyboardState ks,GamePadState gs)
-=======
-
-       
-
-        
         public  void Update()
->>>>>>> origin/turnbasestart
         {
             KeyboardState ks = Keyboard.GetState();
             GamePadState gs = GamePad.GetState(0);
@@ -178,18 +169,17 @@ namespace Underwater_Boat
             movingrignt = false;
             movingUp = false;
         }
-<<<<<<< HEAD
-        
-       public  void Draw()
-=======
 
+        public Weapon CurrentWeapon()
+        {
+            return Weapons[currentweapon];
+        }
 
         public void Draw()
         {
             Game1.spriteBatch.Draw(Texture, Position, color);
         }
         public void ResetVel()
->>>>>>> origin/turnbasestart
         {
             color = Color.White;
             velocity = Vector2.Zero;

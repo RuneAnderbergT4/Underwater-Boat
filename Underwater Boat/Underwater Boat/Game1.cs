@@ -27,13 +27,13 @@ namespace Underwater_Boat
         public static Matrix SpriteScale;
         public static double HeightScale;
         public static double WidthScale;
+        public static Sub currentSub;
 
-        Turnbase tb;
-        UI ui;
-        MenuComponent mc;
+        private Turnbase tb;
+        private UI ui;
+        private MenuComponent mc;
         
         private Texture2D _level;
-        public static Sub currentSub;
         private Camera _camera;
 
         public Game1()
@@ -143,6 +143,7 @@ namespace Underwater_Boat
                 graphics.ApplyChanges();
             }
         }
+
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -150,6 +151,7 @@ namespace Underwater_Boat
             ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
             Projectiles.LoadContent(this);
+
             // Default resolution is 1920x1080; scale sprites up or down based on current viewport
             WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
             HeightScale = graphics.PreferredBackBufferHeight / 1080.0;
@@ -158,6 +160,7 @@ namespace Underwater_Boat
             // Do not scale the sprite depth (Z=1).
             SpriteScale = Matrix.CreateScale((float)WidthScale, (float)WidthScale, 1);
         }
+
         protected override void UnloadContent()
         {
 
@@ -175,6 +178,7 @@ namespace Underwater_Boat
             
             base.Update(gameTime);
         }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -185,15 +189,14 @@ namespace Underwater_Boat
                     mc.Draw(gameTime);
                     break;
                 case GameState.Playing:
-                    // Draw non scaled content
+                    // Draw game content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
-                    Projectiles.Draw();
-                    tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, Color.White);
+                    tb.Draw();
                     Projectiles.Draw();
                     spriteBatch.End();
 
-                    // Draw scaled content
+                    // Draw hud content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, SpriteScale);
                     ui.Draw(spriteBatch, graphics);
                     spriteBatch.End();
