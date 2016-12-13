@@ -12,11 +12,14 @@ namespace Underwater_Boat
     {
         PlayerStat stat;
         Sub sub;
+        float timer = 30;
+        const float TIMER = 30;
 
         Vector2 fuelpos;
         Vector2 healthpos;
         Vector2 timerpos;
         Vector2 pointpos;
+        Vector2 profilepos;
 
         Texture2D HUD;
         Texture2D FuelTank100;
@@ -32,6 +35,7 @@ namespace Underwater_Boat
         Texture2D FuelTank0;
         Texture2D RedHealthBar;
         Texture2D GreenHealthBar;
+        Texture2D SubmarineProfile1;
 
         SpriteFont Timer;
         SpriteFont Points;
@@ -45,6 +49,7 @@ namespace Underwater_Boat
             healthpos = new Vector2(1074, 33);
             timerpos = new Vector2(760, 35);
             pointpos = new Vector2(47, 40);
+            profilepos = new Vector2(773, 858);
         }
 
         public void LoadContent(Game1 game)
@@ -63,19 +68,27 @@ namespace Underwater_Boat
             FuelTank0 = game.Content.Load<Texture2D>("FuelTank0%");
             RedHealthBar = game.Content.Load<Texture2D>("Big red healthbar");
             GreenHealthBar = game.Content.Load<Texture2D>("Big green healthbar");
+            SubmarineProfile1 = game.Content.Load<Texture2D>("Submarine 1 profile");
             Timer = game.Content.Load<SpriteFont>("HUDTimer");
             Points = game.Content.Load<SpriteFont>("HUDPoints");
         }
-        public void Update(Sub sub)
+        public void Update(Sub sub, GameTime gameTime)
         {
             this.sub = sub;
             this.stat = sub.ps;
+            float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            timer -= elapsed;
+            if (timer < 0)
+            {
+                timer = TIMER; // Reset Timer
+            }
         }
         public void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Draw(HUD, Vector2.Zero, Color.White);
-            spritebatch.DrawString(Timer, "Hej", timerpos, Color.Black);
+            spritebatch.DrawString(Timer, ((int)timer).ToString(), timerpos, Color.Black);
             spritebatch.DrawString(Points, "Points: ", pointpos, Color.Black);
+            spritebatch.Draw(SubmarineProfile1, profilepos, Color.White);
             if(sub.Fuel <= sub.MaxFuel* 1 && sub.Fuel >= sub.MaxFuel * 0.9)
             {
                 spritebatch.Draw(FuelTank100, fuelpos, Color.White);
