@@ -139,6 +139,7 @@ namespace Underwater_Boat
             spriteBatch = new SpriteBatch(GraphicsDevice);
             tb.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
+            Projectiles.LoadContent(this);
         }
         protected override void UnloadContent()
         {
@@ -191,8 +192,10 @@ namespace Underwater_Boat
                 case GameState.Playing:
                    
                     spriteBatch.Begin();
+                    Projectiles.Draw();
                     tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+                    Projectiles.Draw();
                     spriteBatch.End();
                     break;
             }

@@ -10,15 +10,16 @@ namespace Underwater_Boat
 {
     public class Shot
     {
+        public Weap Weapon;
         public Vector2 Position { get; set; }
         public Vector2 Speed { get; set; }
-        public string Texture { get; set; }
-        public Shot(Vector2 Position, Vector2 Speed,string Texture)
+        public Texture2D Texture { get; set; }
+        public Shot(Vector2 Position, Vector2 Speed,Weap Weapon)
         {
             this.Position = Position;
             this.Speed = Speed;
-            this.Texture = Texture;
+            this.Weapon  = Weapon;
         }
-
+        
     }
 }

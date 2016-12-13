@@ -39,7 +39,8 @@ namespace Underwater_Boat
             Texturestring = ps.Texturestring;
             Fuel = MaxFuel;
             color = Color.White;
-            Weapons.Add(new Weapon());
+            Weapons = new List<Weapon>();
+            Weapons.Add(new Weapon(Weap.Nuke));
             currentweapon = 0;
             Initialize();
             

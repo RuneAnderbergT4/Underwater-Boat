@@ -12,15 +12,16 @@ using System.Diagnostics;
 
 namespace Underwater_Boat
 {
-    class Turnbase
+    public class Turnbase
     {
-        public static Team t1;
-        public static Team t2;
+        public  Team t1;
+        public  Team t2;
         int currentteam;
         int t1sub;
         int t2sub;
         KeyboardState pks;
-        bool shooting;
+        public Sub currentSub;
+                bool shooting;
         float power;
         int upDown;
         int nrOfShots;
@@ -35,7 +36,7 @@ namespace Underwater_Boat
             t1sub = 0;
             t2sub = 0;
         }
-        public bool AddSub(SubType st, bool isbot, string teamname)
+        public bool AddSub(SubType st,bool isbot,string teamname)
         {
             if ((int)st < 5)
             {
@@ -47,10 +48,12 @@ namespace Underwater_Boat
                 else if (t2.teamname == teamname)
                 {
                     Sub sub = new Sub(t2, Submarine.Sub(st), isbot);
+                    
                     t2.members.Add(sub);
                 }
                 else
                     return false;
+                currentSub = t1.members[0];
                 return true;
             }
             else
@@ -58,34 +61,37 @@ namespace Underwater_Boat
                 if (t1.teamname == teamname)
                 {
                     Sub sub = new Sub(t1, Ship.ship(st), isbot);
+                    sub.isboat = true;
                     t1.members.Add(sub);
                 }
                 else if (t2.teamname == teamname)
                 {
                     Sub sub = new Sub(t2, Ship.ship(st), isbot);
+                    sub.isboat = true;
                     t2.members.Add(sub);
                 }
                 else
                     return false;
+                currentSub = t1.members[0];
                 return true;
             }
         }
-
+        
         public void Update()
         {
             KeyboardState ks = Keyboard.GetState();
-
+           
             if (currentteam == 1 && t1.members.Count != 0)
             {
-                if (t1sub == t1.members.Count)
+                if (t1sub == t1.members.Count )
                     t1sub = 0;
-                t1.members[t1sub].color = Color.Salmon;
-                t1.members[t1sub].Update();
-
+                 t1.members[t1sub].color = Color.Salmon;
+                 t1.members[t1sub].Update();
+                currentSub = t1.members[t1sub];
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
-
+                   
                     t1.members[t1sub].ResetVel();
                     t1sub++;
                     currentteam *= -1;
@@ -95,11 +101,11 @@ namespace Underwater_Boat
                 currentteam *= -1;
             else if (currentteam == -1 && t2.members.Count != 0)
             {
-                if (t2sub == t2.members.Count)
+                if (t2sub == t2.members.Count )
                     t2sub = 0;
                 t2.members[t2sub].color = Color.Salmon;
                 t2.members[t2sub].Update();
-
+                currentSub = t2.members[t2sub];
 
                 if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 {
@@ -115,7 +121,7 @@ namespace Underwater_Boat
         }
         public void Draw()
         {
-
+            
             foreach (var s in t1.members)
             {
                 s.Draw();
@@ -124,7 +130,7 @@ namespace Underwater_Boat
             {
                 s.Draw();
             }
-
+            
         }
 
         internal void LoadContent(Game1 game1)
@@ -138,7 +144,7 @@ namespace Underwater_Boat
                 s.LoadContent(game1);
             }
         }
-        public void Shoot(Sub sub)
+         public void Shoot(Sub sub)
         {
             KeyboardState ks = Keyboard.GetState();
 
@@ -169,7 +175,7 @@ namespace Underwater_Boat
                         power = 1;
 
                     if (nrOfShots > 0 && nrOfShots % firerate == firerate - 1)
-                        Projectiles.Add(new Shot(sub.Position,  new Vector2(3,0),sub.CurrentWeapon().Texture));
+                        Projectiles.Add(new Shot(sub.Position,  new Vector2(3,0),sub.CurrentWeapon().weapon));
 
 
                     else if (nrOfShots <= 0)

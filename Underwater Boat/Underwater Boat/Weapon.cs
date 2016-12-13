@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Underwater_Boat
 {
+    public enum Weap
+    {
+        Nuke,
+        torpedo
+    }
     public class Weapon
     {
         public string Name { get; private set; }
@@ -13,10 +18,12 @@ namespace Underwater_Boat
         public string Texture { get; private set; }
         public int CurrentAmmo { get; set; }
         public int ShotsFired { get; set; }
+        public Weap weapon;
 
-        public Weapon()
+        public Weapon(Weap weapon)
         {
-            Name = "";
+            this.weapon = weapon;
+            Name = weapon.ToString();
             Texture = "Skott";
             CurrentAmmo = 50;
             ShotsFired = 1;

@@ -117,7 +117,7 @@ namespace Underwater_Boat
 
             Progress = "Setting Texture2D data...";
 
-            level.SetData(col);
+           level.SetData(col);
 
             Result = level;
 
