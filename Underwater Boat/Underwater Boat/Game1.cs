@@ -31,9 +31,9 @@ namespace Underwater_Boat
         UI ui;
         MenuComponent mc;
         
-        private Rectangle _cameraRect;
         private Texture2D _level;
-        private Sub currentSub;
+        public Sub currentSub;
+        private Camera _camera;
 
         public Game1()
         {
@@ -41,7 +41,7 @@ namespace Underwater_Boat
             Content.RootDirectory = "Content";
             Grafitti();
             FullScreen();
-            _cameraRect = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            _camera = new Camera();
         }
 
         protected override void Initialize()
@@ -167,27 +167,9 @@ namespace Underwater_Boat
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
             
-            KeyboardState ks = Keyboard.GetState();
-            GamePadState gs = GamePad.GetState(0);
             tb.Update();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && _cameraRect.Top > 0)
-            {
-                _cameraRect.Y -= 20;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && _cameraRect.Bottom < _level.Height)
-            {
-                _cameraRect.Y += 20;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && _cameraRect.Left > 0)
-            {
-                _cameraRect.X -= 20;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && _cameraRect.Right < _level.Width)
-            {
-                _cameraRect.X += 20;
-            }
-
+            _camera.UpdateCamera(currentSub);
+            
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -201,9 +183,9 @@ namespace Underwater_Boat
                     break;
                 case GameState.Playing:
                     // Draw non scaled content
-                    spriteBatch.Begin();
+                    spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
                     tb.Draw();
-                    spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+                    spriteBatch.Draw(_level, Vector2.Zero, Color.White);
                     spriteBatch.End();
 
                     // Draw scaled content

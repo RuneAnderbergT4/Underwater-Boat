@@ -20,8 +20,6 @@ namespace Underwater_Boat
         public bool gamepad; // = true;
         private bool movingUp;
 
-      
-
         public Sub(Team Team,PlayerStat ps,bool isBot)
         {
             this.ps = ps;
