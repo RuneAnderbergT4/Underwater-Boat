@@ -34,7 +34,7 @@ namespace Underwater_Boat
         
         private Rectangle _cameraRect;
         private Texture2D _level;
-        private Sub currentSub;
+        public static Sub currentSub;
 
         public Game1()
         {

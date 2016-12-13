@@ -126,6 +126,8 @@ namespace Underwater_Boat
             }
             else if (currentteam == -1 && t2.members.Count == 0)
                 currentteam *= -1;
+           
+            Shoot();
             pks = ks;
         }
         public void Draw()
@@ -189,8 +191,9 @@ namespace Underwater_Boat
                 s.LoadContent(game1);
             }
         }
-         public void Shoot(Sub sub)
+         public void Shoot()
         {
+            Sub sub = Game1.currentSub;
             KeyboardState ks = Keyboard.GetState();
 
             if (sub.CurrentWeapon().CurrentAmmo > 0)
