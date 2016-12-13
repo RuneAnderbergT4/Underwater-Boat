@@ -62,7 +62,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="UI.cs" />
-    <Compile Include="Tunbase.cs" />
+    <Compile Include="Turnbase.cs" />
     <Compile Include="Weapon.cs" />
   </ItemGroup>
   <ItemGroup>

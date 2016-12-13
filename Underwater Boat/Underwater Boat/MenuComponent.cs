@@ -109,7 +109,7 @@ namespace Underwater_Boat
 
             _menu.Items = new List<MenuChoice>
             {
-                new MenuChoice(null) { Text = "Sea battle of DOOOOM", IsEnabled = false },
+                new MenuChoice(null) { Text = "SEA BATTLE OF DOOOOM", IsEnabled = false },
                 new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = shipMenu, IsVisible = () => Game1.GS != GameState.Pause },
                 new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == GameState.Pause, IsEnabled = false },
                 new MenuChoice(null) { Text = "ONE PLAYER", IsVisible = () => Settings.Default.TwoPlayer == true, ClickAction = PlayerNum },
@@ -136,11 +136,12 @@ namespace Underwater_Boat
             finalMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(shipMenu) { Text = "Are you pleased with your selection?", IsEnabled = false },
-                new MenuChoice(shipMenu) { Text = "YES", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = generatingLevel },
+                new MenuChoice(shipMenu) { Text = "Yes", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = generatingLevel },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
+                new MenuChoice(shipMenu) { Text = "Return", ClickAction = MoveUpClick}
             };
             optionsMenu.Items = new List<MenuChoice>
             {
@@ -193,7 +194,7 @@ namespace Underwater_Boat
             };
             startPlaying.Items = new List<MenuChoice>
             {
-                new MenuChoice(_menu) {Text = "Start Playing!", ClickAction = MenuStartClicked}
+                new MenuChoice(_menu) {Text = "Start Playing!", ClickAction = MenuStartClicked, Selected = true}
             };
 
             #endregion
@@ -314,7 +315,6 @@ namespace Underwater_Boat
                     {
                         if (!choice.IsVisible())
                             continue;
-
                         Vector2 size = _normalFont.MeasureString(choice.Text);
                         choice.Y = startY;
                         choice.X = GraphicsDevice.Viewport.Width/2.0f - size.X/2;
@@ -322,7 +322,7 @@ namespace Underwater_Boat
                             choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, choice.Bild.Width, choice.Bild.Height - 10);
                         else if (FL == Full.off && choice.Bild == null)
                         {
-                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, (int) size.X, (int) size.Y - 10);
+                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y, (int) size.X, (int) size.Y);
                         }
                         else if (FL == Full.on && choice.Bild == null)
                         {
@@ -449,7 +449,7 @@ namespace Underwater_Boat
         }
         private void MenuShipSelClick()
         {
-            SP = SelShip.Ship;
+            SP = SelShip.Ship;            
             finalMenu.Items[5].Text = "Ships";
         }
 
@@ -517,23 +517,67 @@ namespace Underwater_Boat
                 Settings.Default.Save();
             }
         }
+
         private void subSelection1()
         {
             AT = Antal.En;
             AntVarde = 1;
             finalMenu.Items[4].Text = "1 v 1";
+            if (SP == SelShip.Submarine)
+            {
+                Game1.tb.AddSub(SubType.Aqua, false, "t1");
+                Game1.tb.AddSub(SubType.X_1, false, "t2");
+            }
+            else
+            {
+                Game1.tb.AddSub(SubType.shipCamoflage, false, "t1");
+                Game1.tb.AddSub(SubType.shipTradional, false, "t2");
+            }
         }
+
         private void subSelection2()
         {
             AT = Antal.Två;
             AntVarde = 2;
             finalMenu.Items[4].Text = "2 v 2";
+            if (SP == SelShip.Submarine)
+            {
+                Game1.tb.AddSub(SubType.Aqua, false, "t1");
+                Game1.tb.AddSub(SubType.Megalodon, false, "t1");
+                Game1.tb.AddSub(SubType.X_1, false, "t2");
+                Game1.tb.AddSub(SubType.YellowSubmarine, false, "t2");
+            }
+            else
+            {
+                Game1.tb.AddSub(SubType.shipCamoflage, false, "t1");
+                Game1.tb.AddSub(SubType.shipCarrier, false, "t1");
+                Game1.tb.AddSub(SubType.shipTradional, false, "t2");
+                Game1.tb.AddSub(SubType.shipVintage, false, "t2");
+            }
         }
         private void subSelection3()
         {
             AT = Antal.Tre;
             AntVarde = 3;
             finalMenu.Items[4].Text = "3 v 3";
+            if (SP == SelShip.Submarine)
+            {
+                Game1.tb.AddSub(SubType.Aqua, false, "t1");
+                Game1.tb.AddSub(SubType.Megalodon, false, "t1");
+                Game1.tb.AddSub(SubType.Standard, false, "t1");
+                Game1.tb.AddSub(SubType.X_1, false, "t2");
+                Game1.tb.AddSub(SubType.YellowSubmarine, false, "t2");
+                Game1.tb.AddSub(SubType.Standard, false, "t2");
+            }
+            else
+            {
+                Game1.tb.AddSub(SubType.shipCamoflage, false, "t1");
+                Game1.tb.AddSub(SubType.shipCarrier, false, "t1");
+                Game1.tb.AddSub(SubType.shipPansar, false, "t1");
+                Game1.tb.AddSub(SubType.shipTradional, false, "t2");
+                Game1.tb.AddSub(SubType.shipVintage, false, "t2");
+                Game1.tb.AddSub(SubType.shipPansar, false, "t2");
+            }
         }
         private void PlayerNum()
         {

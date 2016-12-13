@@ -37,10 +37,11 @@ namespace Underwater_Boat
             //Size = 1;
             MaxFuel = ps.MaxFuel;
             Maxspeed = 5;
-            Texturestring = ps.Texturestring;
+            TextureID = ps.TextureID;
             Fuel = MaxFuel;
             color = Color.White;
             Weapons = new List<Weapon>();
+            Texture = ps.Texture;
             Weapons.Add(new Weapon(Weap.Nuke));
             currentweapon = 0;
             Initialize();
@@ -56,14 +57,7 @@ namespace Underwater_Boat
             
         }
 
-        
-        public  void LoadContent(Game Game1)
-        {
-            
-                    Texture = Game1.Content.Load<Texture2D>(Texturestring);
-              
-        }
-        
+       
         public  void Update()
         {
             KeyboardState ks = Keyboard.GetState();

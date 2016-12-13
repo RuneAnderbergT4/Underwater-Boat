@@ -29,7 +29,7 @@ namespace Underwater_Boat
         public Vector2 Angle { get; set; }
         public Texture2D Texture { get; set; }
         public Team T { get; set; }
-        public string Texturestring { get; internal set; }
+        public int TextureID { get; internal set; }
         public bool isboat { get; set; }
         public Color color { get; set; }
     }
@@ -54,6 +54,17 @@ namespace Underwater_Boat
    
     class Submarine
     {
+        private static List<Texture2D> tex = new List<Texture2D>();
+        public static void LoadContent(Game game)
+        {
+            tex = new List<Texture2D>();
+            tex.Add(game.Content.Load<Texture2D>("submarine"));
+            tex.Add(game.Content.Load<Texture2D>("submarine 2"));
+            tex.Add(game.Content.Load<Texture2D>("submarine 3"));
+            tex.Add(game.Content.Load<Texture2D>("submarine 4"));
+            tex.Add(game.Content.Load<Texture2D>("submarine 5"));
+
+        }
         public static PlayerStat Sub(SubType type)
         {
             PlayerStat stats = new PlayerStat();
@@ -70,7 +81,7 @@ namespace Underwater_Boat
                     stats.Speed = 1;
                     stats.Size = 1;
                     stats.MaxFuel = 50;
-                    stats.Texturestring = "submarine";
+                    stats.Texture = tex[0];
                     return stats;
                     break;
                 case SubType.Aqua:
@@ -83,7 +94,7 @@ namespace Underwater_Boat
                     stats.Speed = 2;
                     stats.Size = 1;
                     stats.MaxFuel = 75;
-                    stats.Texturestring = "submarine 2";
+                    stats.Texture = tex[1];
                     return stats;
                     break;
                 case SubType.X_1:
@@ -95,7 +106,7 @@ namespace Underwater_Boat
                     stats.Damage = 15;
                     stats.Speed = 1;
                     stats.Size = 1;
-                    stats.Texturestring = "submarine 3";
+                    stats.Texture = tex[2];
                     stats.MaxFuel = 100;
                     return stats;
                     break;
@@ -109,7 +120,7 @@ namespace Underwater_Boat
                     stats.Speed = 1;
                     stats.Size = 2;
                     stats.MaxFuel = 25;
-                    stats.Texturestring = "submarine 4";
+                    stats.Texture = tex[3];
                     return stats;
                     break;
                 case SubType.YellowSubmarine:
@@ -122,7 +133,7 @@ namespace Underwater_Boat
                     stats.Speed = 0.5f;
                     stats.Size = 1;
                     stats.MaxFuel = 60;
-                    stats.Texturestring = "submarine 5";
+                    stats.Texture = tex[4];
                     return stats;
                     break; 
             }
@@ -131,6 +142,17 @@ namespace Underwater_Boat
     }
     class Ship 
     {
+        private static List<Texture2D> tex = new List<Texture2D>();
+        public static void LoadContent(Game game)
+        {
+            tex = new List<Texture2D>();
+            tex.Add(game.Content.Load<Texture2D>("ship"));
+            tex.Add(game.Content.Load<Texture2D>("ship 2"));
+            tex.Add(game.Content.Load<Texture2D>("ship 3"));
+            tex.Add(game.Content.Load<Texture2D>("ship 4"));
+            tex.Add(game.Content.Load<Texture2D>("ship 5"));
+
+        }
         public static PlayerStat ship(SubType type)
         {
             PlayerStat stat = new PlayerStat();
@@ -148,7 +170,7 @@ namespace Underwater_Boat
                     stat.Speed = 1;
                     stat.Size = 1;
                     stat.MaxFuel = 50;
-                    stat.Texturestring = "ship";
+                    stat.Texture = tex[0];
                     return stat;
                     break;
                 case SubType.shipPansar:
@@ -161,7 +183,7 @@ namespace Underwater_Boat
                     stat.Speed = 1;
                     stat.Size = 1;
                     stat.MaxFuel = 50;
-                    stat.Texturestring = "ship 2";
+                    stat.Texture = tex[1];
                     return stat;
                     break;
                 case SubType.shipCamoflage:
@@ -174,7 +196,7 @@ namespace Underwater_Boat
                     stat.Speed = 2;
                     stat.Size = 1;
                     stat.MaxFuel = 80;
-                    stat.Texturestring = "ship 3";
+                    stat.Texture = tex[2];
                     return stat;
                     break;
                 case SubType.shipCarrier:
@@ -187,7 +209,7 @@ namespace Underwater_Boat
                     stat.Speed = 0.5f;
                     stat.Size = 2;
                     stat.MaxFuel = 50;
-                    stat.Texturestring = "ship 4";
+                    stat.Texture = tex[3];
                     return stat;
                     break;
                 case SubType.shipVintage:
@@ -200,7 +222,7 @@ namespace Underwater_Boat
                     stat.Speed = 1.5f;
                     stat.Size = 1;
                     stat.MaxFuel = 50;
-                    stat.Texturestring = "ship 5";
+                    stat.Texture = tex[4];
                     return stat;
                     break;
             }
