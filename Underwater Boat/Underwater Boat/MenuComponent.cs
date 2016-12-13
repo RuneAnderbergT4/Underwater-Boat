@@ -109,7 +109,7 @@ namespace Underwater_Boat
 
             _menu.Items = new List<MenuChoice>
             {
-                new MenuChoice(null) { Text = "Sea battle of DOOOOM", IsEnabled = false },
+                new MenuChoice(null) { Text = "SEA BATTLE OF DOOOOM", IsEnabled = false },
                 new MenuChoice(null) { Text = "START", Selected = true, ClickAction = MoveClick, SubMenu = shipMenu, IsVisible = () => Game1.GS != GameState.Pause },
                 new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == GameState.Pause, IsEnabled = false },
                 new MenuChoice(null) { Text = "ONE PLAYER", IsVisible = () => Settings.Default.TwoPlayer == true, ClickAction = PlayerNum },
@@ -136,11 +136,12 @@ namespace Underwater_Boat
             finalMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(shipMenu) { Text = "Are you pleased with your selection?", IsEnabled = false },
-                new MenuChoice(shipMenu) { Text = "YES", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = generatingLevel },
+                new MenuChoice(shipMenu) { Text = "Yes", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = generatingLevel },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
+                new MenuChoice(shipMenu) { Text = "Return", ClickAction = MoveUpClick}
             };
             optionsMenu.Items = new List<MenuChoice>
             {
@@ -193,7 +194,7 @@ namespace Underwater_Boat
             };
             startPlaying.Items = new List<MenuChoice>
             {
-                new MenuChoice(_menu) {Text = "Start Playing!", ClickAction = MenuStartClicked}
+                new MenuChoice(_menu) {Text = "Start Playing!", ClickAction = MenuStartClicked, Selected = true}
             };
 
             #endregion
@@ -314,7 +315,6 @@ namespace Underwater_Boat
                     {
                         if (!choice.IsVisible())
                             continue;
-
                         Vector2 size = _normalFont.MeasureString(choice.Text);
                         choice.Y = startY;
                         choice.X = GraphicsDevice.Viewport.Width/2.0f - size.X/2;
@@ -322,7 +322,7 @@ namespace Underwater_Boat
                             choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, choice.Bild.Width, choice.Bild.Height - 10);
                         else if (FL == Full.off && choice.Bild == null)
                         {
-                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, (int) size.X, (int) size.Y - 10);
+                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y, (int) size.X, (int) size.Y);
                         }
                         else if (FL == Full.on && choice.Bild == null)
                         {
