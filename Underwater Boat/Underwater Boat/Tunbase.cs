@@ -84,7 +84,7 @@ namespace Underwater_Boat
         public void Update()
         {
             KeyboardState ks = Keyboard.GetState();
-            if (ks.IsKeyDown(Keys.Enter))
+            if (ks.IsKeyDown(Keys.Enter)&&pks.IsKeyUp(Keys.Enter))
                 NextPlayer();
             if (currentteam == 1 && t1.members.Count != 0)
             {
