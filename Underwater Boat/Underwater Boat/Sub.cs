@@ -35,10 +35,12 @@ namespace Underwater_Boat
             Damage = ps.Damage;
             //Speed = 1;
             //Size = 1;
+            MaxHealth = ps.MaxHealth;
             MaxFuel = ps.MaxFuel;
             Maxspeed = 5;
             Texturestring = ps.Texturestring;
             Fuel = MaxFuel;
+            Health = MaxHealth;
             color = Color.White;
             Weapons = new List<Weapon>();
             Weapons.Add(new Weapon(Weap.Nuke));

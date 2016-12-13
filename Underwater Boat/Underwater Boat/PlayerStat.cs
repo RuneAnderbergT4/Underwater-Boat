@@ -15,6 +15,7 @@ namespace Underwater_Boat
     {
         public string Name { get; set; }
         public int PlayerId { get; set; }
+        public int MaxHealth { get; set; }
         public int Health { get; set; }
         public int Resistance { get; set; }
         public int ExplosionResistence { get; set; }
@@ -63,7 +64,7 @@ namespace Underwater_Boat
                 case SubType.Standard:
                     stats.PlayerId = 1;
                     stats.Name = "Standard";
-                    stats.Health = 50;
+                    stats.MaxHealth = 50;
                     stats.Resistance = 0;
                     stats.ExplosionResistence = 0;
                     stats.Damage = 10;
@@ -76,7 +77,7 @@ namespace Underwater_Boat
                 case SubType.Aqua:
                     stats.PlayerId = 2;
                     stats.Name = "Aqua";
-                    stats.Health = 50;
+                    stats.MaxHealth = 50;
                     stats.Resistance = 10;
                     stats.ExplosionResistence = 10;
                     stats.Damage = 5;
@@ -89,7 +90,7 @@ namespace Underwater_Boat
                 case SubType.X_1:
                     stats.PlayerId = 3;
                     stats.Name = "X-1";
-                    stats.Health = 35;
+                    stats.MaxHealth = 35;
                     stats.Resistance = 5;
                     stats.ExplosionResistence = 0;
                     stats.Damage = 15;
@@ -102,7 +103,7 @@ namespace Underwater_Boat
                 case SubType.Megalodon:
                     stats.PlayerId = 4;
                     stats.Name = "Megalodon";
-                    stats.Health = 75;
+                    stats.MaxHealth = 75;
                     stats.Resistance = 0;
                     stats.ExplosionResistence = 0;
                     stats.Damage = 20;
@@ -115,7 +116,7 @@ namespace Underwater_Boat
                 case SubType.YellowSubmarine:
                     stats.PlayerId = 5;
                     stats.Name = "Yellow Antal";
-                    stats.Health = 50;
+                    stats.MaxHealth = 50;
                     stats.Resistance = 5;
                     stats.ExplosionResistence = 0;
                     stats.Damage = 10;
@@ -141,7 +142,7 @@ namespace Underwater_Boat
                 case SubType.shipTradional:
                     stat.PlayerId = 1;
                     stat.Name = "Tradional";
-                    stat.Health = 50;
+                    stat.MaxHealth = 50;
                     stat.Resistance = 10;
                     stat.ExplosionResistence = 10;
                     stat.Damage = 10;
@@ -154,7 +155,7 @@ namespace Underwater_Boat
                 case SubType.shipPansar:
                     stat.PlayerId = 2;
                     stat.Name = "Pansar";
-                    stat.Health = 35;
+                    stat.MaxHealth = 35;
                     stat.Resistance = 25;
                     stat.ExplosionResistence = 20;
                     stat.Damage = 10;
@@ -167,7 +168,7 @@ namespace Underwater_Boat
                 case SubType.shipCamoflage:
                     stat.PlayerId = 3;
                     stat.Name = "Camoflage";
-                    stat.Health = 50;
+                    stat.MaxHealth = 50;
                     stat.Resistance = 10;
                     stat.ExplosionResistence = 10;
                     stat.Damage = 6;
@@ -180,7 +181,7 @@ namespace Underwater_Boat
                 case SubType.shipCarrier:
                     stat.PlayerId = 4;
                     stat.Name = "Carrier";
-                    stat.Health = 75;
+                    stat.MaxHealth = 75;
                     stat.Resistance = 10;
                     stat.ExplosionResistence = 10;
                     stat.Damage = 10;
@@ -193,7 +194,7 @@ namespace Underwater_Boat
                 case SubType.shipVintage:
                     stat.PlayerId = 5;
                     stat.Name = "Vintage";
-                    stat.Health = 50;
+                    stat.MaxHealth= 50;
                     stat.Resistance = 0;
                     stat.ExplosionResistence = 0;
                     stat.Damage = 20;

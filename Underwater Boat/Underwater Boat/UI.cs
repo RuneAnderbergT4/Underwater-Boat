@@ -141,7 +141,7 @@ namespace Underwater_Boat
                 spritebatch.Draw(FuelTank0, fuelpos, Color.White);
             }
             RedHealthRectangle = new Rectangle((int)healthpos.X,(int)healthpos.Y, 806, 46);
-            GreenHealthRectangle = new Rectangle((int)healthpos.X,(int)healthpos.Y, 806, 46);
+            GreenHealthRectangle = new Rectangle((int)healthpos.X,(int)healthpos.Y, sub.Health/ sub.MaxHealth  * 806, 46);
             spritebatch.Draw(RedHealthBar, RedHealthRectangle, Color.White);
             spritebatch.Draw(GreenHealthBar, GreenHealthRectangle, Color.White);
         }
