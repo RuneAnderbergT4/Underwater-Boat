@@ -102,7 +102,6 @@ namespace Underwater_Boat
             var controllMenu = new Menu();
             fightSel = new Menu();
             finalMenu = new Menu();
-            var loadingMenu = new Menu();
             var returnToMenu = new Menu();
             var exitMenu = new Menu();
             var generatingLevel = new Menu();
@@ -137,7 +136,7 @@ namespace Underwater_Boat
             finalMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(shipMenu) { Text = "Are you pleased with your selection?", IsEnabled = false },
-                new MenuChoice(shipMenu) { Text = "YES", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = loadingMenu },
+                new MenuChoice(shipMenu) { Text = "YES", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = generatingLevel },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
                 new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
@@ -474,6 +473,7 @@ namespace Underwater_Boat
         private void UpdateLevel()
         {
             Game1 g = Game as Game1;
+
             g.UpdateLevel();
         }
 
