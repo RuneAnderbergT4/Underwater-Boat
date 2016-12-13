@@ -10,6 +10,7 @@ namespace Underwater_Boat
 {
     public static class Projectiles
     {
+        
         public static List<Shot> projectiles;
         static Dictionary< Weap, Texture2D> Tex;
         public static void LoadContent(Game game)

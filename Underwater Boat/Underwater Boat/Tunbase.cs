@@ -21,11 +21,11 @@ namespace Underwater_Boat
         int t2sub;
         KeyboardState pks;
         public Sub currentSub;
-                bool shooting;
+        bool shooting;
         float power;
         int upDown;
         int nrOfShots;
-        int firerate;
+        int firerate = 1;
         private bool fire;
 
         public Turnbase(string team1, string team2)
