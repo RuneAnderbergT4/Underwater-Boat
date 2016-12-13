@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 namespace Underwater_Boat
 {
@@ -20,6 +21,12 @@ namespace Underwater_Boat
         int t2sub;
         KeyboardState pks;
         public Sub currentSub;
+                bool shooting;
+        float power;
+        int upDown;
+        int nrOfShots;
+        int firerate;
+        private bool fire;
 
         public Turnbase(string team1, string team2)
         {
@@ -41,6 +48,7 @@ namespace Underwater_Boat
                 else if (t2.teamname == teamname)
                 {
                     Sub sub = new Sub(t2, Submarine.Sub(st), isbot);
+                    
                     t2.members.Add(sub);
                 }
                 else
@@ -53,11 +61,13 @@ namespace Underwater_Boat
                 if (t1.teamname == teamname)
                     {
                         Sub sub = new Sub(t1, Ship.ship(st), isbot);
+                    sub.isboat = true;
                         t1.members.Add(sub);
                     }
                     else if (t2.teamname == teamname)
                     {
                         Sub sub = new Sub(t2, Ship.ship(st), isbot);
+                    sub.isboat = true;
                         t2.members.Add(sub);
                     }
                     else
@@ -177,6 +187,53 @@ namespace Underwater_Boat
             foreach (var s in t2.members)
             {
                 s.LoadContent(game1);
+            }
+        }
+         public void Shoot(Sub sub)
+        {
+            KeyboardState ks = Keyboard.GetState();
+
+            if (sub.CurrentWeapon().CurrentAmmo > 0)
+            {
+                if (ks.IsKeyDown(Keys.Space) && !shooting)
+                {
+
+                    nrOfShots = sub.CurrentWeapon().ShotsFired * firerate;
+                    if (power >= 10 && upDown == 1)
+                        upDown = -1;
+                    else if (power <= 1 && upDown == -1)
+                        upDown = 1;
+                    power += 0.1f * upDown;
+
+                    Debug.WriteLine("Power: " + power);
+
+                }
+                else if (ks.IsKeyUp((Keys.Space)) && power != 0)
+                    fire = true;
+                if (fire)
+                {
+                    shooting = true;
+                    if (power > 10)
+                        power = 10;
+
+                    else if (power < 1)
+                        power = 1;
+
+                    if (nrOfShots > 0 && nrOfShots % firerate == firerate - 1)
+                        Projectiles.Add(new Shot(sub.Position,  new Vector2(3,0),sub.CurrentWeapon().weapon));
+
+
+                    else if (nrOfShots <= 0)
+                    {
+                        fire = false;
+                        power = 0;
+                        upDown = 1;
+                        shooting = false;
+                        sub.CurrentWeapon().CurrentAmmo--;
+                        //sub.Weapons[sub.CurrentWeapon.Name].CurrentAmmo--;
+                    }
+                    nrOfShots--;
+                }
             }
         }
     }

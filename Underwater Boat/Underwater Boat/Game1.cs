@@ -149,7 +149,7 @@ namespace Underwater_Boat
             tb.LoadContent(this);
             ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
-
+            Projectiles.LoadContent(this);
             // Default resolution is 1920x1080; scale sprites up or down based on current viewport
             WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
             HeightScale = graphics.PreferredBackBufferHeight / 1080.0;
@@ -205,8 +205,10 @@ namespace Underwater_Boat
                 case GameState.Playing:
                     // Draw non scaled content
                     spriteBatch.Begin();
+                    Projectiles.Draw();
                     tb.Draw();
                     spriteBatch.Draw(_level, Vector2.Zero, _cameraRect, Color.White);
+                    Projectiles.Draw();
                     spriteBatch.End();
 
                     // Draw scaled content
