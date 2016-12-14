@@ -106,6 +106,7 @@ namespace Underwater_Boat
                 {
                     nextplayer = false;
                     t1sub++;
+                    currentSub.ResetVel();
                     currentteam *= -1;
                 }
             }
@@ -121,6 +122,7 @@ namespace Underwater_Boat
 
                 if (nextplayer)
                 {
+                    currentSub.ResetVel();
                     nextplayer = false;
                     t2sub++;
                     currentteam *= -1;
@@ -136,9 +138,10 @@ namespace Underwater_Boat
 
         public void NextPlayer()
         {
+            
             nextplayer = true;
             Timer = timer * 60;
-           currentSub.ResetVel();
+          
             
         }
 
