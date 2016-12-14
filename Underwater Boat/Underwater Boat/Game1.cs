@@ -29,7 +29,7 @@ namespace Underwater_Boat
         public static double WidthScale;
         public static Sub currentSub;
 
-        public static Turnbase tb;
+        public static Turnbase TB;
         private UI ui;
         private MenuComponent mc;
         
@@ -53,7 +53,7 @@ namespace Underwater_Boat
             Components.Add(new KeyboardComponent(this));
             Components.Add(new GamePadComponent(this));
             GS = GameState.Start;
-            tb = new Turnbase("t1","t2");
+            TB = new Turnbase("t1","t2");
            
             //tb.AddSub(SubType.Megalodon, false, "t1");
             //tb.AddSub(SubType.Standard, false, "t1");
@@ -150,7 +150,7 @@ namespace Underwater_Boat
             Submarine.LoadContent(this);
             Ship.LoadContent(this);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            tb.AddSub(SubType.Aqua, false, "t1");
+            TB.AddSub(SubType.Aqua, false, "t1");
             ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
             Projectiles.LoadContent(this);
@@ -176,7 +176,7 @@ namespace Underwater_Boat
             {
                 case GameState.Playing:
 
-            tb.Update();
+            TB.Update();
             
             Projectiles.Update();
             ui.Update(gameTime);
@@ -204,7 +204,7 @@ namespace Underwater_Boat
                     // Draw game content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
                     spriteBatch.Draw(_level, Vector2.Zero, Color.White);
-                    tb.Draw();
+                    TB.Draw();
                     Projectiles.Draw();
                     spriteBatch.End();
 

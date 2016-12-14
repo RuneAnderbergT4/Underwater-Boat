@@ -12,7 +12,7 @@ namespace Underwater_Boat
     {
         PlayerStat stat;
         Sub sub;
-        float timer = 30;
+        int timer = 30;
         const float TIMER = 30;
 
         Vector2 fuelpos;
@@ -76,19 +76,13 @@ namespace Underwater_Boat
         }
         public void Update( GameTime gameTime)
         {
-            sub = Game1.tb.currentSub;
+            sub = Game1.TB.currentSub;
             this.stat = sub.ps;
-            float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            timer -= elapsed;
-            if (timer <= 0)
-            {
-                Game1.tb.NextPlayer();
-                timer = TIMER; // Reset Timer
-            }
+            timer = (Game1.TB.Timer-1)/60 +1;
         }
         public void Draw()
         {
-            sub = Game1.tb.currentSub;
+            sub = Game1.TB.currentSub;
             stat = sub.ps;
             SpriteBatch spritebatch = Game1.spriteBatch;
             spritebatch.Draw(HUDBlue, Vector2.Zero, Color.White);

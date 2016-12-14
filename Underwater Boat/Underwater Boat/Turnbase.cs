@@ -29,6 +29,8 @@ namespace Underwater_Boat
         private bool fire;
 
         bool nextplayer;
+        internal int Timer;
+        private int timer = 30 ;
 
         public Turnbase(string team1, string team2)
         {
@@ -84,6 +86,12 @@ namespace Underwater_Boat
         public void Update()
         {
             KeyboardState ks = Keyboard.GetState();
+            Timer--;
+            if (Timer <= 0)
+            {
+                NextPlayer();
+                Timer = timer * 60; // Reset Timer
+            }
             if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 NextPlayer();
             if (currentteam == 1 && t1.members.Count != 0)
@@ -97,7 +105,6 @@ namespace Underwater_Boat
                 if (nextplayer)
                 {
                     nextplayer = false;
-                    t1.members[t1sub].ResetVel();
                     t1sub++;
                     currentteam *= -1;
                 }
@@ -115,22 +122,24 @@ namespace Underwater_Boat
                 if (nextplayer)
                 {
                     nextplayer = false;
-                    t2.members[t2sub].ResetVel();
-
                     t2sub++;
                     currentteam *= -1;
                 }
             }
             else if (currentteam == -1 && t2.members.Count == 0)
                 currentteam *= -1;
-            pks = ks;
+           
             Shoot();
+            pks = ks;
 
         }
 
         public void NextPlayer()
         {
             nextplayer = true;
+            Timer = timer * 60;
+           currentSub.ResetVel();
+            
         }
 
         public void ClearPlayers()

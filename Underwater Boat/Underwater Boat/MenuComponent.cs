@@ -523,17 +523,17 @@ namespace Underwater_Boat
             AT = Antal.En;
             AntVarde = 1;
             finalMenu.Items[4].Text = "1 v 1";
-            Game1.tb.ClearPlayers();
+            Game1.TB.ClearPlayers();
             if (SP == SelShip.Submarine)
             {
                 
-                Game1.tb.AddSub(SubType.Aqua, false, "t1");
-                Game1.tb.AddSub(SubType.X_1, false, "t2");
+                Game1.TB.AddSub(SubType.Aqua, false, "t1");
+                Game1.TB.AddSub(SubType.X_1, false, "t2");
             }
             else
             {
-                Game1.tb.AddSub(SubType.shipCamoflage, false, "t1");
-                Game1.tb.AddSub(SubType.shipTradional, false, "t2");
+                Game1.TB.AddSub(SubType.shipCamoflage, false, "t1");
+                Game1.TB.AddSub(SubType.shipTradional, false, "t2");
             }
         }
 
@@ -542,20 +542,20 @@ namespace Underwater_Boat
             AT = Antal.Två;
             AntVarde = 2;
             finalMenu.Items[4].Text = "2 v 2";
-            Game1.tb.ClearPlayers();
+            Game1.TB.ClearPlayers();
             if (SP == SelShip.Submarine)
             {
-                Game1.tb.AddSub(SubType.Aqua, false, "t1");
-                Game1.tb.AddSub(SubType.Megalodon, false, "t1");
-                Game1.tb.AddSub(SubType.X_1, false, "t2");
-                Game1.tb.AddSub(SubType.YellowSubmarine, false, "t2");
+                Game1.TB.AddSub(SubType.Aqua, false, "t1");
+                Game1.TB.AddSub(SubType.Megalodon, false, "t1");
+                Game1.TB.AddSub(SubType.X_1, false, "t2");
+                Game1.TB.AddSub(SubType.YellowSubmarine, false, "t2");
             }
             else
             {
-                Game1.tb.AddSub(SubType.shipCamoflage, false, "t1");
-                Game1.tb.AddSub(SubType.shipCarrier, false, "t1");
-                Game1.tb.AddSub(SubType.shipTradional, false, "t2");
-                Game1.tb.AddSub(SubType.shipVintage, false, "t2");
+                Game1.TB.AddSub(SubType.shipCamoflage, false, "t1");
+                Game1.TB.AddSub(SubType.shipCarrier, false, "t1");
+                Game1.TB.AddSub(SubType.shipTradional, false, "t2");
+                Game1.TB.AddSub(SubType.shipVintage, false, "t2");
             }
         }
         private void subSelection3()
@@ -563,24 +563,24 @@ namespace Underwater_Boat
             AT = Antal.Tre;
             AntVarde = 3;
             finalMenu.Items[4].Text = "3 v 3";
-            Game1.tb.ClearPlayers();
+            Game1.TB.ClearPlayers();
             if (SP == SelShip.Submarine)
             {
-                Game1.tb.AddSub(SubType.Aqua, false, "t1");
-                Game1.tb.AddSub(SubType.Megalodon, false, "t1");
-                Game1.tb.AddSub(SubType.Standard, false, "t1");
-                Game1.tb.AddSub(SubType.X_1, false, "t2");
-                Game1.tb.AddSub(SubType.YellowSubmarine, false, "t2");
-                Game1.tb.AddSub(SubType.Standard, false, "t2");
+                Game1.TB.AddSub(SubType.Aqua, false, "t1");
+                Game1.TB.AddSub(SubType.Megalodon, false, "t1");
+                Game1.TB.AddSub(SubType.Standard, false, "t1");
+                Game1.TB.AddSub(SubType.X_1, false, "t2");
+                Game1.TB.AddSub(SubType.YellowSubmarine, false, "t2");
+                Game1.TB.AddSub(SubType.Standard, false, "t2");
             }
             else
             {
-                Game1.tb.AddSub(SubType.shipCamoflage, false, "t1");
-                Game1.tb.AddSub(SubType.shipCarrier, false, "t1");
-                Game1.tb.AddSub(SubType.shipPansar, false, "t1");
-                Game1.tb.AddSub(SubType.shipTradional, false, "t2");
-                Game1.tb.AddSub(SubType.shipVintage, false, "t2");
-                Game1.tb.AddSub(SubType.shipPansar, false, "t2");
+                Game1.TB.AddSub(SubType.shipCamoflage, false, "t1");
+                Game1.TB.AddSub(SubType.shipCarrier, false, "t1");
+                Game1.TB.AddSub(SubType.shipPansar, false, "t1");
+                Game1.TB.AddSub(SubType.shipTradional, false, "t2");
+                Game1.TB.AddSub(SubType.shipVintage, false, "t2");
+                Game1.TB.AddSub(SubType.shipPansar, false, "t2");
             }
         }
         private void PlayerNum()
