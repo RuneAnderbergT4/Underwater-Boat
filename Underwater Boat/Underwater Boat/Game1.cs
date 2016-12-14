@@ -175,15 +175,18 @@ namespace Underwater_Boat
             switch (GS)
             {
                 case GameState.Playing:
-
-            TB.Update();
-            
-            Projectiles.Update();
-            ui.Update(gameTime);
-
-
-
-            _camera.UpdateCamera();
+                TB.Update();
+                Projectiles.Update();
+                ui.Update(gameTime);
+                _camera.UpdateCamera();
+                    break;
+                case GameState.Start:
+                    break;
+                case GameState.Pause:
+                    break;
+                case GameState.GameOver:
+                    break;
+                default:
                     break;
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)

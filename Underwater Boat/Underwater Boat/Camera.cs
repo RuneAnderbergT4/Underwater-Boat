@@ -80,7 +80,7 @@ namespace Underwater_Boat
             pos += amount;
 
             pos.X = MathHelper.Clamp(pos.X, 0 + Game1.graphics.PreferredBackBufferWidth / 2, 4096 - Game1.graphics.PreferredBackBufferWidth / 2);
-            pos.Y = MathHelper.Clamp(pos.Y, 0 + Game1.graphics.PreferredBackBufferHeight / 2, 2048 - Game1.graphics.PreferredBackBufferHeight / 2);
+            pos.Y = MathHelper.Clamp(pos.Y, 0 + Game1.graphics.PreferredBackBufferHeight / 2 - 200, 2048 - Game1.graphics.PreferredBackBufferHeight / 2 + 200);
         }
 
         public void Move(KeyboardState keyboardState)
@@ -107,7 +107,12 @@ namespace Underwater_Boat
         public Vector2 Pos
         {
             get { return pos; }
-            set { pos = value; }
+            set
+            {
+                pos = value;
+                pos.X = MathHelper.Clamp(pos.X, 0 + Game1.graphics.PreferredBackBufferWidth / 2, 4096 - Game1.graphics.PreferredBackBufferWidth / 2);
+                pos.Y = MathHelper.Clamp(pos.Y, 0 + Game1.graphics.PreferredBackBufferHeight / 2 - 200, 2048 - Game1.graphics.PreferredBackBufferHeight / 2 + 200);
+            }
         }
 
         public Matrix get_transformation(GraphicsDevice graphicsDevice)
