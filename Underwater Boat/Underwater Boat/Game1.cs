@@ -33,7 +33,7 @@ namespace Underwater_Boat
         private UI ui;
         private MenuComponent mc;
         
-        private Texture2D _level;
+        private static Texture2D _level;
         private Camera _camera;
 
         public Game1()
@@ -119,14 +119,14 @@ namespace Underwater_Boat
             }
         }
 
-        public LevelGenerator LoadMap()
+        public static LevelGenerator LoadMap()
         {
             var lvlgen = new LevelGenerator();
-            lvlgen.StartGenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
+            lvlgen.StartGenerateLevel(graphics.GraphicsDevice, 4096, 2048, new ServiceBus());
             return lvlgen;
         }
 
-        public void UpdateLevel()
+        public static void UpdateLevel()
         {
             _level = LevelGenerator.Result;
         }

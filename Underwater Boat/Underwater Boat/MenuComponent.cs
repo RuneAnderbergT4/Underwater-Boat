@@ -461,9 +461,7 @@ namespace Underwater_Boat
 
         private void StartLevelGeneration(Menu returnMenu)
         {
-            Game1 g = Game as Game1;
-
-            _lvlgen = g.LoadMap();
+            _lvlgen = Game1.LoadMap();
 
             _returnMenu = returnMenu;
 
@@ -472,9 +470,7 @@ namespace Underwater_Boat
 
         private void UpdateLevel()
         {
-            Game1 g = Game as Game1;
-
-            g.UpdateLevel();
+            Game1.UpdateLevel();
         }
 
         private void MoveUpClick()
