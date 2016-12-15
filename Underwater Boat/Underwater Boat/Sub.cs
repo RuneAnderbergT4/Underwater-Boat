@@ -168,7 +168,7 @@ namespace Underwater_Boat
 
         public void Draw()
         {
-            Game1.spriteBatch.Draw(Texture, Position, color);
+            Game1.spriteBatch.Draw(Texture, Position, null,color,0,new Vector2(Texture.Width/2,Texture.Height/2),1,SpriteEffects.None,0);
         }
         public void ResetVel()
         {
