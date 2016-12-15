@@ -65,7 +65,7 @@ namespace Underwater_Boat
             set
             {
                 zoom = value;
-                zoom = MathHelper.Clamp(zoom, 0.5f, 1.2f);
+                zoom = MathHelper.Clamp(zoom, 0.5f, 1.0f);
             } // Negative zoom will flip image}
         }
 
