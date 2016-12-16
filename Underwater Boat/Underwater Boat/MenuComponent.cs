@@ -95,7 +95,6 @@ namespace Underwater_Boat
             #region Meny Hantering
             _menu = new Menu();
             _activeMenu = _menu;
-            var shipMenu = new Menu();
             var optionsMenu = new Menu();
             var graphicsMenu = new Menu();
             var soundMenu = new Menu();
@@ -127,13 +126,6 @@ namespace Underwater_Boat
                 new MenuChoice(_menu) { Text = "6 v 6", ClickAction = subSelection3, SubMenu = finalMenu },
                 new MenuChoice(_menu) { Text = "Return", ClickAction = MoveUpClick }
             };
-            //shipMenu.Items = new List<MenuChoice>
-            //{
-            //    new MenuChoice(_menu) { Text = "Ship battle or Submarine battle", IsEnabled = false },
-            //    new MenuChoice(_menu) { Text = "Ships", Selected = true, ClickAction = MenuShipSelClick, SubMenu =  },
-            //    new MenuChoice(_menu) { Text = "Submarine", ClickAction = MenuSubSelClick, SubMenu = finalMenu},
-            //    new MenuChoice(_menu) { Text = "Return", ClickAction = MoveUpClick }
-            //};
             finalMenu.Items = new List<MenuChoice>
             {
                 new MenuChoice(fightSel) { Text = "Are you pleased with your selection?", IsEnabled = false },
