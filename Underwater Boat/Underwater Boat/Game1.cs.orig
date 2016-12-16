@@ -28,17 +28,24 @@ namespace Underwater_Boat
         public static double HeightScale;
         public static double WidthScale;
         public static Sub currentSub;
-
-        public static Turnbase tb;
 <<<<<<< HEAD
+
+        public static Turnbase TB;
         private UI ui;
         private MenuComponent mc;
-=======
-        UI ui;
-        MenuComponent mc;
->>>>>>> origin/Hitbox
         
+        private static Texture2D _level;
+=======
+        MouseState ms;
+        KeyboardComponent kc;
+        GamePadComponent gc;
+        public static Turnbase tb;
+        private UI ui;
+        private MenuComponent mc;
+        KeyboardState ks = new KeyboardState();
+        GamePadState gs = GamePad.GetState(0);
         private Texture2D _level;
+>>>>>>> origin/Valbåtar
         private Camera _camera;
 
         public Game1()
@@ -58,7 +65,7 @@ namespace Underwater_Boat
             Components.Add(new KeyboardComponent(this));
             Components.Add(new GamePadComponent(this));
             GS = GameState.Start;
-            tb = new Turnbase("t1","t2");
+            TB = new Turnbase("t1","t2");
            
             //tb.AddSub(SubType.Megalodon, false, "t1");
             //tb.AddSub(SubType.Standard, false, "t1");
@@ -124,14 +131,14 @@ namespace Underwater_Boat
             }
         }
 
-        public LevelGenerator LoadMap()
+        public static LevelGenerator LoadMap()
         {
             var lvlgen = new LevelGenerator();
-            lvlgen.StartGenerateLevel(GraphicsDevice, 4096, 2048, new ServiceBus());
+            lvlgen.StartGenerateLevel(graphics.GraphicsDevice, 4096, 2048, new ServiceBus());
             return lvlgen;
         }
 
-        public void UpdateLevel()
+        public static void UpdateLevel()
         {
             _level = LevelGenerator.Result;
         }
@@ -155,7 +162,7 @@ namespace Underwater_Boat
             Submarine.LoadContent(this);
             Ship.LoadContent(this);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            tb.AddSub(SubType.Aqua, false, "t1");
+            TB.AddSub(SubType.Aqua, false, "t1");
             ui.LoadContent(this);
             _level = new Texture2D(GraphicsDevice, 1, 1);
             Projectiles.LoadContent(this);
@@ -176,21 +183,50 @@ namespace Underwater_Boat
 
         protected override void Update(GameTime gameTime)
         {
-
+            KeyboardState prevks = ks;
+            GamePadState prevgs = gs;
+            gs = GamePad.GetState(0);
+            ms = Mouse.GetState();
+            ks = Keyboard.GetState();
             switch (GS)
             {
                 case GameState.Playing:
+<<<<<<< HEAD
+                TB.Update();
+                Projectiles.Update();
+                ui.Update(gameTime);
+                _camera.UpdateCamera();
+                    break;
+                case GameState.Start:
+                    break;
+                case GameState.Pause:
+                    break;
+                case GameState.GameOver:
+                    break;
+                default:
+=======
 
             tb.Update();
             
             Projectiles.Update();
             ui.Update(gameTime);
-
-
-
-            _camera.UpdateCamera();
+            if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
+            {
+                GS = GameState.Pause;
+                MenuComponent.gs = MenuComponent.MenyState.MainMenu;
+            }
+                    _camera.UpdateCamera();
+                    break;
+                case GameState.Pause:
+                    if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
+                    {
+                        GS = GameState.Playing;
+                        MenuComponent.gs = MenuComponent.MenyState.Playing;
+                    }
+>>>>>>> origin/Valbåtar
                     break;
             }
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
             base.Update(gameTime);
@@ -209,7 +245,7 @@ namespace Underwater_Boat
                     // Draw game content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
                     spriteBatch.Draw(_level, Vector2.Zero, Color.White);
-                    tb.Draw();
+                    TB.Draw();
                     Projectiles.Draw();
                     spriteBatch.End();
 
@@ -219,6 +255,7 @@ namespace Underwater_Boat
                     spriteBatch.End();
                     break;
                 case GameState.Pause:
+                    mc.Draw(gameTime);
                     break;
                 case GameState.GameOver:
                     break;
