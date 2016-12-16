@@ -114,17 +114,18 @@ namespace Underwater_Boat
                 new MenuChoice(null) { Text = "PAUSED", ClickAction = MenuStartClicked, IsVisible = () => Game1.GS == GameState.Pause, IsEnabled = false },
                 new MenuChoice(null) { Text = "ONE PLAYER", IsVisible = () => Settings.Default.TwoPlayer == true && Game1.GS == GameState.Start, ClickAction = PlayerNum },
                 new MenuChoice(null) { Text = "TWO PLAYERS", IsVisible = () => Settings.Default.TwoPlayer == false, ClickAction = PlayerNum },
+                new MenuChoice(null) { Text = "BACK TO GAME", ClickAction = BackToGame, IsVisible = () => Game1.GS == GameState.Pause},
                 new MenuChoice(null) { Text = "OPTIONS", ClickAction = MoveClick, SubMenu = optionsMenu },
                 new MenuChoice(null) { Text = "EXIT TO MENU", ClickAction = MoveClick, SubMenu = returnToMenu, IsVisible = () => Game1.GS == GameState.Pause },
                 new MenuChoice(null) { Text = "QUIT", ClickAction = MoveClick, SubMenu = exitMenu }
             };
             fightSel.Items = new List<MenuChoice>
             {
-                new MenuChoice(shipMenu) { Text = "Choose the size of the teams", IsEnabled = false, ClickAction = MoveClick },
-                new MenuChoice(shipMenu) { Text = "4 v 4", Selected = true, ClickAction = subSelection1, SubMenu = finalMenu },
-                new MenuChoice(shipMenu) { Text = "5 v 5", ClickAction = subSelection2, SubMenu = finalMenu },
-                new MenuChoice(shipMenu) { Text = "6 v 6", ClickAction = subSelection3, SubMenu = finalMenu },
-                new MenuChoice(shipMenu) { Text = "Return", ClickAction = MoveUpClick }
+                new MenuChoice(_menu) { Text = "Choose the size of the teams", IsEnabled = false, ClickAction = MoveClick },
+                new MenuChoice(_menu) { Text = "4 v 4", Selected = true, ClickAction = subSelection1, SubMenu = finalMenu },
+                new MenuChoice(_menu) { Text = "5 v 5", ClickAction = subSelection2, SubMenu = finalMenu },
+                new MenuChoice(_menu) { Text = "6 v 6", ClickAction = subSelection3, SubMenu = finalMenu },
+                new MenuChoice(_menu) { Text = "Return", ClickAction = MoveUpClick }
             };
             //shipMenu.Items = new List<MenuChoice>
             //{
@@ -135,12 +136,12 @@ namespace Underwater_Boat
             //};
             finalMenu.Items = new List<MenuChoice>
             {
-                new MenuChoice(shipMenu) { Text = "Are you pleased with your selection?", IsEnabled = false },
-                new MenuChoice(shipMenu) { Text = "Yes", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = generatingLevel },
-                new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
-                new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
-                new MenuChoice(shipMenu) { Text = "", IsEnabled = false },
-                new MenuChoice(shipMenu) { Text = "Return", ClickAction = MoveUpClick}
+                new MenuChoice(fightSel) { Text = "Are you pleased with your selection?", IsEnabled = false },
+                new MenuChoice(fightSel) { Text = "Yes", Selected = true, ClickAction = () => StartLevelGeneration(startPlaying), SubMenu = generatingLevel },
+                new MenuChoice(fightSel) { Text = "", IsEnabled = false },
+                new MenuChoice(fightSel) { Text = "", IsEnabled = false },
+                new MenuChoice(fightSel) { Text = "", IsEnabled = false },
+                new MenuChoice(fightSel) { Text = "Return", ClickAction = MoveUpClick}
             };
             optionsMenu.Items = new List<MenuChoice>
             {
@@ -472,6 +473,12 @@ namespace Underwater_Boat
             Game1 g = Game as Game1;
 
             g.UpdateLevel();
+        }
+
+        private void BackToGame()
+        {
+            Game1.GS = GameState.Playing;
+            gs = MenyState.Playing;
         }
         private void MoveUpClick()
         {
