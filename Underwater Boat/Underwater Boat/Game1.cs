@@ -28,11 +28,14 @@ namespace Underwater_Boat
         public static double HeightScale;
         public static double WidthScale;
         public static Sub currentSub;
-
+        MouseState ms;
+        KeyboardComponent kc;
+        GamePadComponent gc;
         public static Turnbase tb;
         private UI ui;
         private MenuComponent mc;
-        
+        KeyboardState ks = new KeyboardState();
+        GamePadState gs = GamePad.GetState(0);
         private Texture2D _level;
         private Camera _camera;
 
@@ -171,7 +174,11 @@ namespace Underwater_Boat
 
         protected override void Update(GameTime gameTime)
         {
-
+            KeyboardState prevks = ks;
+            GamePadState prevgs = gs;
+            gs = GamePad.GetState(0);
+            ms = Mouse.GetState();
+            ks = Keyboard.GetState();
             switch (GS)
             {
                 case GameState.Playing:
@@ -180,12 +187,22 @@ namespace Underwater_Boat
             
             Projectiles.Update();
             ui.Update(gameTime);
-
-
-
-            _camera.UpdateCamera();
+            if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
+            {
+                GS = GameState.Pause;
+                MenuComponent.gs = MenuComponent.MenyState.MainMenu;
+            }
+                    _camera.UpdateCamera();
+                    break;
+                case GameState.Pause:
+                    if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
+                    {
+                        GS = GameState.Playing;
+                        MenuComponent.gs = MenuComponent.MenyState.Playing;
+                    }
                     break;
             }
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
             base.Update(gameTime);
@@ -214,6 +231,7 @@ namespace Underwater_Boat
                     spriteBatch.End();
                     break;
                 case GameState.Pause:
+                    mc.Draw(gameTime);
                     break;
                 case GameState.GameOver:
                     break;
