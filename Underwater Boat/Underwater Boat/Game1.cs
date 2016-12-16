@@ -28,14 +28,16 @@ namespace Underwater_Boat
         public static double HeightScale;
         public static double WidthScale;
         public static Sub currentSub;
-        MouseState ms;
         public static Turnbase TB;
-        GamePadComponent gc;
+
+        private static Texture2D _level;
+
+        private MouseState ms;
+        private GamePadComponent gc;
         private UI ui;
         private MenuComponent mc;
-        KeyboardState ks = new KeyboardState();
-        private static Texture2D _level;
-        GamePadState gs = GamePad.GetState(0);
+        private KeyboardState ks;
+        private GamePadState gs;
         private Camera _camera;
 
         public Game1()
@@ -49,25 +51,12 @@ namespace Underwater_Boat
 
         protected override void Initialize()
         {
-
             mc = new MenuComponent(this);
             Components.Add(mc);
             Components.Add(new KeyboardComponent(this));
             Components.Add(new GamePadComponent(this));
             GS = GameState.Start;
             TB = new Turnbase("t1","t2");
-           
-            //tb.AddSub(SubType.Megalodon, false, "t1");
-            //tb.AddSub(SubType.Standard, false, "t1");
-            //tb.AddSub(SubType.X_1, false, "t2");
-            //tb.AddSub(SubType.YellowSubmarine, false, "t2");
-            //tb.AddSub(SubType.Standard, false, "t2");
-            //tb.AddSub(SubType.shipCamoflage, false, "t1");
-            //tb.AddSub(SubType.shipCarrier, false, "t1");
-            //tb.AddSub(SubType.shipPansar, false, "t1");
-            //tb.AddSub(SubType.shipTradional, false, "t2");
-            //tb.AddSub(SubType.shipVintage, false, "t2");
-            //tb.AddSub(SubType.shipPansar, false, "t2");
             ui = new UI();
 
             base.Initialize();
@@ -178,33 +167,36 @@ namespace Underwater_Boat
             gs = GamePad.GetState(0);
             ms = Mouse.GetState();
             ks = Keyboard.GetState();
+
             switch (GS)
             {
                 case GameState.Playing:
-                TB.Update();
-                Projectiles.Update();
-                ui.Update(gameTime);
-            if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
-            {
-                GS = GameState.Pause;
-                MenuComponent.gs = MenuComponent.MenyState.MainMenu;
-            }
-                _camera.UpdateCamera();
+                    TB.Update();
+                    Projectiles.Update();
+                    ui.Update(gameTime);
+                    if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
+                    {
+                    GS = GameState.Pause;
+                    MenuComponent.gs = MenuComponent.MenyState.MainMenu;
+                    }
+                    _camera.UpdateCamera();
                     break;
                 case GameState.Pause:
-                    if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
+                    if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) ||
+                        gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
                     {
                         GS = GameState.Playing;
                         MenuComponent.gs = MenuComponent.MenyState.Playing;
+                    }
+                    break;
+                case GameState.Start:
+                    break;
+                case GameState.GameOver:
                     break;
                 default:
                     break;
-                    }
-                    break;
             }
-            
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                Exit();
+
             base.Update(gameTime);
         }
 
