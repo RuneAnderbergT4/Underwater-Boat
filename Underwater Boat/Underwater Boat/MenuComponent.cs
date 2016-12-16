@@ -285,6 +285,12 @@ namespace Underwater_Boat
                         if (selectedChoice.SubMenu != null)
                             _activeMenu = selectedChoice.SubMenu;
                     }
+                    if (Game1.GS == GameState.Pause && KeyboardComponent.KeyPressed(Keys.Escape))
+                    {
+                        var selectedChoice = _activeMenu.Items.First(c => c.Selected);
+                        if (selectedChoice.ParentMenu != null)
+                            _activeMenu = _menu;
+                    }
                     var mouseState = Mouse.GetState();
                     foreach (var choice in _activeMenu.Items)
                     {
