@@ -36,6 +36,7 @@ namespace Underwater_Boat
             //Size = 1;
             MaxHealth = ps.MaxHealth;
             MaxFuel = ps.MaxFuel;
+            subtype = ps.subtype;
             Maxspeed = 5;
             Texturestring = ps.Texturestring;
             Fuel = MaxFuel;

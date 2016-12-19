@@ -24,6 +24,7 @@ namespace Underwater_Boat
         public float Size { get; set; }
         public float MaxFuel { get; set; }
         public float Fuel { get; set; }
+        public SubType subtype { get; set; }
         public float Maxspeed { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Angle { get; set; }
@@ -57,6 +58,7 @@ namespace Underwater_Boat
         public static PlayerStat Sub(SubType type)
         {
             PlayerStat stats = new PlayerStat();
+            stats.subtype = type;
             stats.isboat = false;
             switch (type)
             {
@@ -72,7 +74,6 @@ namespace Underwater_Boat
                     stats.MaxFuel = 50;
                     stats.Texturestring = "submarine";
                     return stats;
-                    break;
                 case SubType.Aqua:
                     stats.PlayerId = 2;
                     stats.Name = "Aqua";
@@ -85,7 +86,6 @@ namespace Underwater_Boat
                     stats.MaxFuel = 75;
                     stats.Texturestring = "submarine 2";
                     return stats;
-                    break;
                 case SubType.X_1:
                     stats.PlayerId = 3;
                     stats.Name = "X-1";
@@ -98,7 +98,6 @@ namespace Underwater_Boat
                     stats.Texturestring = "submarine 3";
                     stats.MaxFuel = 100;
                     return stats;
-                    break;
                 case SubType.Megalodon:
                     stats.PlayerId = 4;
                     stats.Name = "Megalodon";
@@ -111,7 +110,6 @@ namespace Underwater_Boat
                     stats.MaxFuel = 25;
                     stats.Texturestring = "submarine 4";
                     return stats;
-                    break;
                 case SubType.YellowSubmarine:
                     stats.PlayerId = 5;
                     stats.Name = "Yellow Antal";
@@ -124,7 +122,6 @@ namespace Underwater_Boat
                     stats.MaxFuel = 60;
                     stats.Texturestring = "submarine 5";
                     return stats;
-                    break; 
             }
             return null;
         }
@@ -135,11 +132,11 @@ namespace Underwater_Boat
         {
             PlayerStat stat = new PlayerStat();
             stat.isboat = false;
-
+            stat.subtype = type;
             switch (type)
             {
                 case SubType.shipTradional:
-                    stat.PlayerId = 1;
+                    stat.PlayerId = 6;
                     stat.Name = "Tradional";
                     stat.MaxHealth = 50;
                     stat.Resistance = 10;
@@ -150,9 +147,8 @@ namespace Underwater_Boat
                     stat.MaxFuel = 50;
                     stat.Texturestring = "ship";
                     return stat;
-                    break;
                 case SubType.shipPansar:
-                    stat.PlayerId = 2;
+                    stat.PlayerId = 7;
                     stat.Name = "Pansar";
                     stat.MaxHealth = 35;
                     stat.Resistance = 25;
@@ -163,9 +159,8 @@ namespace Underwater_Boat
                     stat.MaxFuel = 50;
                     stat.Texturestring = "ship 2";
                     return stat;
-                    break;
                 case SubType.shipCamoflage:
-                    stat.PlayerId = 3;
+                    stat.PlayerId = 8;
                     stat.Name = "Camoflage";
                     stat.MaxHealth = 50;
                     stat.Resistance = 10;
@@ -176,9 +171,8 @@ namespace Underwater_Boat
                     stat.MaxFuel = 80;
                     stat.Texturestring = "ship 3";
                     return stat;
-                    break;
                 case SubType.shipCarrier:
-                    stat.PlayerId = 4;
+                    stat.PlayerId = 9;
                     stat.Name = "Carrier";
                     stat.MaxHealth = 75;
                     stat.Resistance = 10;
@@ -189,9 +183,8 @@ namespace Underwater_Boat
                     stat.MaxFuel = 50;
                     stat.Texturestring = "ship 4";
                     return stat;
-                    break;
                 case SubType.shipVintage:
-                    stat.PlayerId = 5;
+                    stat.PlayerId = 10;
                     stat.Name = "Vintage";
                     stat.MaxHealth= 50;
                     stat.Resistance = 0;
@@ -202,7 +195,6 @@ namespace Underwater_Boat
                     stat.MaxFuel = 50;
                     stat.Texturestring = "ship 5";
                     return stat;
-                    break;
             }
             return null;
         }

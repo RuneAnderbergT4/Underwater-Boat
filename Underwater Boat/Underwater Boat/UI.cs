@@ -10,7 +10,7 @@ namespace Underwater_Boat
 {
     public class UI
     {
-        PlayerStat stat;
+        PlayerStatBase stat;
         Sub sub;
         float timer = 30;
         const float TIMER = 30;
@@ -37,13 +37,16 @@ namespace Underwater_Boat
         Texture2D RedHealthBar;
         Texture2D GreenHealthBar;
         Texture2D SubmarineProfile1;
+        Texture2D SubmarineProfile2;
+        Texture2D SubmarineProfile3;
+        Texture2D SubmarineProfile4;
+        Texture2D SubmarineProfile5;
 
         SpriteFont Timer;
         SpriteFont Points;
 
         Rectangle RedHealthRectangle;
         Rectangle GreenHealthRectangle;
-
         public UI ()
         {
             fuelpos = new Vector2(22, 857);
@@ -71,6 +74,10 @@ namespace Underwater_Boat
             RedHealthBar = game.Content.Load<Texture2D>("Big red healthbar");
             GreenHealthBar = game.Content.Load<Texture2D>("Big green healthbar");
             SubmarineProfile1 = game.Content.Load<Texture2D>("Submarine 1 profile");
+            SubmarineProfile2 = game.Content.Load<Texture2D>("Submarine 2 profile");
+            SubmarineProfile3 = game.Content.Load<Texture2D>("Submarine 3 profile");
+            SubmarineProfile4 = game.Content.Load<Texture2D>("Submarine 4 profile");
+            SubmarineProfile5 = game.Content.Load<Texture2D>("Submarine 5 profile");
             Timer = game.Content.Load<SpriteFont>("HUDTimer");
             Points = game.Content.Load<SpriteFont>("HUDPoints");
         }
@@ -95,8 +102,29 @@ namespace Underwater_Boat
             //spritebatch.Draw(HUDBottom, new Vector2(0, 1080 - HUDBottom.Height), Color.White);
             spritebatch.DrawString(Timer, ((int)timer).ToString(), timerpos, Color.Black);
             spritebatch.DrawString(Points, "Points: ", pointpos, Color.Black);
-            spritebatch.Draw(SubmarineProfile1, profilepos, Color.White);
-            if(sub.Fuel <= sub.MaxFuel* 1 && sub.Fuel >= sub.MaxFuel * 0.9)
+
+            if(sub.subtype == SubType.Standard)
+            {
+                spritebatch.Draw(SubmarineProfile1, profilepos, Color.White);
+            }
+            else if (sub.subtype == SubType.Aqua)
+            {
+                spritebatch.Draw(SubmarineProfile2, profilepos, Color.White);
+            }
+            else if (sub.subtype == SubType.X_1)
+            {
+                spritebatch.Draw(SubmarineProfile3, profilepos, Color.White);
+            }
+            else if (sub.subtype == SubType.Megalodon)
+            {
+                spritebatch.Draw(SubmarineProfile4, profilepos, Color.White);
+            }
+            else if (sub.subtype == SubType.YellowSubmarine)
+            {
+                spritebatch.Draw(SubmarineProfile5, profilepos, Color.White);
+            }
+
+            if (sub.Fuel <= sub.MaxFuel* 1 && sub.Fuel >= sub.MaxFuel * 0.9)
             {
                 spritebatch.Draw(FuelTank100, fuelpos, Color.White);
             }
