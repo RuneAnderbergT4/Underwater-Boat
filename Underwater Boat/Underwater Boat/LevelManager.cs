@@ -10,42 +10,50 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace Underwater_Boat
 {
-    public class LevelGenerator
+    public class LevelManager
     {
-        public static Texture2D Result { get; private set; }
+        public Texture2D Level { get; private set; }
         public string Progress { get; private set; }
         public bool IsAlive { get { return _thread != null && _thread.IsAlive; } }
 
+        private int _width;
+        private int _height;
+        private IServiceBus _iSB;
         private Thread _thread;
+        private Color[] _colorData;
 
-        public LevelGenerator()
+        public LevelManager(int width, int height, IServiceBus iSB)
         {
+            _width = width;
+            _height = height;
+            _iSB = iSB;
+            _colorData = new Color[_width * _height];
             Progress = "";
         }
         
-        public void StartGenerateLevel(GraphicsDevice gD, int width, int height, IServiceBus iSB)
+        public void StartGenerateLevel(GraphicsDevice gD)
         {
             if (IsAlive)
                 throw new Exception("Thread already working!");
 
-            _thread = new Thread(() => GenerateLevel(gD, width, height, iSB));
+            _thread = new Thread(() => GenerateLevel(gD));
             _thread.Start();
         }
 
-        private void GenerateLevel(GraphicsDevice gD, int width, int height, IServiceBus iSB)
+        private void GenerateLevel(GraphicsDevice gD)
         {
-            Texture2D level = new Texture2D(gD, width, height, false, SurfaceFormat.Color);
+            Level = new Texture2D(gD, _width, _height, false, SurfaceFormat.Color);
             
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(width * 1/8 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
-                GeneratePolygon(new Point(width * 3/8 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
-                GeneratePolygon(new Point(width * 5/8 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
-                GeneratePolygon(new Point(width * 7/8 + iSB.Next(-200, 200), height * 1/3 + iSB.Next(-200, 200)), 6, iSB),
-                GenerateBottom(width, height, 8, iSB)
+                GeneratePolygon(new Point(_width * 1/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6, _iSB),
+                GeneratePolygon(new Point(_width * 3/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6, _iSB),
+                GeneratePolygon(new Point(_width * 5/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6, _iSB),
+                GeneratePolygon(new Point(_width * 7/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6, _iSB),
+                GenerateBottom(_width, _height, 8, _iSB)
             };
             
-            Color[,] col2D = new Color[level.Width, level.Height];
+            Color[,] col2D = new Color[_width, _height];
 
             List<Boundaries> boundsToCheck = new List<Boundaries>();
 
@@ -84,9 +92,9 @@ namespace Underwater_Boat
 
             Progress = "Converting polygons to 2D color array...";
             
-            Parallel.For(0, width, w =>
+            Parallel.For(0, _width, w =>
             {
-                for (int h = 0; h < height; h++)
+                for (int h = 0; h < _height; h++)
                 {
                     for (int i = 0; i < boundsToCheck.Count; i++)
                     {
@@ -103,27 +111,61 @@ namespace Underwater_Boat
             });
 
             Progress = "Converting to 1D color array...";
-
-            Color[] col = new Color[level.Width*level.Height];
-
+            
             var p = 0;
 
-            for (int h = 0; h < height; h++)
+            for (int h = 0; h < _height; h++)
             {
-                for (int w = 0; w < width; w++)
+                for (int w = 0; w < _width; w++)
                 {
-                    col[p] = col2D[w, h];
+                    _colorData[p] = col2D[w, h];
                     p++;
                 }
             }
 
             Progress = "Setting Texture2D data...";
 
-           level.SetData(col);
-
-            Result = level;
-
+            Level.SetData(_colorData);
+            
             Progress = "Job's done...";
+        }
+
+        private Rectangle Intersection(Rectangle r1, Rectangle r2)
+        {
+            int x1 = Math.Max(r1.Left, r2.Left);
+            int y1 = Math.Max(r1.Top, r2.Top);
+            int x2 = Math.Min(r1.Right, r2.Right);
+            int y2 = Math.Min(r1.Bottom, r2.Bottom);
+
+            if ((x2 >= x1) && (y2 >= y1))
+            {
+                return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+            }
+            return Rectangle.Empty;
+        }
+
+        public void Explode(Vector2 pos, Texture2D circle)
+        {
+            var area =
+                    Intersection(
+                        new Rectangle((int)pos.X - circle.Width / 2, (int)pos.Y - circle.Height / 2, circle.Width, circle.Height),
+                        new Rectangle(0, 0, _width, _height));
+            Color[] explosion = new Color[circle.Width * circle.Height];
+            circle.GetData(explosion);
+
+            int offset = (area.X == 0 && area.Width < circle.Width) ? circle.Width - area.Width : 0;
+            for (int y = 0; y < area.Height; y++)
+            {
+                for (int x = 0; x < area.Width; x++)
+                {
+                    if (explosion[x + offset + y * circle.Width] != Color.Transparent)
+                    {
+                        _colorData[area.X + x + (area.Y + y) * _width] = Color.Transparent;
+                    }
+                }
+            }
+
+            Level.SetData(_colorData);
         }
 
         private List<Point> GeneratePolygon(Point center, int iterations, IServiceBus iSB)

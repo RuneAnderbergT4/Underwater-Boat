@@ -54,7 +54,7 @@
     <Compile Include="Shot.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Sub.cs" />
-    <Compile Include="LevelGenerator.cs" />
+    <Compile Include="LevelManager.cs" />
     <Compile Include="Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

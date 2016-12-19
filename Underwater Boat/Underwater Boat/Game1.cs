@@ -29,8 +29,7 @@ namespace Underwater_Boat
         public static double WidthScale;
         public static Sub currentSub;
         public static Turnbase TB;
-
-        private static Texture2D _level;
+        public static LevelManager LevelManager;
 
         private MouseState ms;
         private GamePadComponent gc;
@@ -46,6 +45,7 @@ namespace Underwater_Boat
             Content.RootDirectory = "Content";
             Grafitti();
             FullScreen();
+            LevelManager = new LevelManager(4096, 2048, new ServiceBus());
             _camera = new Camera();
         }
 
@@ -110,16 +110,10 @@ namespace Underwater_Boat
             }
         }
 
-        public static LevelGenerator LoadMap()
+        public static LevelManager LoadMap()
         {
-            var lvlgen = new LevelGenerator();
-            lvlgen.StartGenerateLevel(graphics.GraphicsDevice, 4096, 2048, new ServiceBus());
-            return lvlgen;
-        }
-
-        public static void UpdateLevel()
-        {
-            _level = LevelGenerator.Result;
+            LevelManager.StartGenerateLevel(graphics.GraphicsDevice);
+            return LevelManager;
         }
 
         public void FullScreen()
@@ -143,7 +137,6 @@ namespace Underwater_Boat
             spriteBatch = new SpriteBatch(GraphicsDevice);
             TB.AddSub(SubType.Aqua, false, "t1");
             ui.LoadContent(this);
-            _level = new Texture2D(GraphicsDevice, 1, 1);
             Projectiles.LoadContent(this);
 
             // Default resolution is 1920x1080; scale sprites up or down based on current viewport
@@ -212,7 +205,7 @@ namespace Underwater_Boat
                 case GameState.Playing:
                     // Draw game content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
-                    spriteBatch.Draw(_level, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(LevelManager.Level, Vector2.Zero, Color.White);
                     TB.Draw();
                     Projectiles.Draw();
                     spriteBatch.End();

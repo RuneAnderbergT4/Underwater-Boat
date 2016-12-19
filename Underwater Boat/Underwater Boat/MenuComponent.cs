@@ -32,7 +32,7 @@ namespace Underwater_Boat
         Menu fightSel;
         public static int AntVarde;
 
-        private LevelGenerator _lvlgen;
+        private LevelManager _lvlgen;
         private Menu _returnMenu;
 
         #region GameStates
@@ -372,7 +372,6 @@ namespace Underwater_Boat
                     }
                     else
                     {
-                        UpdateLevel();
                         _activeMenu = _returnMenu;
                         gs = MenyState.MainMenu;
                     }
@@ -463,10 +462,6 @@ namespace Underwater_Boat
             _returnMenu = returnMenu;
 
             gs = MenyState.Generating;
-        }
-        private void UpdateLevel()
-        {
-            Game1.UpdateLevel();
         }
 
         private void BackToGame()
