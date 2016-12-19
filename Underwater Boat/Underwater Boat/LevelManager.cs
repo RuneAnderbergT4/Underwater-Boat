@@ -15,6 +15,7 @@ namespace Underwater_Boat
         public Texture2D Level { get; private set; }
         public string Progress { get; private set; }
         public bool IsAlive { get { return _thread != null && _thread.IsAlive; } }
+        public List<Boundaries> PolygonBoundaries;
 
         private int _width;
         private int _height;
@@ -55,7 +56,7 @@ namespace Underwater_Boat
             
             Color[,] col2D = new Color[_width, _height];
 
-            List<Boundaries> boundsToCheck = new List<Boundaries>();
+            PolygonBoundaries = new List<Boundaries>();
 
             Progress = "Setting boundaries...";
 
@@ -87,7 +88,7 @@ namespace Underwater_Boat
                     }
                 }
 
-                boundsToCheck.Add(b);
+                PolygonBoundaries.Add(b);
             }
 
             Progress = "Converting polygons to 2D color array...";
@@ -96,10 +97,10 @@ namespace Underwater_Boat
             {
                 for (int h = 0; h < _height; h++)
                 {
-                    for (int i = 0; i < boundsToCheck.Count; i++)
+                    for (int i = 0; i < PolygonBoundaries.Count; i++)
                     {
-                        if (w >= boundsToCheck[i].Left && w <= boundsToCheck[i].Right && h >= boundsToCheck[i].Top &&
-                            h <= boundsToCheck[i].Bottom)
+                        if (w >= PolygonBoundaries[i].Left && w <= PolygonBoundaries[i].Right && h >= PolygonBoundaries[i].Top &&
+                            h <= PolygonBoundaries[i].Bottom)
                         {
                             if (IsPointInPolygon(polygons[i], new Point(w, h)))
                             {

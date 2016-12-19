@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Underwater_Boat
 {
-    class Boundaries
+    public class Boundaries
     {
         public int Top { get; set; }
         public int Bottom { get; set; }
