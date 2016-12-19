@@ -29,8 +29,7 @@ namespace Underwater_Boat
         public static double WidthScale;
         public static Sub currentSub;
         public static Turnbase TB;
-
-        private static LevelManager _levelManager;
+        public static LevelManager LevelManager;
 
         private MouseState ms;
         private GamePadComponent gc;
@@ -46,7 +45,7 @@ namespace Underwater_Boat
             Content.RootDirectory = "Content";
             Grafitti();
             FullScreen();
-            _levelManager = new LevelManager(4096, 2048, new ServiceBus());
+            LevelManager = new LevelManager(4096, 2048, new ServiceBus());
             _camera = new Camera();
         }
 
@@ -113,8 +112,8 @@ namespace Underwater_Boat
 
         public static LevelManager LoadMap()
         {
-            _levelManager.StartGenerateLevel(graphics.GraphicsDevice);
-            return _levelManager;
+            LevelManager.StartGenerateLevel(graphics.GraphicsDevice);
+            return LevelManager;
         }
 
         public void FullScreen()
@@ -206,7 +205,7 @@ namespace Underwater_Boat
                 case GameState.Playing:
                     // Draw game content
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
-                    spriteBatch.Draw(_levelManager.Level, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(LevelManager.Level, Vector2.Zero, Color.White);
                     TB.Draw();
                     Projectiles.Draw();
                     spriteBatch.End();
