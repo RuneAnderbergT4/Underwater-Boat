@@ -16,9 +16,6 @@ namespace Underwater_Boat
         public Matrix transform; // Matrix Transform
         public Vector2 pos; // Camera Position
         protected float rotation; // Camera Rotation
-
-        public bool FreeCamera { get; private set; }
-        private KeyboardState _previousKeyboardState;
         
         public Camera()
         {
@@ -32,12 +29,7 @@ namespace Underwater_Boat
             Sub currentSub = Game1.TB.currentSub;
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (keyboardState.IsKeyDown(Keys.C) && _previousKeyboardState.IsKeyUp(Keys.C))
-            {
-                FreeCamera = !FreeCamera;
-            }
-
-            if (FreeCamera)
+            if (keyboardState.IsKeyDown(Keys.C))
             {
                 Move(keyboardState);
 
@@ -50,13 +42,16 @@ namespace Underwater_Boat
                     Zoom += 0.1f;
                 }
             }
+            else if (/*shot to follow*/ false)
+            {
+                Zoom = 1.0f;
+                //Pos = shotToFollow.Position;
+            }
             else
             {
                 Zoom = 1.0f;
                 Pos = currentSub.Position;
             }
-
-            _previousKeyboardState = keyboardState;
         }
 
         public float Zoom
