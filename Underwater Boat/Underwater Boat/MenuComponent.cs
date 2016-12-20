@@ -30,10 +30,16 @@ namespace Underwater_Boat
         Texture2D _mouse;
         Menu finalMenu;
         Menu fightSel;
-        public static int AntVarde;
-        private LevelGenerator _lvlgen;
-        private Menu _returnMenu;
-
+        Menu controllMenu;
+        Menu soundMenu;
+        Menu graphicsMenu;
+        Menu optionsMenu;
+        Menu returnToMenu;
+        Menu exitMenu;
+        Menu generatingLevel;
+        Menu startPlaying;
+        LevelGenerator _lvlgen;
+        Menu _returnMenu;
         #region GameStates
         public enum MenyState
         {
@@ -91,20 +97,19 @@ namespace Underwater_Boat
         #endregion
         public MenuComponent(Game game) : base(game)
         {
-
             #region Meny Hantering
             _menu = new Menu();
             _activeMenu = _menu;
-            var optionsMenu = new Menu();
-            var graphicsMenu = new Menu();
-            var soundMenu = new Menu();
-            var controllMenu = new Menu();
+            optionsMenu = new Menu();
+            graphicsMenu = new Menu();
+            soundMenu = new Menu();
+            controllMenu = new Menu();
             fightSel = new Menu();
             finalMenu = new Menu();
-            var returnToMenu = new Menu();
-            var exitMenu = new Menu();
-            var generatingLevel = new Menu();
-            var startPlaying = new Menu();
+            returnToMenu = new Menu();
+            exitMenu = new Menu();
+            generatingLevel = new Menu();
+            startPlaying = new Menu();
 
             _menu.Items = new List<MenuChoice>
             {
@@ -298,6 +303,7 @@ namespace Underwater_Boat
                         {
                             _activeMenu.Items.ForEach(c => c.Selected = false);
                             choice.Selected = true;
+                            
                             if (_previousMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed && choice.IsVisible())
                             {
                                 choice.ClickAction.Invoke();
@@ -334,6 +340,8 @@ namespace Underwater_Boat
                         {
                             startY += 100;
                         }
+                        else if (choice.Bild != null)
+                            startY += 100;
                         else
                         {
                             startY += 80;
@@ -344,7 +352,6 @@ namespace Underwater_Boat
                     if (_lvlgen.IsAlive)
                     {
                         _activeMenu.Items[0].Text = _lvlgen.Progress;
-
                         #region Text formatting
                         startY = 0.2f * GraphicsDevice.Viewport.Height;
                         foreach (var choice in _activeMenu.Items)
@@ -427,19 +434,21 @@ namespace Underwater_Boat
             {               
                 if (!choice.IsVisible())
                     continue;
+                // choice.Selected ? _selectedFont : 
                 // HitBox Koll
                 // _spriteBatch.Draw(_overlay, choice.HitBox, Color.Blue);
                 if (choice.Bild != null)
                     _spriteBatch.Draw(choice.Bild, new Vector2(choice.X, choice.Y));
                 else if (choice.Bild == null)
-                    _spriteBatch.DrawString(choice.Selected ? _selectedFont : _normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.White);
+                    _spriteBatch.DrawString(_normalFont, choice.Text, new Vector2(choice.X, choice.Y), choice.Color);
                 if (choice.IsEnabled == false)
                 {
                     _spriteBatch.DrawString(_normalFont, choice.Text, new Vector2(choice.X, choice.Y), Color.Crimson);
-                }                
+                }        
             }
             var mp = Mouse.GetState().Position;
             _spriteBatch.Draw(_mouse, new Vector2(mp.X, mp.Y), Color.White);
+            
             _spriteBatch.End();
         }
         #region Meny Val
@@ -449,17 +458,6 @@ namespace Underwater_Boat
             gs = MenyState.Playing;
             _activeMenu = _menu;
         }
-        //private void MenuShipSelClick()
-        //{
-        //    SP = SelShip.Ship;            
-        //    finalMenu.Items[5].Text = "Ships";
-        //}
-
-        //private void MenuSubSelClick()
-        //{
-        //    SP = SelShip.Submarine;
-        //    finalMenu.Items[5].Text = "Submarines";
-        //}
         private void StartLevelGeneration(Menu returnMenu)
         {
             Game1 g = Game as Game1;
@@ -525,7 +523,6 @@ namespace Underwater_Boat
         private void subSelection1()
         {
             AT = Antal.Four;
-            AntVarde = 4;
             finalMenu.Items[4].Text = "4 v 4";
             Game1.tb.ClearPlayers();
             Game1.tb.AddSub(SubType.Aqua, false, "t1");
@@ -541,7 +538,6 @@ namespace Underwater_Boat
         private void subSelection2()
         {
             AT = Antal.Five;
-            AntVarde = 5;
             finalMenu.Items[4].Text = "5 v 5";
             Game1.tb.ClearPlayers();
             Game1.tb.AddSub(SubType.Aqua, false, "t1");
@@ -558,7 +554,6 @@ namespace Underwater_Boat
         private void subSelection3()
         {
             AT = Antal.Six;
-            AntVarde = 6;
             finalMenu.Items[4].Text = "6 v 6";
             Game1.tb.ClearPlayers();
             Game1.tb.AddSub(SubType.Aqua, false, "t1");
