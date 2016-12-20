@@ -12,7 +12,7 @@ namespace Underwater_Boat
     public class Sub : PlayerStatBase
     {
         public PlayerStat ps;
-        Team Team;
+        Team team;
         bool isBot;
         float HP;
         Vector2 velocity = new Vector2(0,0);
@@ -20,12 +20,13 @@ namespace Underwater_Boat
         public bool gamepad; // = true;
         private bool movingUp;
         int currentweapon;
+
         public List<Weapon> Weapons { get; private set; }
 
         public Sub(Team Team,PlayerStat ps,bool isBot)
         {
             this.ps = ps;
-            this.Team = Team;
+            this.team = Team;
             this.isBot = isBot;
            // PlayerId = ps.PlayerId;
             Name = ps.Name;
@@ -39,25 +40,20 @@ namespace Underwater_Boat
             Maxspeed = 5;
             TextureID = ps.TextureID;
             Fuel = MaxFuel;
-            color = Color.White;
+            Color = Color.White;
             Weapons = new List<Weapon>();
             Texture = ps.Texture;
-            Weapons.Add(new Weapon(Weap.Nuke));
+            Weapons.Add(new Weapon(WeaponType.Nuke));
             currentweapon = 0;
             Initialize();
-            
         }
+
         public  void Initialize()
         {
-            
-
-           // Fuel = 300888;
             Position = new Vector2(500,500);
             velocity = new Vector2(0,0);
-            
         }
 
-       
         public  void Update()
         {
             KeyboardState ks = Keyboard.GetState();
@@ -168,11 +164,12 @@ namespace Underwater_Boat
 
         public void Draw()
         {
-            Game1.spriteBatch.Draw(Texture, Position, null,color,0,new Vector2(Texture.Width/2,Texture.Height/2),1,SpriteEffects.None,0);
+            Game1.SpriteBatch.Draw(Texture, Position, null,Color,0,new Vector2(Texture.Width/2,Texture.Height/2),1,SpriteEffects.None,0);
         }
+
         public void ResetVel()
         {
-            color = Color.White;
+            Color = Color.White;
             velocity = Vector2.Zero;
             Fuel = MaxFuel;
         }

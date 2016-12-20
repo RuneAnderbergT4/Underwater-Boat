@@ -12,9 +12,11 @@ namespace UnderWater_Boat
     {
         public static GamePadState NowState { get; set; }
         public static GamePadState FormerState { get; set; }
+
         public GamePadComponent(Game game) : base(game)
         {
         }
+
         public override void Update(GameTime gameTime)
         {
             FormerState = NowState;
@@ -22,6 +24,7 @@ namespace UnderWater_Boat
 
             base.Update(gameTime);
         }
+
         public static bool ButtonPressed(Buttons button)
         {
             return NowState.IsButtonDown(button) && !FormerState.IsButtonDown(button);

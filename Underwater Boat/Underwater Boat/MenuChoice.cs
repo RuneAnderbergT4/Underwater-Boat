@@ -9,7 +9,6 @@ namespace Underwater_Boat
 {
     class Menu
     {
-
         public List<MenuChoice> Items { get; set; }
 
         public Menu()
@@ -37,12 +36,12 @@ namespace Underwater_Boat
 
         public Menu ParentMenu { get; private set; }
         public Menu SubMenu { get; set; }
+
         public MenuChoice(Menu parentMenu)
         {
             ParentMenu = parentMenu;
             IsEnabled = true;
             IsVisible = () => true;
         }
-
     }
 }

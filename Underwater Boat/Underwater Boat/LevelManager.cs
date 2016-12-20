@@ -169,16 +169,16 @@ namespace Underwater_Boat
             Level.SetData(_colorData);
         }
 
-        private List<Point> GeneratePolygon(Point center, int iterations, IServiceBus iSB)
+        private List<Point> GeneratePolygon(Point center, int iterations)
         {
             Progress = "Generating polygons...";
 
             List<Point> points = new List<Point>
             {
-                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(-400, -200)),
-                new Point(center.X + iSB.Next(200, 400), center.Y + iSB.Next(-80, 80)),
-                new Point(center.X + iSB.Next(-80, 80), center.Y + iSB.Next(200, 400)),
-                new Point(center.X + iSB.Next(-400, -200), center.Y + iSB.Next(-80, 80))
+                new Point(center.X + _iSB.Next(-80, 80), center.Y + _iSB.Next(-400, -200)),
+                new Point(center.X + _iSB.Next(200, 400), center.Y + _iSB.Next(-80, 80)),
+                new Point(center.X + _iSB.Next(-80, 80), center.Y + _iSB.Next(200, 400)),
+                new Point(center.X + _iSB.Next(-400, -200), center.Y + _iSB.Next(-80, 80))
             };
             
             int length = 120;
@@ -203,7 +203,7 @@ namespace Underwater_Boat
                             Y = (points[j].Y + (points[(j + 1)%points.Count].Y - points[j].Y)/2)
                         };
 
-                        var hypotenuse = iSB.Next(-(int) Math.Round(length/Math.Pow(2, i)),
+                        var hypotenuse = _iSB.Next(-(int) Math.Round(length/Math.Pow(2, i)),
                             (int) Math.Round(length/Math.Pow(2, i)));
 
                         var angle2 = Math.PI/2 - angle;
@@ -233,15 +233,15 @@ namespace Underwater_Boat
             return points;
         }
 
-        private List<Point> GenerateBottom(int width, int height, int iterations, IServiceBus iSB)
+        private List<Point> GenerateBottom(int width, int height, int iterations)
         {
             Progress = "Generating bottom...";
 
             List<Point> points = new List<Point>
             {
-                new Point(0, iSB.Next(height - 400, height - 100)),
-                new Point(width/2, iSB.Next(height - 600, height - 200)),
-                new Point(width, iSB.Next(height - 400, height - 100))
+                new Point(0, _iSB.Next(height - 400, height - 100)),
+                new Point(width/2, _iSB.Next(height - 600, height - 200)),
+                new Point(width, _iSB.Next(height - 400, height - 100))
             };
 
             int length = 400;
@@ -258,7 +258,7 @@ namespace Underwater_Boat
                         var newPoint = new Point
                         {
                             X = points[j].X + (points[j + 1].X - points[j].X) / 2,
-                            Y = iSB.Next((points[j].Y + (points[j + 1].Y - points[j].Y) / 2) - (int) Math.Round(length / Math.Pow(1.8, i)), (points[j].Y + (points[j + 1].Y - points[j].Y) / 2 + (int)Math.Round(length / Math.Pow(1.8, i))))
+                            Y = _iSB.Next((points[j].Y + (points[j + 1].Y - points[j].Y) / 2) - (int) Math.Round(length / Math.Pow(1.8, i)), (points[j].Y + (points[j + 1].Y - points[j].Y) / 2 + (int)Math.Round(length / Math.Pow(1.8, i))))
                         };
 
                         if (newPoint.Y > height - 50)

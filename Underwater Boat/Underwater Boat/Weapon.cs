@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Underwater_Boat
 {
-    public enum Weap
+    public enum WeaponType
     {
         Nuke,
-        torpedo
+        Torpedo
     }
+
     public class Weapon
     {
         public string Name { get; private set; }
-        
         public string Texture { get; private set; }
         public int CurrentAmmo { get; set; }
         public int ShotsFired { get; set; }
-        public Weap weapon;
+        public WeaponType weapon;
 
-        public Weapon(Weap weapon)
+        public Weapon(WeaponType weapon)
         {
             this.weapon = weapon;
             Name = weapon.ToString();

@@ -8,12 +8,13 @@ namespace Underwater_Boat
 {
     public class Team
     {
-        public string teamname { get; set; }
-        public List<Sub> members{ get; set; }
-        public Team(string teamname)
+        public string TeamName { get; set; }
+        public List<Sub> Members{ get; set; }
+
+        public Team(string teamName)
         {
-            members = new List<Sub>();
-            this.teamname = teamname;
+            Members = new List<Sub>();
+            this.TeamName = teamName;
         }
     }
 }

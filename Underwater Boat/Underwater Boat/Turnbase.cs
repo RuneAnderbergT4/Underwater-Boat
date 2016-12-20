@@ -46,39 +46,39 @@ namespace Underwater_Boat
         {
             if ((int)st < 5)
             {
-                if (t1.teamname == teamname)
+                if (t1.TeamName == teamname)
                 {
                     Sub sub = new Sub(t1, Submarine.Sub(st), isbot);
-                    t1.members.Add(sub);
+                    t1.Members.Add(sub);
                 }
-                else if (t2.teamname == teamname)
+                else if (t2.TeamName == teamname)
                 {
                     Sub sub = new Sub(t2, Submarine.Sub(st), isbot);
 
-                    t2.members.Add(sub);
+                    t2.Members.Add(sub);
                 }
                 else
                     return false;
-                currentSub = t1.members[0];
+                currentSub = t1.Members[0];
                 return true;
             }
             else
             {
-                if (t1.teamname == teamname)
+                if (t1.TeamName == teamname)
                 {
                     Sub sub = new Sub(t1, Ship.ship(st), isbot);
-                    sub.isboat = true;
-                    t1.members.Add(sub);
+                    sub.IsBoat = true;
+                    t1.Members.Add(sub);
                 }
-                else if (t2.teamname == teamname)
+                else if (t2.TeamName == teamname)
                 {
                     Sub sub = new Sub(t2, Ship.ship(st), isbot);
-                    sub.isboat = true;
-                    t2.members.Add(sub);
+                    sub.IsBoat = true;
+                    t2.Members.Add(sub);
                 }
                 else
                     return false;
-                currentSub = t1.members[0];
+                currentSub = t1.Members[0];
                 return true;
             }
         }
@@ -94,13 +94,13 @@ namespace Underwater_Boat
             }
             if (ks.IsKeyDown(Keys.Enter) && pks.IsKeyUp(Keys.Enter))
                 NextPlayer();
-            if (currentteam == 1 && t1.members.Count != 0)
+            if (currentteam == 1 && t1.Members.Count != 0)
             {
-                if (t1sub == t1.members.Count)
+                if (t1sub == t1.Members.Count)
                     t1sub = 0;
-                t1.members[t1sub].color = Color.Salmon;
-                t1.members[t1sub].Update();
-                currentSub = t1.members[t1sub];
+                t1.Members[t1sub].Color = Color.Salmon;
+                t1.Members[t1sub].Update();
+                currentSub = t1.Members[t1sub];
 
                 if (nextplayer)
                 {
@@ -110,15 +110,15 @@ namespace Underwater_Boat
                     currentteam *= -1;
                 }
             }
-            else if (currentteam == 1 && t1.members.Count == 0)
+            else if (currentteam == 1 && t1.Members.Count == 0)
                 currentteam *= -1;
-            else if (currentteam == -1 && t2.members.Count != 0)
+            else if (currentteam == -1 && t2.Members.Count != 0)
             {
-                if (t2sub == t2.members.Count)
+                if (t2sub == t2.Members.Count)
                     t2sub = 0;
-                t2.members[t2sub].color = Color.Salmon;
-                t2.members[t2sub].Update();
-                currentSub = t2.members[t2sub];
+                t2.Members[t2sub].Color = Color.Salmon;
+                t2.Members[t2sub].Update();
+                currentSub = t2.Members[t2sub];
 
                 if (nextplayer)
                 {
@@ -128,7 +128,7 @@ namespace Underwater_Boat
                     currentteam *= -1;
                 }
             }
-            else if (currentteam == -1 && t2.members.Count == 0)
+            else if (currentteam == -1 && t2.Members.Count == 0)
                 currentteam *= -1;
            
             Shoot();
@@ -148,18 +148,18 @@ namespace Underwater_Boat
         public void ClearPlayers()
         {
 
-            t1.members.Clear();
-            t2.members.Clear();
+            t1.Members.Clear();
+            t2.Members.Clear();
         }
 
         public void Draw()
         {
 
-            foreach (var s in t1.members)
+            foreach (var s in t1.Members)
             {
                 s.Draw();
             }
-            foreach (var s in t2.members)
+            foreach (var s in t2.Members)
             {
                 s.Draw();
             }

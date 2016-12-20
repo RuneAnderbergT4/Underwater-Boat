@@ -23,16 +23,16 @@ namespace Underwater_Boat
         public float Size { get; set; }
         public float MaxFuel { get; set; }
         public float Fuel { get; set; }
-
         public float Maxspeed { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Angle { get; set; }
         public Texture2D Texture { get; set; }
         public Team T { get; set; }
         public int TextureID { get; internal set; }
-        public bool isboat { get; set; }
-        public Color color { get; set; }
+        public bool IsBoat { get; set; }
+        public Color Color { get; set; }
     }
+
     public class PlayerStat : PlayerStatBase
     {
         
@@ -45,16 +45,17 @@ namespace Underwater_Boat
         X_1,
         Megalodon,
         YellowSubmarine,
-        shipTradional,
-        shipPansar,
-        shipCamoflage,
-        shipCarrier,
-        shipVintage
+        ShipTradional,
+        ShipPansar,
+        ShipCamoflage,
+        ShipCarrier,
+        ShipVintage
     }
    
     class Submarine
     {
         private static List<Texture2D> tex = new List<Texture2D>();
+
         public static void LoadContent(Game game)
         {
             tex = new List<Texture2D>();
@@ -65,10 +66,11 @@ namespace Underwater_Boat
             tex.Add(game.Content.Load<Texture2D>("submarine 5"));
 
         }
+
         public static PlayerStat Sub(SubType type)
         {
             PlayerStat stats = new PlayerStat();
-            stats.isboat = false;
+            stats.IsBoat = false;
             switch (type)
             {
                 case SubType.Standard:
@@ -140,9 +142,11 @@ namespace Underwater_Boat
             return null;
         }
     }
+
     class Ship 
     {
         private static List<Texture2D> tex = new List<Texture2D>();
+
         public static void LoadContent(Game game)
         {
             tex = new List<Texture2D>();
@@ -153,14 +157,15 @@ namespace Underwater_Boat
             tex.Add(game.Content.Load<Texture2D>("ship 5"));
 
         }
+
         public static PlayerStat ship(SubType type)
         {
             PlayerStat stat = new PlayerStat();
-            stat.isboat = false;
+            stat.IsBoat = false;
 
             switch (type)
             {
-                case SubType.shipTradional:
+                case SubType.ShipTradional:
                     stat.PlayerId = 1;
                     stat.Name = "Tradional";
                     stat.Health = 50;
@@ -173,7 +178,7 @@ namespace Underwater_Boat
                     stat.Texture = tex[0];
                     return stat;
                     break;
-                case SubType.shipPansar:
+                case SubType.ShipPansar:
                     stat.PlayerId = 2;
                     stat.Name = "Pansar";
                     stat.Health = 35;
@@ -186,7 +191,7 @@ namespace Underwater_Boat
                     stat.Texture = tex[1];
                     return stat;
                     break;
-                case SubType.shipCamoflage:
+                case SubType.ShipCamoflage:
                     stat.PlayerId = 3;
                     stat.Name = "Camoflage";
                     stat.Health = 50;
@@ -199,7 +204,7 @@ namespace Underwater_Boat
                     stat.Texture = tex[2];
                     return stat;
                     break;
-                case SubType.shipCarrier:
+                case SubType.ShipCarrier:
                     stat.PlayerId = 4;
                     stat.Name = "Carrier";
                     stat.Health = 75;
@@ -212,7 +217,7 @@ namespace Underwater_Boat
                     stat.Texture = tex[3];
                     return stat;
                     break;
-                case SubType.shipVintage:
+                case SubType.ShipVintage:
                     stat.PlayerId = 5;
                     stat.Name = "Vintage";
                     stat.Health = 50;

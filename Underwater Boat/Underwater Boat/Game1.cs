@@ -21,27 +21,23 @@ namespace Underwater_Boat
 
     public class Game1 : Game
     {
-        public static SpriteBatch spriteBatch;
-        public static GameState GS;
-        public static GraphicsDeviceManager graphics;
-        public static Matrix SpriteScale;
-        public static double HeightScale;
-        public static double WidthScale;
-        public static Sub currentSub;
+        public static SpriteBatch SpriteBatch;
+        public static GameState GameState;
+        public static GraphicsDeviceManager Graphics;
         public static Turnbase TB;
         public static LevelManager LevelManager;
 
-        private MouseState ms;
-        private GamePadComponent gc;
-        private UI ui;
-        private MenuComponent mc;
-        private KeyboardState ks;
-        private GamePadState gs;
+        private GamePadComponent gamePadComponent;
+        private UI uI;
+        private MenuComponent menuComponent;
+        private KeyboardState keyboardState;
+        private GamePadState gamePadState;
         private Camera _camera;
+        private Matrix _spriteScale;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Grafitti();
             FullScreen();
@@ -51,13 +47,13 @@ namespace Underwater_Boat
 
         protected override void Initialize()
         {
-            mc = new MenuComponent(this);
-            Components.Add(mc);
+            menuComponent = new MenuComponent(this);
+            Components.Add(menuComponent);
             Components.Add(new KeyboardComponent(this));
             Components.Add(new GamePadComponent(this));
-            GS = GameState.Start;
+            GameState = GameState.Start;
             TB = new Turnbase("t1","t2");
-            ui = new UI();
+            uI = new UI();
 
             base.Initialize();
         }
@@ -72,47 +68,46 @@ namespace Underwater_Boat
             switch (Settings.Default.Grafik)
             {
                 case "1920 * 1080":
-                    graphics.PreferredBackBufferWidth = 1920;
-                    graphics.PreferredBackBufferHeight = 1080;
-                    graphics.ApplyChanges();
+                    Graphics.PreferredBackBufferWidth = 1920;
+                    Graphics.PreferredBackBufferHeight = 1080;
+                    Graphics.ApplyChanges();
                     break;
                 case "1600 * 900":
-                    graphics.PreferredBackBufferWidth = 1600;
-                    graphics.PreferredBackBufferHeight = 900;
-                    graphics.ApplyChanges();
+                    Graphics.PreferredBackBufferWidth = 1600;
+                    Graphics.PreferredBackBufferHeight = 900;
+                    Graphics.ApplyChanges();
                     break;
                 case "1366 * 768":
-                    graphics.PreferredBackBufferWidth = 1366;
-                    graphics.PreferredBackBufferHeight = 768;
-                    graphics.ApplyChanges();
+                    Graphics.PreferredBackBufferWidth = 1366;
+                    Graphics.PreferredBackBufferHeight = 768;
+                    Graphics.ApplyChanges();
                     break;
                 case "1280 * 720":
-                    graphics.PreferredBackBufferWidth = 1280;
-                    graphics.PreferredBackBufferHeight = 720;
-                    graphics.ApplyChanges();
+                    Graphics.PreferredBackBufferWidth = 1280;
+                    Graphics.PreferredBackBufferHeight = 720;
+                    Graphics.ApplyChanges();
                     break;
                 default:
-                    graphics.PreferredBackBufferWidth = 1600;
-                    graphics.PreferredBackBufferHeight = 900;
-                    graphics.ApplyChanges();
+                    Graphics.PreferredBackBufferWidth = 1600;
+                    Graphics.PreferredBackBufferHeight = 900;
+                    Graphics.ApplyChanges();
                     break;
             }
 
-            if (graphics.GraphicsDevice != null)
+            if (Graphics.GraphicsDevice != null)
             {
                 // Default resolution is 1920x1080; scale sprites up or down based on current viewport
-                WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
-                HeightScale = graphics.PreferredBackBufferHeight / 1080.0;
+                var scale = Graphics.PreferredBackBufferWidth / 1920.0;
 
                 // Create the scale transform for Draw. 
                 // Do not scale the sprite depth (Z=1).
-                SpriteScale = Matrix.CreateScale((float) WidthScale, (float)WidthScale, 1);
+                _spriteScale = Matrix.CreateScale((float) scale, (float) scale, 1);
             }
         }
 
         public static LevelManager LoadMap()
         {
-            LevelManager.StartGenerateLevel(graphics.GraphicsDevice);
+            LevelManager.StartGenerateLevel(Graphics.GraphicsDevice);
             return LevelManager;
         }
 
@@ -120,13 +115,13 @@ namespace Underwater_Boat
         {
             if (Settings.Default.IsFullScreen)
             {
-                graphics.IsFullScreen = true;
-                graphics.ApplyChanges();
+                Graphics.IsFullScreen = true;
+                Graphics.ApplyChanges();
             }
             else if (Settings.Default.IsFullScreen == false)
             {
-                graphics.IsFullScreen = false;
-                graphics.ApplyChanges();
+                Graphics.IsFullScreen = false;
+                Graphics.ApplyChanges();
             }
         }
 
@@ -134,18 +129,17 @@ namespace Underwater_Boat
         {
             Submarine.LoadContent(this);
             Ship.LoadContent(this);
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
             TB.AddSub(SubType.Aqua, false, "t1");
-            ui.LoadContent(this);
+            uI.LoadContent(this);
             Projectiles.LoadContent(this);
 
             // Default resolution is 1920x1080; scale sprites up or down based on current viewport
-            WidthScale = graphics.PreferredBackBufferWidth / 1920.0;
-            HeightScale = graphics.PreferredBackBufferHeight / 1080.0;
+            var scale = Graphics.PreferredBackBufferWidth / 1920.0;
 
             // Create the scale transform for Draw. 
             // Do not scale the sprite depth (Z=1).
-            SpriteScale = Matrix.CreateScale((float)WidthScale, (float)WidthScale, 1);
+            _spriteScale = Matrix.CreateScale((float) scale, (float) scale, 1);
         }
 
         protected override void UnloadContent()
@@ -155,30 +149,29 @@ namespace Underwater_Boat
 
         protected override void Update(GameTime gameTime)
         {
-            KeyboardState prevks = ks;
-            GamePadState prevgs = gs;
-            gs = GamePad.GetState(0);
-            ms = Mouse.GetState();
-            ks = Keyboard.GetState();
+            KeyboardState prevks = keyboardState;
+            GamePadState prevgs = gamePadState;
+            gamePadState = GamePad.GetState(0);
+            keyboardState = Keyboard.GetState();
 
-            switch (GS)
+            switch (GameState)
             {
                 case GameState.Playing:
                     TB.Update();
                     Projectiles.Update();
-                    ui.Update(gameTime);
-                    if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
+                    uI.Update(gameTime);
+                    if (keyboardState.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) || gamePadState.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
                     {
-                    GS = GameState.Pause;
-                    MenuComponent.gs = MenuComponent.MenyState.MainMenu;
+                        GameState = GameState.Pause;
+                        MenuComponent.gs = MenuComponent.MenyState.MainMenu;
                     }
                     _camera.UpdateCamera();
                     break;
                 case GameState.Pause:
-                    if (ks.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) ||
-                        gs.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
+                    if (keyboardState.IsKeyDown(Keys.Escape) && prevks.IsKeyUp(Keys.Escape) ||
+                        gamePadState.IsButtonDown(Buttons.Start) && prevgs.IsButtonUp(Buttons.Start))
                     {
-                        GS = GameState.Playing;
+                        GameState = GameState.Playing;
                         MenuComponent.gs = MenuComponent.MenyState.Playing;
                     }
                     break;
@@ -197,26 +190,26 @@ namespace Underwater_Boat
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
            
-            switch (GS)
+            switch (GameState)
             {
                 case GameState.Start:
-                    mc.Draw(gameTime);
+                    menuComponent.Draw(gameTime);
                     break;
                 case GameState.Playing:
                     // Draw game content
-                    spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(graphics.GraphicsDevice));
-                    spriteBatch.Draw(LevelManager.Level, Vector2.Zero, Color.White);
+                    SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.get_transformation(Graphics.GraphicsDevice));
+                    SpriteBatch.Draw(LevelManager.Level, Vector2.Zero, Color.White);
                     TB.Draw();
                     Projectiles.Draw();
-                    spriteBatch.End();
+                    SpriteBatch.End();
 
                     // Draw hud content
-                    spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, SpriteScale);
-                    ui.Draw();
-                    spriteBatch.End();
+                    SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _spriteScale);
+                    uI.Draw();
+                    SpriteBatch.End();
                     break;
                 case GameState.Pause:
-                    mc.Draw(gameTime);
+                    menuComponent.Draw(gameTime);
                     break;
                 case GameState.GameOver:
                     break;
