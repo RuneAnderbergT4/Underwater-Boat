@@ -47,11 +47,11 @@ namespace Underwater_Boat
             
             List<List<Point>> polygons = new List<List<Point>>
             {
-                GeneratePolygon(new Point(_width * 1/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6, _iSB),
-                GeneratePolygon(new Point(_width * 3/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6, _iSB),
-                GeneratePolygon(new Point(_width * 5/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6, _iSB),
-                GeneratePolygon(new Point(_width * 7/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6, _iSB),
-                GenerateBottom(_width, _height, 8, _iSB)
+                GeneratePolygon(new Point(_width * 1/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6),
+                GeneratePolygon(new Point(_width * 3/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6),
+                GeneratePolygon(new Point(_width * 5/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6),
+                GeneratePolygon(new Point(_width * 7/8 + _iSB.Next(-200, 200), _height * 1/3 + _iSB.Next(-200, 200)), 6),
+                GenerateBottom(_width, _height, 8)
             };
             
             Color[,] col2D = new Color[_width, _height];
