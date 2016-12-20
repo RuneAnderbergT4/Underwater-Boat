@@ -31,7 +31,6 @@ namespace Underwater_Boat
         Menu finalMenu;
         Menu fightSel;
         public static int AntVarde;
-
         private LevelGenerator _lvlgen;
         private Menu _returnMenu;
 
@@ -92,6 +91,7 @@ namespace Underwater_Boat
         #endregion
         public MenuComponent(Game game) : base(game)
         {
+
             #region Meny Hantering
             _menu = new Menu();
             _activeMenu = _menu;
@@ -316,15 +316,19 @@ namespace Underwater_Boat
                         Vector2 size = _normalFont.MeasureString(choice.Text);
                         choice.Y = startY;
                         choice.X = GraphicsDevice.Viewport.Width/2.0f - size.X/2;
+                        int xPos = (int) choice.X;
+                        int yPos = (int) choice.Y;
+                        int sizeX = (int) size.X;
+                        int sizeY = (int) size.Y;
                         if (choice.Bild != null)
-                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y - 10, choice.Bild.Width, choice.Bild.Height - 10);
+                            choice.HitBox = new Rectangle(xPos, yPos, choice.Bild.Width, choice.Bild.Height);
                         else if (FL == Full.off && choice.Bild == null)
                         {
-                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y, (int) size.X, (int) size.Y);
+                            choice.HitBox = new Rectangle(xPos, yPos + 4, sizeX, sizeY - 20);
                         }
                         else if (FL == Full.on && choice.Bild == null)
                         {
-                            choice.HitBox = new Rectangle((int) choice.X, (int) choice.Y, (int) size.X, (int) size.Y);
+                            choice.HitBox = new Rectangle(xPos, yPos + 4, sizeX, sizeY - 20);
                         }
                         if (choice.IsEnabled == false)
                         {
@@ -332,7 +336,7 @@ namespace Underwater_Boat
                         }
                         else
                         {
-                            startY += 70;
+                            startY += 80;
                         }
                     }
                     break;
@@ -424,7 +428,7 @@ namespace Underwater_Boat
                 if (!choice.IsVisible())
                     continue;
                 // HitBox Koll
-                //_spriteBatch.Draw(_overlay, choice.HitBox, Color.Blue);
+                // _spriteBatch.Draw(_overlay, choice.HitBox, Color.Blue);
                 if (choice.Bild != null)
                     _spriteBatch.Draw(choice.Bild, new Vector2(choice.X, choice.Y));
                 else if (choice.Bild == null)

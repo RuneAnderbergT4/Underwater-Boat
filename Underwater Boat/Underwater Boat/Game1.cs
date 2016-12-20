@@ -28,10 +28,9 @@ namespace Underwater_Boat
         public static double HeightScale;
         public static double WidthScale;
         public static Sub currentSub;
-        MouseState ms;
+        public static Turnbase tb;
         KeyboardComponent kc;
         GamePadComponent gc;
-        public static Turnbase tb;
         private UI ui;
         private MenuComponent mc;
         KeyboardState ks = new KeyboardState();
@@ -177,7 +176,6 @@ namespace Underwater_Boat
             KeyboardState prevks = ks;
             GamePadState prevgs = gs;
             gs = GamePad.GetState(0);
-            ms = Mouse.GetState();
             ks = Keyboard.GetState();
             switch (GS)
             {
