@@ -31,7 +31,6 @@ namespace Underwater_Boat
         public static Turnbase TB;
         public static LevelManager LevelManager;
 
-        private MouseState ms;
         private GamePadComponent gc;
         private UI ui;
         private MenuComponent mc;
@@ -158,7 +157,6 @@ namespace Underwater_Boat
             KeyboardState prevks = ks;
             GamePadState prevgs = gs;
             gs = GamePad.GetState(0);
-            ms = Mouse.GetState();
             ks = Keyboard.GetState();
 
             switch (GS)

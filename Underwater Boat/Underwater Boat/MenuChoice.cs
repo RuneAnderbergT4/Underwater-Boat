@@ -37,6 +37,7 @@ namespace Underwater_Boat
 
         public Menu ParentMenu { get; private set; }
         public Menu SubMenu { get; set; }
+        public Color Color { get { return Selected ? Color.DarkBlue : Color.White; } }
         public MenuChoice(Menu parentMenu)
         {
             ParentMenu = parentMenu;
