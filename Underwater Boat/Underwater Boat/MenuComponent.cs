@@ -38,7 +38,7 @@ namespace Underwater_Boat
         Menu exitMenu;
         Menu generatingLevel;
         Menu startPlaying;
-        LevelGenerator _lvlgen;
+        LevelManager _lvlgen;
         Menu _returnMenu;
         #region GameStates
         public enum MenyState
@@ -198,14 +198,7 @@ namespace Underwater_Boat
         }
         public override void Initialize()
         {
-            if (Settings.Default.Keyboard == true)
-            {
-                CL = Controll.Key;
-            }
-            else
-            {
-                CL = Controll.Cont;
-            }
+            CL = Settings.Default.Keyboard == true ? Controll.Key : Controll.Cont;
             if (Settings.Default.Sound == true)
             {
                 SD = Sound.On;
