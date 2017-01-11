@@ -615,7 +615,7 @@ namespace Underwater_Boat
                     Settings.Default.Save();
                     break;
             }
-            (Game as Game1).Grafitti();
+            (Game as Game1).ApplyGraphics();
         }
         private void PausMenuQuitClicked()
         {

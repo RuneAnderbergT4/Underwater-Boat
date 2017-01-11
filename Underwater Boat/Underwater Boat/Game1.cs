@@ -39,8 +39,7 @@ namespace Underwater_Boat
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Grafitti();
-            FullScreen();
+            ApplyGraphics();
             LevelManager = new LevelManager(4096, 2048, new ServiceBus());
             _camera = new Camera();
         }
@@ -63,36 +62,35 @@ namespace Underwater_Boat
             
         }
 
-        public void Grafitti()
+        public void ApplyGraphics()
         {
             switch (Settings.Default.Grafik)
             {
                 case "1920 * 1080":
                     Graphics.PreferredBackBufferWidth = 1920;
                     Graphics.PreferredBackBufferHeight = 1080;
-                    Graphics.ApplyChanges();
                     break;
                 case "1600 * 900":
                     Graphics.PreferredBackBufferWidth = 1600;
                     Graphics.PreferredBackBufferHeight = 900;
-                    Graphics.ApplyChanges();
                     break;
                 case "1366 * 768":
                     Graphics.PreferredBackBufferWidth = 1366;
                     Graphics.PreferredBackBufferHeight = 768;
-                    Graphics.ApplyChanges();
                     break;
                 case "1280 * 720":
                     Graphics.PreferredBackBufferWidth = 1280;
                     Graphics.PreferredBackBufferHeight = 720;
-                    Graphics.ApplyChanges();
                     break;
                 default:
                     Graphics.PreferredBackBufferWidth = 1600;
                     Graphics.PreferredBackBufferHeight = 900;
-                    Graphics.ApplyChanges();
                     break;
             }
+
+            Graphics.ApplyChanges();
+
+            FullScreen();
 
             if (Graphics.GraphicsDevice != null)
             {
@@ -113,16 +111,8 @@ namespace Underwater_Boat
 
         public void FullScreen()
         {
-            if (Settings.Default.IsFullScreen)
-            {
-                Graphics.IsFullScreen = true;
-                Graphics.ApplyChanges();
-            }
-            else if (Settings.Default.IsFullScreen == false)
-            {
-                Graphics.IsFullScreen = false;
-                Graphics.ApplyChanges();
-            }
+            Graphics.IsFullScreen = Settings.Default.IsFullScreen;
+            Graphics.ApplyChanges();
         }
 
         protected override void LoadContent()
