@@ -198,31 +198,10 @@ namespace Underwater_Boat
         }
         public override void Initialize()
         {
-            CL = Settings.Default.Keyboard == true ? Controll.Key : Controll.Cont;
-            if (Settings.Default.Sound == true)
-            {
-                SD = Sound.On;
-            }
-            else
-            {
-                SD = Sound.Off;
-            }
-            if (Settings.Default.IsFullScreen == true)
-            {
-                FL = Full.off;
-            }
-            else
-            {
-                FL = Full.on;
-            }
-            if (Settings.Default.TwoPlayer == true)
-            {
-                TP = TwoPlayer.Two;
-            }
-            else
-            {
-                TP = TwoPlayer.One;
-            }
+            CL = Settings.Default.Keyboard ? Controll.Key : Controll.Cont;
+            SD = Settings.Default.Sound ? Sound.On : Sound.Off;
+            FL = Settings.Default.IsFullScreen ? Full.off : Full.@on;
+            TP = Settings.Default.TwoPlayer ? TwoPlayer.Two : TwoPlayer.One;
             switch (Settings.Default.Grafik)
             {
                 case "1920 * 1080":
