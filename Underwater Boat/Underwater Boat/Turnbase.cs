@@ -138,23 +138,19 @@ namespace Underwater_Boat
 
         public void NextPlayer()
         {
-            
             nextplayer = true;
             Timer = timer * 60;
-          
-            
         }
 
         public void ClearPlayers()
         {
-
             t1.Members.Clear();
             t2.Members.Clear();
         }
 
         public void Draw()
         {
-
+            Game1.SpriteBatch.Draw(currentSub.Texture, new Vector2(currentSub.Position.X - currentSub.Texture.Width / 2, currentSub.Position.Y - currentSub.Texture.Height / 2) + new Vector2((float) (100*Math.Cos(currentSub.WeaponRotation)), (float) (100*Math.Sin(currentSub.WeaponRotation))));
             foreach (var s in t1.Members)
             {
                 s.Draw();
@@ -163,9 +159,7 @@ namespace Underwater_Boat
             {
                 s.Draw();
             }
-
         }
-
     
         public void Shoot()
         {
@@ -185,7 +179,7 @@ namespace Underwater_Boat
                     power += 0.1f * upDown;
 
                     Debug.WriteLine("Power: " + power);
-
+                    Debug.WriteLine("Rotation: " + sub.WeaponRotation);
                 }
                 else if (ks.IsKeyUp((Keys.Space)) && power != 0)
                     fire = true;
@@ -199,8 +193,7 @@ namespace Underwater_Boat
                         power = 1;
 
                     if (nrOfShots > 0 && nrOfShots % firerate == firerate - 1)
-                        Projectiles.Add(new Shot(sub.Position, new Vector2(power, 0), sub.CurrentWeapon().weapon));
-
+                        Projectiles.Add(new Shot(sub.Position, new Vector2((float) (power*Math.Cos(sub.WeaponRotation)), (float) (power*Math.Sin(sub.WeaponRotation))), sub.CurrentWeapon().weapon));
 
                     else if (nrOfShots <= 0)
                     {

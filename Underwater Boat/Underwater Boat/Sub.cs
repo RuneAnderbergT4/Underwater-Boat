@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,6 +125,15 @@ namespace Underwater_Boat
                     if (velocity.X > -Maxspeed)
                         velocity.X -= 0.02f * Maxspeed;
                     Fuel -= 0.1f;
+                }
+
+                if (ks.IsKeyDown(Keys.Q) && ks.IsKeyUp(Keys.E))
+                {
+                    WeaponRotation -= 0.05;
+                }
+                else if (ks.IsKeyDown(Keys.E) && ks.IsKeyUp(Keys.Q))
+                {
+                    WeaponRotation += 0.05;
                 }
             }
             if (velocity != new Vector2(0, 0))

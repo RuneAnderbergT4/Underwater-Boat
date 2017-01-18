@@ -28,7 +28,6 @@ namespace Underwater_Boat
 
         public static void Update()
         {
-
             foreach (Shot s in projectiles)
                 s.Position += s.Velocity;
         }

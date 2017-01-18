@@ -31,6 +31,7 @@ namespace Underwater_Boat
         public int TextureID { get; internal set; }
         public bool IsBoat { get; set; }
         public Color Color { get; set; }
+        public double WeaponRotation { get; set; }
     }
 
     public class PlayerStat : PlayerStatBase
