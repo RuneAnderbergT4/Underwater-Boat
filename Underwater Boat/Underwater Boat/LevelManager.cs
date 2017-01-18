@@ -14,7 +14,7 @@ namespace Underwater_Boat
     {
         public Texture2D Level { get; private set; }
         public string Progress { get; private set; }
-        public bool IsAlive { get { return _thread != null && _thread.IsAlive; } }
+        public bool IsAlive => _thread != null && _thread.IsAlive;
         public List<Boundaries> PolygonBoundaries;
 
         private int _width;
@@ -145,21 +145,21 @@ namespace Underwater_Boat
             return Rectangle.Empty;
         }
 
-        public void Explode(Vector2 pos, Texture2D circle)
+        public void Explode(Vector2 pos, Texture2D explosionTexture)
         {
             var area =
                     Intersection(
-                        new Rectangle((int)pos.X - circle.Width / 2, (int)pos.Y - circle.Height / 2, circle.Width, circle.Height),
+                        new Rectangle((int)pos.X - explosionTexture.Width / 2, (int)pos.Y - explosionTexture.Height / 2, explosionTexture.Width, explosionTexture.Height),
                         new Rectangle(0, 0, _width, _height));
-            Color[] explosion = new Color[circle.Width * circle.Height];
-            circle.GetData(explosion);
+            Color[] explosion = new Color[explosionTexture.Width * explosionTexture.Height];
+            explosionTexture.GetData(explosion);
 
-            int offset = (area.X == 0 && area.Width < circle.Width) ? circle.Width - area.Width : 0;
+            int offset = (area.X == 0 && area.Width < explosionTexture.Width) ? explosionTexture.Width - area.Width : 0;
             for (int y = 0; y < area.Height; y++)
             {
                 for (int x = 0; x < area.Width; x++)
                 {
-                    if (explosion[x + offset + y * circle.Width] != Color.Transparent)
+                    if (explosion[x + offset + y * explosionTexture.Width] != Color.Transparent)
                     {
                         _colorData[area.X + x + (area.Y + y) * _width] = Color.Transparent;
                     }
