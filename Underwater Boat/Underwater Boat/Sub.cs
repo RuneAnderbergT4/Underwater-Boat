@@ -42,7 +42,7 @@ namespace Underwater_Boat
             color = Color.White;
             Weapons = new List<Weapon>();
             Texture = ps.Texture;
-            Weapons.Add(new Weapon(Weap.Nuke));
+            Weapons.Add(new Weapon(WeaponType.Nuke));
             currentweapon = 0;
             Initialize();
             

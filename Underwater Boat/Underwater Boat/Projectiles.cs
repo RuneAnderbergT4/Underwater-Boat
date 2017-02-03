@@ -12,13 +12,13 @@ namespace Underwater_Boat
     {
         
         public static List<Shot> projectiles;
-        static Dictionary< Weap, Texture2D> Tex;
+        static Dictionary< WeaponType, Texture2D> Tex;
         public static void LoadContent(Game game)
         {
             projectiles = new List<Shot>();
-            Tex = new Dictionary<Weap,Texture2D>();
-            Tex.Add(Weap.Nuke, game.Content.Load<Texture2D>("2"));
-            Tex.Add(Weap.torpedo, game.Content.Load<Texture2D>("2"));
+            Tex = new Dictionary<WeaponType,Texture2D>();
+            Tex.Add(WeaponType.Nuke, game.Content.Load<Texture2D>("2"));
+            Tex.Add(WeaponType.Torpedo, game.Content.Load<Texture2D>("2"));
         }
         public static void Add(Shot shot)
         {
